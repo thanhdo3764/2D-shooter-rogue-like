@@ -1,3 +1,72 @@
-[gd_scene format=3 uid="uid://fra6qckawjji"]
+[gd_scene load_steps=11 format=3 uid="uid://fra6qckawjji"]
 
-[node name="Player" type="Node2D"]
+[ext_resource type="Script" path="res://player/player.gd" id="1_7i0sq"]
+[ext_resource type="Texture2D" uid="uid://cgwwrd3owh6b6" path="res://assets/Old hero.png" id="1_h2qgc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5u4js"]
+atlas = ExtResource("1_h2qgc")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fw3xs"]
+atlas = ExtResource("1_h2qgc")
+region = Rect2(32, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wv6pm"]
+atlas = ExtResource("1_h2qgc")
+region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aiohc"]
+atlas = ExtResource("1_h2qgc")
+region = Rect2(64, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1edjd"]
+atlas = ExtResource("1_h2qgc")
+region = Rect2(80, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2csd5"]
+atlas = ExtResource("1_h2qgc")
+region = Rect2(96, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u03l2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5u4js")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fw3xs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wv6pm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aiohc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1edjd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2csd5")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hwu8n"]
+radius = 16.0
+
+[node name="Player" type="CharacterBody2D"]
+position = Vector2(18, 14)
+script = ExtResource("1_7i0sq")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_u03l2")
+animation = &"walk"
+frame = 5
+frame_progress = 0.593328
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_hwu8n")
