@@ -1,11 +1,10 @@
 extends CharacterBody2D
 signal hit
 
-@export var speed = 400
-const MAX_SPEED = 400
-const ACCELERATION_H = 100
-const GRAVITY = 1000
-const JUMP_POWER = -300
+@export var SPEED = 100
+@export var ACCELERATION_H = 300
+@export var GRAVITY = 1000
+@export var JUMP_POWER = -300
 var screen_size
 
 
@@ -16,22 +15,25 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	if Input.is_anything_pressed():
-		if Input.is_action_pressed("move_down"):
-			velocity.y += 1
-		if Input.is_action_pressed("jump") && is_on_floor():
-			velocity.y = JUMP_POWER
-	
+	if Input.is_action_pressed("move_down"):
+		velocity.y += 1
+	if Input.is_action_pressed("jump") && is_on_floor():
+		velocity.y = JUMP_POWER
 	# Make player fall
 	velocity.y = velocity.y + GRAVITY * delta
 	
 	# Get the next velocity.x value
-	var direction = Input.get_axis("move_left", "move_right") * speed
-	if direction * velocity.x < 0:
-		velocity.x = 0
+	if is_on_floor():
+		var direction = Input.get_axis("move_left", "move_right") * SPEED
+		# Instantly change direction when on floor
+		if direction * velocity.x < 0: velocity.x = 0
+		else:
+			velocity.x = move_toward(velocity.x, direction, ACCELERATION_H * delta)
 	else:
-		velocity.x = move_toward(velocity.x, direction, ACCELERATION_H * delta)
-		velocity.x = clamp(velocity.x, -MAX_SPEED, MAX_SPEED)
+		var direction = Input.get_axis("move_left", "move_right") * SPEED
+		if direction != 0:
+			velocity.x = move_toward(velocity.x, direction, ACCELERATION_H * delta)
+		
 	move_and_slide()
 	if velocity.length() > 0:
 		$AnimatedSprite2D.play()
