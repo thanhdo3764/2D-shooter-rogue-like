@@ -58,6 +58,8 @@ radius = 16.0
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(18, 14)
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_7i0sq")
 metadata/_edit_group_ = true
 
@@ -70,3 +72,7 @@ frame_progress = 0.593328
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_hwu8n")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 22)
+collision_mask = 2
