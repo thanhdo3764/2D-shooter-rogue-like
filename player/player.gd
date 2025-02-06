@@ -13,7 +13,6 @@ func _ready() -> void:
 	screen_size = get_viewport_rect().size
 	raycast = $RayCast2D
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("jump") && is_on_floor(): velocity.y = JUMP_POWER
@@ -23,9 +22,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide() # Make collision with the floor
 	try_walk_animation()
 	update_position(delta)
-	
-	
-			
+
 
 func update_position(delta:float) -> void:
 	position += velocity * delta # Delta is the amount of time it took for the prev frame to complete
@@ -54,22 +51,19 @@ func try_walk_animation() -> void:
 		
 		
 func apply_horizontal_movement(delta:float) -> void:
-	# Get the next velocity.x value
-	if is_on_floor():
-		var direction = Input.get_axis("move_left", "move_right") * SPEED
-		# Instantly change direction when on floor
-		if direction * velocity.x < 0: velocity.x = 0
-		else:
-			velocity.x = move_toward(velocity.x, direction, ACCELERATION_H * delta)
-	else:
-		var direction = Input.get_axis("move_left", "move_right") * SPEED
-		if direction != 0:
-			velocity.x = move_toward(velocity.x, direction, ACCELERATION_H * delta)
+	var direction = Input.get_axis("move_left", "move_right") * SPEED
+	# Keep moving in same direction if in the air and no input
+	if not is_on_floor() and direction == 0: direction = velocity.x
+	# Instantly change direction when on floor
+	elif direction * velocity.x < 0 and is_on_floor: direction = 0
+	velocity.x = move_toward(velocity.x, direction, ACCELERATION_H * delta)
+
 
 func _on_body_entered(body: Node2D) -> void:
 	hide() # Player will disappear after being hit
 	hit.emit() # Emits a signal
 	$CollisionShape2D.set_deferred("disabled", true) # Waits to safely disable collision
+	
 	
 func start(pos):
 	position = pos
