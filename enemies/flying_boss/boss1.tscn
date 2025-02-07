@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://barsmnu577o5u"]
+
+[ext_resource type="Script" path="res://enemies/flying_boss/boss_1.gd" id="1_ugcko"]
+[ext_resource type="Texture2D" uid="uid://cr686jgtr57k3" path="res://assets/TEMP_boss1.png" id="2_0vle4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nnweb"]
+size = Vector2(134, 23)
+
+[node name="Boss1" type="StaticBody2D"]
+script = ExtResource("1_ugcko")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(3, 3)
+texture = ExtResource("2_0vle4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3, 3.5)
+shape = SubResource("RectangleShape2D_nnweb")
+
+[node name="StateTimer" type="Timer" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
