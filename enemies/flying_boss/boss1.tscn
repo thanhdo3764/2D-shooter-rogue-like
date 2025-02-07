@@ -45,6 +45,7 @@ scale = Vector2(3, 3)
 texture = ExtResource("2_0vle4")
 
 [node name="StateTimer" type="Timer" parent="."]
+wait_time = 6.0
 one_shot = true
 autostart = true
 
@@ -52,3 +53,7 @@ autostart = true
 libraries = {
 "": SubResource("AnimationLibrary_ua0xc")
 }
+
+[node name="ShootTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

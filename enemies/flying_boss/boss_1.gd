@@ -2,20 +2,24 @@ extends StaticBody2D
 
 enum bossState {
 	FLY_IDLE,		# idle flying movement
-	ATTACK_SPREAD,	# emitting bullets in a pattern
-	ATTACK_BEAM,	# da laser beam
 	FLY_RAMPAGE,	# flying movement for when health is low
+	ATTACK_BULLET,	# emitting bullets in a pattern
+	ATTACK_BEAM,	# da laser beam
 }
+
+@export var fire_rate : float = 0.35
+@export var hp : int = 50
 
 @onready var player = $"../Player"
 @onready var animation = $AnimationPlayer
 @onready var state_timer = $StateTimer
+@onready var shoot_timer = $ShootTimer
 
 var state = bossState.FLY_IDLE
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print(player)
+	# Might not need to set the wait time manually
+	shoot_timer.wait_time = fire_rate
 
 func _physics_process(delta: float) -> void:
 	match state:
@@ -24,16 +28,47 @@ func _physics_process(delta: float) -> void:
 				animation.play("Idle")
 				
 			# state change
+			# TODO: state change when hp is low
 			if state_timer.is_stopped():
 				# swtich to a random attack state (equal chance)
-				if randf() > 0.5:
-					state = bossState.ATTACK_SPREAD
-				else:
-					state = bossState.ATTACK_BEAM
+				#if randf() > 0.5:
+					#state = bossState.ATTACK_BULLET
+				#else:
+					#state = bossState.ATTACK_BEAM
+				
+				# only switch to bullet attack for now
+				state = bossState.ATTACK_BULLET
 				state_timer.start()
-				# TODO: position snaps back to origin when stopping animation, apply animation position?
+				# TODO: position snaps back to origin when stopping animation, might replace animplayer with tween
 				animation.stop()
-	print(state)
+			
+		bossState.ATTACK_BULLET:
+			# start shooting
+			if shoot_timer.is_stopped():
+				shoot_timer.start()
+			
+			# state change
+			# TODO: state change when hp is low
+			if state_timer.is_stopped():
+				state = bossState.FLY_IDLE
+				state_timer.start()
+				shoot_timer.stop()
+				
+		bossState.ATTACK_BEAM:
+			pass # unimplemented
+			
+		bossState.FLY_RAMPAGE:
+			pass # unimplemented
+			
+	# TODO: take appropriate action when boss dies
+	if hp <= 0:
+		pass
 		
-#func get_player_dir() -> Vector2:
-	#return 
+func _on_shoot_timer_timeout() -> void:
+	if state == bossState.ATTACK_BULLET:
+		# TODO: create bullet and set direction, speed
+		print("BOSS SHOOTING AT: ", get_player_dir())
+
+# returns the normalized direction vector from the boss to the player
+func get_player_dir() -> Vector2:
+	return self.global_position.direction_to(player.global_position).normalized()
