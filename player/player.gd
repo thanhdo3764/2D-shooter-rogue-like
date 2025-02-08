@@ -18,6 +18,7 @@ var raycast
 func _ready() -> void:
 	screen_size = get_viewport_rect().size
 	raycast = $RayCast2D
+
 	add_to_group("player") # for the HUD
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
