@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://5871bs5w0s0u"]
+
+[ext_resource type="Script" path="res://HUD/HUD.gd" id="1_cn0im"]
+[ext_resource type="Script" path="res://HUD/health_bar.gd" id="2_cl5xi"]
+[ext_resource type="Script" path="res://HUD/shield_bar.gd" id="3_hdp33"]
+
+[node name="PlayerHP" type="Control"]
+layout_mode = 3
+anchor_left = -0.903
+anchor_top = -1.29
+anchor_right = -0.285
+anchor_bottom = -0.784
+offset_left = -171.744
+offset_top = -248.08
+offset_right = 196.32
+offset_bottom = 264.032
+script = ExtResource("1_cn0im")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 4.0
+offset_bottom = 27.0
+script = ExtResource("2_cl5xi")
+
+[node name="ShieldBar" type="ProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 4.0
+offset_bottom = 27.0
+script = ExtResource("3_hdp33")
