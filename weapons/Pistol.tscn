@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bu323hea1ntrc"]
+
+[ext_resource type="Script" path="res://weapons/pistol.gd" id="1_g02pa"]
+
+[node name="Pistol" type="Node2D"]
+script = ExtResource("1_g02pa")

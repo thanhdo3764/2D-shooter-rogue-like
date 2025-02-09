@@ -1,55 +1,41 @@
-[gd_scene load_steps=19 format=3 uid="uid://3yv27yusrury"]
+[gd_scene load_steps=17 format=3 uid="uid://3yv27yusrury"]
 
 [ext_resource type="Script" path="res://enemies/enemy_knight/enemy_knight.gd" id="1_babqs"]
-[ext_resource type="Texture2D" uid="uid://mrn518gv50up" path="res://enemies/enemy_knight/wake.png" id="1_vhc3g"]
-[ext_resource type="Texture2D" uid="uid://bt0lkbv41d6lf" path="res://enemies/enemy_knight/run.png" id="2_hwso7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v73md"]
-atlas = ExtResource("1_vhc3g")
 region = Rect2(0, 0, 156, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n41cd"]
-atlas = ExtResource("1_vhc3g")
 region = Rect2(0, 0, 156, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rlhxl"]
-atlas = ExtResource("1_vhc3g")
 region = Rect2(156, 0, 156, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3ggxm"]
-atlas = ExtResource("1_vhc3g")
 region = Rect2(312, 0, 156, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eg7ki"]
-atlas = ExtResource("1_vhc3g")
 region = Rect2(468, 0, 156, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5vkxv"]
-atlas = ExtResource("2_hwso7")
 region = Rect2(0, 0, 150, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d64il"]
-atlas = ExtResource("2_hwso7")
 region = Rect2(150, 0, 150, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jf4g0"]
-atlas = ExtResource("2_hwso7")
 region = Rect2(300, 0, 150, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wn3u8"]
-atlas = ExtResource("2_hwso7")
 region = Rect2(450, 0, 150, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y6h5b"]
-atlas = ExtResource("2_hwso7")
 region = Rect2(600, 0, 150, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qf2ue"]
-atlas = ExtResource("2_hwso7")
 region = Rect2(750, 0, 150, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jt8uq"]
-atlas = ExtResource("2_hwso7")
 region = Rect2(900, 0, 150, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_736vv"]
