@@ -1,6 +1,12 @@
 extends CharacterBody2D
 signal hit
 
+# Hi Thanh! Sorry for adding this :3 -MM
+@export var health: int = 100
+@export var max_health: int = 100
+@export var shield: int = 50
+@export var max_shield: int = 100
+
 @export var SPEED = 100
 @export var ACCELERATION_H = 300
 @export var GRAVITY = 1000
@@ -12,6 +18,8 @@ var raycast
 func _ready() -> void:
 	screen_size = get_viewport_rect().size
 	raycast = $RayCast2D
+
+	add_to_group("player") # for the HUD
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
