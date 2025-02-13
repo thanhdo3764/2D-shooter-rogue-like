@@ -1,24 +1,32 @@
 extends Node2D
 class_name Base_Weapon
 
-@export var max_ammo: int
-@export var bullet_speed: int
-@export var reload_speed_sec: float
-@export var weight: int
-@export var rate_of_fire: float
-@export var damage: int
+@export var MAX_AMMO: int
+@export var BULLET_SPEED: int
+@export var RELOAD_SPEED_SEC: float
+@export var WEIGHT: int
+@export var RATE_OF_FIRE: float
+@export var DAMAGE: int
 
-var ammo_count: int
-var bullet = preload("res://weapons/Bullet.tscn")
+var AMMO_COUNT: int
+var BULLET = preload("res://weapons/Bullet.tscn")
+
+var IS_SHOOTING = false
 
 func _ready() -> void:
 	pass
 
 func shoot_weapon() -> void:
-	var projectile = bullet.instantiate()
-	projectile.set_bullet(global_position, get_global_mouse_position(), bullet_speed)
+	if IS_SHOOTING: return
+	IS_SHOOTING = true
+	$AnimatedSprite2D.play("shooting")
+	var projectile = BULLET.instantiate()
+	projectile.set_bullet(global_position, get_global_mouse_position(), BULLET_SPEED)
 	get_node("/root").add_child(projectile)
+	await get_tree().create_timer(RATE_OF_FIRE).timeout
+	IS_SHOOTING = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if Input.is_action_pressed("left_click"): shoot_weapon()
+	rotation_degrees = rad_to_deg(global_position.angle_to_point(get_global_mouse_position()))

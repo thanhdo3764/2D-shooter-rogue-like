@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://brgpwadw1yj7g"]
 
 [ext_resource type="Script" path="res://weapons/bullet.gd" id="1_8rgj5"]
-[ext_resource type="Texture2D" uid="uid://bl0i1xr6wru78" path="res://assets/icon.svg" id="2_aka8q"]
+[ext_resource type="Texture2D" uid="uid://dcxourveul5n1" path="res://assets/bullet/Casing & Bullet.png" id="2_xhjg5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_26gdj"]
-radius = 85.0941
+radius = 4.0
 
 [node name="Bullet" type="Area2D"]
 script = ExtResource("1_8rgj5")
@@ -13,4 +13,4 @@ script = ExtResource("1_8rgj5")
 shape = SubResource("CircleShape2D_26gdj")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_aka8q")
+texture = ExtResource("2_xhjg5")

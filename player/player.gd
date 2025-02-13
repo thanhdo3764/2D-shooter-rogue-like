@@ -14,8 +14,13 @@ signal hit
 var screen_size
 var raycast
 
+var weapon = preload("res://weapons/Pistol.tscn")
+var pistol
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	pistol = weapon.instantiate()
+	add_child(pistol)
 	screen_size = get_viewport_rect().size
 	raycast = $RayCast2D
 
