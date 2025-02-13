@@ -2,7 +2,7 @@ extends Area2D
 
 var lifetime : int = 5
 var damage : int = 2
-var speed  : int = 50
+var speed  : int = 150
 var direction : Vector2
 
 signal hit_bullet
@@ -21,6 +21,7 @@ func _physics_process(delta: float) -> void:
 		despawn()
 
 func _on_body_entered(body: Node2D) -> void:
+	print(body.name)
 	emit_signal("hit_bullet")
 	despawn()
 	

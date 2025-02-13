@@ -47,7 +47,7 @@ scale = Vector2(3, 3)
 texture = ExtResource("2_0vle4")
 
 [node name="StateTimer" type="Timer" parent="."]
-wait_time = 6.0
+wait_time = 3.0
 one_shot = true
 autostart = true
 
