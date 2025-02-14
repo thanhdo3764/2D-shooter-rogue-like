@@ -16,8 +16,10 @@ enum bossState {
 @onready var shoot_timer = $ShootTimer
 
 const bullet_prefab = preload("res://enemies/flying_boss/bullet.tscn")
+const beam_prefab = preload("res://enemies/flying_boss/beam.tscn")
 
 var state = bossState.FLY_IDLE
+var active_beam : Node2D = null
 
 func _ready() -> void:
 	print(main_node)
@@ -34,31 +36,32 @@ func _physics_process(delta: float) -> void:
 			# TODO: state change when hp is low
 			if state_timer.is_stopped():
 				# swtich to a random attack state (equal chance)
-				#if randf() > 0.5:
-					#state = bossState.ATTACK_BULLET
-				#else:
-					#state = bossState.ATTACK_BEAM
-				
-				# only switch to bullet attack for now
-				state = bossState.ATTACK_BULLET
+				if randf() > 0.5:
+					state = bossState.ATTACK_BULLET
+				else:
+					state = bossState.ATTACK_BEAM
 				state_timer.start()
-				# TODO: position snaps back to origin when stopping animation, might replace animplayer with tween
 				animation.stop()
 			
 		bossState.ATTACK_BULLET:
 			# start shooting
 			if shoot_timer.is_stopped():
 				shoot_timer.start()
-			
 			# state change
-			# TODO: state change when hp is low
 			if state_timer.is_stopped():
 				state = bossState.FLY_IDLE
 				state_timer.start()
 				shoot_timer.stop()
 				
 		bossState.ATTACK_BEAM:
-			pass # unimplemented
+			# don't create a new beam if there's already one
+			if active_beam == null:
+				shoot_beam()
+			# state change
+			if state_timer.is_stopped():
+				active_beam = null
+				state = bossState.FLY_IDLE
+				state_timer.start()
 			
 		bossState.FLY_RAMPAGE:
 			pass # unimplemented
@@ -70,7 +73,6 @@ func _physics_process(delta: float) -> void:
 func _on_shoot_timer_timeout() -> void:
 	if state == bossState.ATTACK_BULLET:
 		shoot_bullet()
-		#print("BOSS SHOOTING AT: ", get_player_dir())
 
 # NOTE: this could be moved to a projectileEmitter node, might not need to depending on whether behavior is shared with the other boss
 # creates new bullet node and adds it to the root node
@@ -81,7 +83,14 @@ func shoot_bullet() -> void:
 	# i'm manually connecting the bullet signal to the player here, this feels really janky but idk what else to do
 	bullet.connect("hit_bullet", player_node._on_bullet_hit)
 	main_node.add_child(bullet)
-	
+
+func shoot_beam() -> void:
+	var beam = beam_prefab.instantiate()
+	beam.position = self.global_position
+	beam.direction = get_player_dir()
+	main_node.add_child(beam)
+	active_beam = beam
+
 # returns the normalized direction vector from the boss to the player
 func get_player_dir() -> Vector2:
 	return self.global_position.direction_to(player_node.global_position).normalized()
