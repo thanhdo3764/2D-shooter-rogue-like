@@ -7,15 +7,22 @@ signal hit
 @export var shield: int = 50
 @export var max_shield: int = 100
 
-@export var SPEED = 100
-@export var ACCELERATION_H = 300
-@export var GRAVITY = 1000
-@export var JUMP_POWER = -300
-var screen_size
-var raycast
+@export var SPEED: int = 100
+@export var ACCELERATION_H: int = 300
+@export var GRAVITY: int = 1000
+@export var JUMP_POWER: int = -300
+var screen_size: Vector2
+var raycast: RayCast2D
+
+var WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
+var weapon
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	weapon = WEAPON_LOAD.instantiate()
+	add_child(weapon)
+	weapon.position = $Weapon_Spawn.position
 	screen_size = get_viewport_rect().size
 	raycast = $RayCast2D
 
@@ -47,15 +54,11 @@ func try_fall_through_platform() -> void:
 
 func try_walk_animation() -> void:
 	if velocity.length() > 0:
-		$AnimatedSprite2D.play()
+		$AnimatedSprite2D.play("walk")
 	else:
 		$AnimatedSprite2D.stop()
-		
-	if velocity.x != 0:
-		$AnimatedSprite2D.animation = "walk"
-		$AnimatedSprite2D.flip_v = false
-		# See the note below about the following boolean assignment.
-		$AnimatedSprite2D.flip_h = velocity.x < 0
+	
+	$AnimatedSprite2D.flip_h = (get_global_mouse_position() - global_position).x < 0
 		
 		
 func apply_horizontal_movement(delta:float) -> void:
