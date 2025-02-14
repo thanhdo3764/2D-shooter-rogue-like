@@ -74,7 +74,11 @@ func _on_body_entered(body: Node2D) -> void:
 	hide() # Player will disappear after being hit
 	hit.emit() # Emits a signal
 	$CollisionShape2D.set_deferred("disabled", true) # Waits to safely disable collision
-	
+
+# called once whenever the player is hit by a bullet.
+# TODO: even though Ground is on a diff collision layer, the bullet still emits. fix
+func _on_bullet_hit() -> void:
+	print("BULLET OW!!")
 	
 func start(pos):
 	position = pos
