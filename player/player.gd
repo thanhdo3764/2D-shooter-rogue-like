@@ -21,6 +21,7 @@ var pistol
 func _ready() -> void:
 	pistol = weapon.instantiate()
 	add_child(pistol)
+	pistol.position = $Weapon_Spawn.position
 	screen_size = get_viewport_rect().size
 	raycast = $RayCast2D
 
@@ -52,15 +53,11 @@ func try_fall_through_platform() -> void:
 
 func try_walk_animation() -> void:
 	if velocity.length() > 0:
-		$AnimatedSprite2D.play()
+		$AnimatedSprite2D.play("walk")
 	else:
 		$AnimatedSprite2D.stop()
-		
-	if velocity.x != 0:
-		$AnimatedSprite2D.animation = "walk"
-		$AnimatedSprite2D.flip_v = false
-		# See the note below about the following boolean assignment.
-		$AnimatedSprite2D.flip_h = velocity.x < 0
+	
+	$AnimatedSprite2D.flip_h = (get_global_mouse_position() - global_position).x < 0
 		
 		
 func apply_horizontal_movement(delta:float) -> void:
