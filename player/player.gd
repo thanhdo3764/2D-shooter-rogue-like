@@ -7,21 +7,22 @@ signal hit
 @export var shield: int = 50
 @export var max_shield: int = 100
 
-@export var SPEED = 100
-@export var ACCELERATION_H = 300
-@export var GRAVITY = 1000
-@export var JUMP_POWER = -300
-var screen_size
-var raycast
+@export var SPEED: int = 100
+@export var ACCELERATION_H: int = 300
+@export var GRAVITY: int = 1000
+@export var JUMP_POWER: int = -300
+var screen_size: Vector2
+var raycast: RayCast2D
 
-var weapon = preload("res://weapons/Pistol.tscn")
-var pistol
+var WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
+var weapon
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pistol = weapon.instantiate()
-	add_child(pistol)
-	pistol.position = $Weapon_Spawn.position
+	weapon = WEAPON_LOAD.instantiate()
+	add_child(weapon)
+	weapon.position = $Weapon_Spawn.position
 	screen_size = get_viewport_rect().size
 	raycast = $RayCast2D
 

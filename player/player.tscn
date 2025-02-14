@@ -43,14 +43,13 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 5.0
+"speed": 24.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mtdbd"]
 size = Vector2(20, 32)
 
 [node name="Player" type="CharacterBody2D"]
-scale = Vector2(1.5, 1.5)
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_7i0sq")
@@ -58,6 +57,7 @@ script = ExtResource("1_7i0sq")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_4bc3d")
 animation = &"walk"
+frame_progress = 0.356901
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -70,4 +70,4 @@ target_position = Vector2(0, 22)
 collision_mask = 2
 
 [node name="Weapon_Spawn" type="Marker2D" parent="."]
-position = Vector2(0, 5.33333)
+position = Vector2(0, 10.3333)

@@ -11,17 +11,20 @@ class_name Base_Weapon
 var AMMO_COUNT: int
 var BULLET = preload("res://weapons/Bullet.tscn")
 
-var IS_SHOOTING = false
+var IS_SHOOTING: bool = false
+
+var DEFAULT_SCALE_X: float = scale.x
 
 func _ready() -> void:
 	pass
 
-
 func shoot_weapon() -> void:
 	if IS_SHOOTING: return
 	IS_SHOOTING = true
+	$AnimatedSprite2D.stop()
+	$AnimatedSprite2D.play("shooting")
 	var projectile = BULLET.instantiate()
-	projectile.set_bullet($Muzzle.global_transform, get_global_mouse_position(), BULLET_SPEED)
+	projectile.set_bullet($Muzzle.global_position, get_global_mouse_position(), BULLET_SPEED)
 	get_node("/root").add_child(projectile)
 	await get_tree().create_timer(RATE_OF_FIRE).timeout
 	IS_SHOOTING = false
@@ -30,12 +33,12 @@ func shoot_weapon() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("left_click"):
-		$AnimatedSprite2D.play("shooting")
 		shoot_weapon()
 	if (get_global_mouse_position() - global_position).x < 0:
-		$AnimatedSprite2D.flip_h = true
+		scale.x = -DEFAULT_SCALE_X
 		rotation_degrees = rad_to_deg(global_position.angle_to_point(get_global_mouse_position()) + PI)
 	else:
-		$AnimatedSprite2D.flip_h = false
+		scale.x = DEFAULT_SCALE_X
 		rotation_degrees = rad_to_deg(global_position.angle_to_point(get_global_mouse_position()))
+	
 		

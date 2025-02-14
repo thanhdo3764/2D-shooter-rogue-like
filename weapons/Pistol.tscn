@@ -92,7 +92,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"shooting",
-"speed": 60.0
+"speed": 24.0
 }]
 
 [node name="Pistol" type="Node2D"]
@@ -100,9 +100,10 @@ scale = Vector2(0.5, 0.5)
 script = ExtResource("1_g02pa")
 
 [node name="Muzzle" type="Marker2D" parent="."]
-position = Vector2(15, 0)
+position = Vector2(31, -6)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(18, -6)
 sprite_frames = SubResource("SpriteFrames_1rbgt")
 animation = &"shooting"
 frame = 11
