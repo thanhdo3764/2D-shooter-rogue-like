@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://d1tmp8ph7l35w"]
+[gd_scene load_steps=12 format=3 uid="uid://d1tmp8ph7l35w"]
 
 [ext_resource type="Script" path="res://scenes/main_menu.gd" id="1_vgs2m"]
 
@@ -43,6 +43,76 @@ corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 shadow_size = 5
+
+[sub_resource type="GDScript" id="GDScript_j2xa0"]
+script/source = "extends Control
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+func _on_yes_pressed() -> void:
+	get_tree().quit()
+	
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s8f1v"]
+bg_color = Color(0, 0, 0, 0.635294)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4c6mj"]
+bg_color = Color(0.251929, 0.508773, 0.568412, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+shadow_color = Color(0, 0, 0, 0.843137)
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i4w4x"]
+bg_color = Color(0.576471, 0.576471, 0.576471, 0.760784)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s0so0"]
+bg_color = Color(0.243137, 0.243137, 0.243137, 0.760784)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kaac8"]
+bg_color = Color(1, 1, 1, 0.760784)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_size = 3
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -121,5 +191,103 @@ text = "Game Title (Placeholder)"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Quit_Confirm" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_j2xa0")
+
+[node name="Panel2" type="Panel" parent="Quit_Confirm"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s8f1v")
+
+[node name="Panel" type="Panel" parent="Quit_Confirm"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -159.5
+offset_top = -83.0
+offset_right = 159.5
+offset_bottom = 83.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4c6mj")
+
+[node name="Yes" type="Button" parent="Quit_Confirm"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -107.0
+offset_top = -2.0
+offset_right = -38.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/hover = SubResource("StyleBoxFlat_i4w4x")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_s0so0")
+theme_override_styles/normal = SubResource("StyleBoxFlat_kaac8")
+text = "Yes"
+
+[node name="No" type="Button" parent="Quit_Confirm"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 41.0
+offset_top = -2.0
+offset_right = 110.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/hover = SubResource("StyleBoxFlat_i4w4x")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_s0so0")
+theme_override_styles/normal = SubResource("StyleBoxFlat_kaac8")
+text = "No"
+
+[node name="Label" type="Label" parent="Quit_Confirm"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -149.0
+offset_top = -63.0
+offset_right = 149.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "Are you sure you'd like to quit?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="pressed" from="VBoxContainer/Play Game Button" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit Button" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Quit_Confirm/Yes" to="." method="_on_yes_pressed"]
+[connection signal="pressed" from="Quit_Confirm/No" to="." method="_on_no_pressed"]
