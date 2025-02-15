@@ -77,7 +77,8 @@ func enemy_walk(delta: float):
 			sprite.flip_h = false # face right
 		elif velocity.x < 0:
 			sprite.flip_h = true # face left
-
+		
+		velocity.x = new_velocity_x
 	
 # changes hit/collision box/shape based on the current state
 func update_collision_shape():
