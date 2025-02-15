@@ -1,10 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://3yv27yusrury"]
+[gd_scene load_steps=19 format=3 uid="uid://3yv27yusrury"]
 
 [ext_resource type="Script" path="res://enemies/enemy_knight/enemy_knight.gd" id="1_babqs"]
 [ext_resource type="Texture2D" uid="uid://caw81x3cldysj" path="res://assets/enemy_knight/wake.png" id="2_va63e"]
 [ext_resource type="Texture2D" uid="uid://h3od402fy6y8" path="res://assets/enemy_knight/run.png" id="3_rieob"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_v73md"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqlnk"]
+atlas = ExtResource("2_va63e")
 region = Rect2(0, 0, 156, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mx5vs"]
@@ -51,7 +52,7 @@ region = Rect2(780, 0, 156, 64)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_v73md")
+"texture": SubResource("AtlasTexture_kqlnk")
 }],
 "loop": true,
 "name": &"sleep",
@@ -70,7 +71,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vn1up")
 }],
-"loop": true,
+"loop": false,
 "name": &"wakeup",
 "speed": 8.0
 }, {
@@ -106,14 +107,17 @@ height = 18.0
 radius = 6.0
 height = 24.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_vnktv"]
+radius = 117.068
+
 [node name="enemy_knight" type="CharacterBody2D"]
 script = ExtResource("1_babqs")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, -16)
 sprite_frames = SubResource("SpriteFrames_736vv")
-animation = &"wakeup"
-frame_progress = 0.250378
+animation = &"sleep"
+autoplay = "sleep"
 
 [node name="SleepCollision" type="CollisionShape2D" parent="."]
 position = Vector2(-29, -8)
@@ -124,3 +128,7 @@ position = Vector2(-29, -11)
 shape = SubResource("CapsuleShape2D_ea12t")
 
 [node name="DetectionArea" type="Area2D" parent="."]
+
+[node name="DetectionCollision" type="CollisionShape2D" parent="DetectionArea"]
+position = Vector2(-29, -8)
+shape = SubResource("CircleShape2D_vnktv")

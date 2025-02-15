@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfxky3wsmddss"]
+[gd_scene load_steps=7 format=3 uid="uid://cfxky3wsmddss"]
 
 [ext_resource type="Script" path="res://scenes/level.gd" id="1_0wm6v"]
 [ext_resource type="PackedScene" uid="uid://olh5bqt5tvrl" path="res://scenes/platform.tscn" id="2_g5rv4"]
 [ext_resource type="PackedScene" uid="uid://fra6qckawjji" path="res://player/player.tscn" id="3_mirjn"]
 [ext_resource type="PackedScene" uid="uid://barsmnu577o5u" path="res://enemies/flying_boss/boss1.tscn" id="4_e3ibo"]
+[ext_resource type="PackedScene" uid="uid://3yv27yusrury" path="res://enemies/enemy_knight/enemy_knight.tscn" id="5_s1q8f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sx256"]
 size = Vector2(639, 40)
@@ -32,3 +33,6 @@ position = Vector2(246, 242)
 
 [node name="Boss1" parent="." instance=ExtResource("4_e3ibo")]
 position = Vector2(322, 49)
+
+[node name="enemy_knight" parent="." instance=ExtResource("5_s1q8f")]
+position = Vector2(468, 196)
