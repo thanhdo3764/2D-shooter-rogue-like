@@ -4,10 +4,10 @@ extends CharacterBody2D
 const GRAVITY = 1000
 const SPEED = 100
 
-enum State {sleep, wakeup, walk}
+enum State {sleep, wakeup, walk, dead}
 var current_state: State = State.sleep
 var player: Node2D = null # reference to the player
-#TODO @export var hp : int = TBD
+@export var hp : int = 10 # PLACEHOLDER VALUE, FINAL VALUE TBD
 
 # reference to collision shapes
 @onready var sleep_collision = $SleepCollision
@@ -100,4 +100,25 @@ func _on_detection(body):
 		player = body # stores the player's reference
 		enemy_wakeup()
 		
+		
+func take_damage(damage: int):
+	if current_state == State.dead:
+		return #don't take damage when dead
+	hp -= damage
+	#DEBUG
+	print("enemy_knight took ", damage, "damage. ", "hp: ", hp)
+	
+	if hp <= 0:
+		die()
+		
+#death handler
+func die():
+	#DEBUG
+	print("enemy_knight reached 0 hp")
+	change_state(State.dead)
+	sprite.play("death")
+	await sprite.animation_finished
+	queue_free()
+
+
 #TODO attacking functions
