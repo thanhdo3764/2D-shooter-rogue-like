@@ -10,16 +10,13 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+func _on_confirm_pressed() -> void:
+	$Select_Confirm.visible = true
 
-func _on_play_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/shop.tscn")
 
-
-func _on_quit_pressed() -> void:
-	$Quit_Confirm.visible = true
-	
 func _on_yes_pressed() -> void:
-	get_tree().quit()
+	get_tree().change_scene_to_file("res://scenes/level.tscn")
+
 
 func _on_no_pressed() -> void:
-	$Quit_Confirm.visible = false
+	$Select_Confirm.visible = false
