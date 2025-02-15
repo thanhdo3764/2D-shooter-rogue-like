@@ -1,0 +1,111 @@
+[gd_scene load_steps=16 format=3 uid="uid://bu323hea1ntrc"]
+
+[ext_resource type="Script" path="res://weapons/pistol.gd" id="1_g02pa"]
+[ext_resource type="Texture2D" uid="uid://gjawqnwr5j51" path="res://assets/pistol/[SHOOT WITH MUZZLE FLASH] Glock - P80.png" id="2_xy5u2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dcyp6"]
+atlas = ExtResource("2_xy5u2")
+region = Rect2(0, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_32n7m"]
+atlas = ExtResource("2_xy5u2")
+region = Rect2(64, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ktoko"]
+atlas = ExtResource("2_xy5u2")
+region = Rect2(128, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_olnsd"]
+atlas = ExtResource("2_xy5u2")
+region = Rect2(192, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_irws8"]
+atlas = ExtResource("2_xy5u2")
+region = Rect2(256, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lhmfv"]
+atlas = ExtResource("2_xy5u2")
+region = Rect2(320, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_waxct"]
+atlas = ExtResource("2_xy5u2")
+region = Rect2(384, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4xru"]
+atlas = ExtResource("2_xy5u2")
+region = Rect2(448, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_itdv0"]
+atlas = ExtResource("2_xy5u2")
+region = Rect2(512, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwluh"]
+atlas = ExtResource("2_xy5u2")
+region = Rect2(576, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nue56"]
+atlas = ExtResource("2_xy5u2")
+region = Rect2(640, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xgvc8"]
+atlas = ExtResource("2_xy5u2")
+region = Rect2(704, 0, 64, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1rbgt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dcyp6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_32n7m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ktoko")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_olnsd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_irws8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lhmfv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_waxct")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c4xru")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_itdv0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dwluh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nue56")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xgvc8")
+}],
+"loop": false,
+"name": &"shooting",
+"speed": 24.0
+}]
+
+[node name="Pistol" type="Node2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_g02pa")
+
+[node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(31, -6)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(18, -6)
+sprite_frames = SubResource("SpriteFrames_1rbgt")
+animation = &"shooting"
+frame = 11
+frame_progress = 1.0
+offset = Vector2(0, 12)

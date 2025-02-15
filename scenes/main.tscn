@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_crwy1"]
 [ext_resource type="PackedScene" uid="uid://fra6qckawjji" path="res://player/player.tscn" id="2_cahng"]
 [ext_resource type="PackedScene" uid="uid://olh5bqt5tvrl" path="res://scenes/platform.tscn" id="3_hhre3"]
-[ext_resource type="PackedScene" path="res://enemies/flying_boss/boss1.tscn" id="4_p3xoo"]
+[ext_resource type="PackedScene" uid="uid://barsmnu577o5u" path="res://enemies/flying_boss/boss1.tscn" id="4_p3xoo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sx256"]
 size = Vector2(639, 40)
@@ -13,6 +13,8 @@ script = ExtResource("1_crwy1")
 
 [node name="Ground" type="StaticBody2D" parent="."]
 position = Vector2(0, 14)
+collision_layer = 2
+collision_mask = 2
 metadata/_edit_group_ = true
 
 [node name="ColorRect" type="ColorRect" parent="Ground"]
