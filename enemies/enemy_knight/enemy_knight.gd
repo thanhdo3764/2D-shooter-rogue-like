@@ -14,7 +14,8 @@ var player: Node2D = null # reference to the player
 @onready var awake_collision = $AwakeCollision
 @onready var sprite = $AnimatedSprite2D
 @onready var detection_area = $DetectionArea # Area2D for detecting when the player is near
-
+var DEFAULT_SCALE_X: float = scale.x
+var flipped = false
 
 func _ready():
 	change_state(State.sleep)
@@ -73,10 +74,12 @@ func enemy_walk(delta: float):
 		var direction = (player.global_position - global_position).normalized()
 		var new_velocity_x = direction.x * SPEED
 		#check direciton to flip sprite
-		if velocity.x > 0:
-			sprite.flip_h = false # face right
-		elif velocity.x < 0:
-			sprite.flip_h = true # face left
+		if velocity.x < 0 and not flipped:
+			scale.x = -DEFAULT_SCALE_X
+			flipped = !flipped
+		if velocity.x > 0 and flipped:
+			scale.x = -DEFAULT_SCALE_X
+			flipped = !flipped
 		
 		velocity.x = new_velocity_x
 	
