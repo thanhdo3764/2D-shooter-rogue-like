@@ -4,9 +4,9 @@ extends Base_Weapon
 func _ready() -> void:
 	super()
 	DAMAGE = 100
-	RELOAD_SPEED_SEC = 1.0
+	RELOAD_SPEED_SEC = 3
 	WEIGHT = 100
-	RATE_OF_FIRE = 1
+	SHOOT_SPEED_SEC = 1
 	MAX_AMMO = 5
 	AMMO_COUNT = MAX_AMMO
 	BULLET_SPEED = 5000
