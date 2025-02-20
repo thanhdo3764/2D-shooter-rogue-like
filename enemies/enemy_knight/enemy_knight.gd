@@ -46,7 +46,7 @@ func change_state(new_state: State):
 	if current_state == new_state:
 		return  # prevent unnecessary transitions
 
-	#DEBUG 0 = sleep, 1 = wakeup, 2 = walk
+	#DEBUG 0 = sleep, 1 = wakeup, 2 = walk, 3 = dead
 	print("current state: ", current_state, " transitioning to ", new_state)
 
 	current_state = new_state
