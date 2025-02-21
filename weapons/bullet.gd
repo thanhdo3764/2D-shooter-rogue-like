@@ -13,3 +13,5 @@ func set_bullet(position, target_position, speed) -> void:
 func _process(delta: float) -> void:
 	position += DIRECTION * SPEED * delta
 	
+func _on_body_entered(body: Node2D) -> void:
+	pass # Replace with function body.

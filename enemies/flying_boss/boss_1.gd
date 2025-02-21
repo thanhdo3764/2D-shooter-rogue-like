@@ -9,8 +9,8 @@ enum bossState {
 
 @export var fire_rate : float = 0.6
 @export var hp : int = 50
-@onready var main_node = get_tree().get_root().get_node("Main")
-@onready var player_node = main_node.get_node("Player")
+@onready var level_node = get_tree().get_root().get_node("Level")
+@onready var player_node = level_node.get_node("Player")
 @onready var animation = $AnimationPlayer
 @onready var state_timer = $StateTimer
 @onready var shoot_timer = $ShootTimer
@@ -22,7 +22,6 @@ var state = bossState.FLY_IDLE
 var active_beam : Node2D = null
 
 func _ready() -> void:
-	print(main_node)
 	# Might not need to set the wait time manually
 	shoot_timer.wait_time = fire_rate
 
@@ -66,13 +65,16 @@ func _physics_process(delta: float) -> void:
 		bossState.FLY_RAMPAGE:
 			pass # unimplemented
 			
-	# TODO: take appropriate action when boss dies
 	if hp <= 0:
-		pass
+		despawn()
 		
 func _on_shoot_timer_timeout() -> void:
 	if state == bossState.ATTACK_BULLET:
 		shoot_bullet()
+		
+func despawn():
+	#emit_signal("killed")
+	queue_free()
 
 # NOTE: this could be moved to a projectileEmitter node, might not need to depending on whether behavior is shared with the other boss
 # creates new bullet node and adds it to the root node
@@ -82,13 +84,13 @@ func shoot_bullet() -> void:
 	bullet.direction = get_player_dir()
 	# i'm manually connecting the bullet signal to the player here, this feels really janky but idk what else to do
 	bullet.connect("hit_bullet", player_node._on_bullet_hit)
-	main_node.add_child(bullet)
+	level_node.add_child(bullet)
 
 func shoot_beam() -> void:
 	var beam = beam_prefab.instantiate()
 	beam.position = self.global_position
 	beam.direction = get_player_dir()
-	main_node.add_child(beam)
+	level_node.add_child(beam)
 	active_beam = beam
 
 # returns the normalized direction vector from the boss to the player
