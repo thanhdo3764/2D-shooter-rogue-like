@@ -14,12 +14,18 @@ signal hit
 var screen_size: Vector2
 var raycast: RayCast2D
 
-var WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
+var WEAPON_LOAD
 var weapon
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if EquipItems.weapon == 0:
+		WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
+		
+	if EquipItems.weapon == 1:
+		WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
+	
 	weapon = WEAPON_LOAD.instantiate()
 	add_child(weapon)
 	weapon.position = $Weapon_Spawn.position
@@ -74,7 +80,11 @@ func _on_body_entered(body: Node2D) -> void:
 	hide() # Player will disappear after being hit
 	hit.emit() # Emits a signal
 	$CollisionShape2D.set_deferred("disabled", true) # Waits to safely disable collision
-	
+
+# called once whenever the player is hit by a bullet.
+# TODO: even though Ground is on a diff collision layer, the bullet still emits. fix
+func _on_bullet_hit() -> void:
+	print("BULLET OW!!")
 	
 func start(pos):
 	position = pos
