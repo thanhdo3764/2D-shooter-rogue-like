@@ -147,11 +147,11 @@ grow_horizontal = 2
 grow_vertical = 2
 select_mode = 1
 allow_search = false
-item_count = 3
+
+item_count = 2
 same_column_width = true
-item_0/text = "Auto Rifle"
-item_1/text = "Pistol"
-item_2/text = "Sniper Rifle"
+item_0/text = "Pistol"
+item_1/text = "Sniper Rifle"
 
 [node name="Equipment List" type="ItemList" parent="."]
 layout_mode = 1
@@ -305,6 +305,9 @@ theme_override_font_sizes/font_size = 20
 text = "Confirm Selection"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[connection signal="item_clicked" from="Weapons List" to="." method="_on_weapons_list_item_clicked"]
+[connection signal="item_clicked" from="Equipment List" to="." method="_on_equipment_list_item_clicked"]
 
 [connection signal="pressed" from="Confirm" to="." method="_on_confirm_pressed"]
 [connection signal="pressed" from="Select_Confirm/Yes" to="." method="_on_yes_pressed"]

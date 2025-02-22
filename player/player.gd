@@ -17,11 +17,15 @@ signal hit
 @onready var raycast: RayCast2D = $RayCast2D
 
 var screen_size: Vector2
-var WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
-var weapon
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if EquipItems.weapon == 0:
+		WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
+		
+	if EquipItems.weapon == 1:
+		WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
+	
 	weapon = WEAPON_LOAD.instantiate()
 	add_child(weapon)
 	weapon.position = $Weapon_Spawn.position
