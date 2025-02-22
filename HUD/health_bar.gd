@@ -5,4 +5,4 @@ extends TextureProgressBar
 func update_health():
 	if player:
 		# Set the progress bar value to the player's health
-		self.value = player.health
+		self.value = player.HEALTH

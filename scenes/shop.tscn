@@ -147,6 +147,7 @@ grow_horizontal = 2
 grow_vertical = 2
 select_mode = 1
 allow_search = false
+
 item_count = 2
 same_column_width = true
 item_0/text = "Pistol"
@@ -307,6 +308,7 @@ vertical_alignment = 1
 
 [connection signal="item_clicked" from="Weapons List" to="." method="_on_weapons_list_item_clicked"]
 [connection signal="item_clicked" from="Equipment List" to="." method="_on_equipment_list_item_clicked"]
+
 [connection signal="pressed" from="Confirm" to="." method="_on_confirm_pressed"]
 [connection signal="pressed" from="Select_Confirm/Yes" to="." method="_on_yes_pressed"]
 [connection signal="pressed" from="Select_Confirm/No" to="." method="_on_no_pressed"]

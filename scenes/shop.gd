@@ -2,7 +2,7 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -19,7 +19,6 @@ func _on_yes_pressed() -> void:
 
 func _on_no_pressed() -> void:
 	$Select_Confirm.visible = false
-
 
 func _on_weapons_list_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
 	var weapons = ["Pistol", "Sniper Rifle"]

@@ -1,16 +1,18 @@
 [gd_scene load_steps=7 format=3 uid="uid://cfxky3wsmddss"]
 
 [ext_resource type="Script" path="res://scenes/level.gd" id="1_0wm6v"]
+[ext_resource type="PackedScene" uid="uid://5871bs5w0s0u" path="res://HUD/HUD.tscn" id="2_dav8n"]
 [ext_resource type="PackedScene" uid="uid://olh5bqt5tvrl" path="res://scenes/platform.tscn" id="2_g5rv4"]
 [ext_resource type="PackedScene" uid="uid://fra6qckawjji" path="res://player/player.tscn" id="3_mirjn"]
 [ext_resource type="PackedScene" uid="uid://barsmnu577o5u" path="res://enemies/flying_boss/boss1.tscn" id="4_e3ibo"]
-[ext_resource type="PackedScene" uid="uid://3yv27yusrury" path="res://enemies/enemy_knight/enemy_knight.tscn" id="5_s1q8f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sx256"]
 size = Vector2(639, 40)
 
-[node name="Main" type="Node2D"]
+[node name="Level" type="Node2D"]
 script = ExtResource("1_0wm6v")
+
+[node name="HUD" parent="." instance=ExtResource("2_dav8n")]
 
 [node name="Ground" type="StaticBody2D" parent="."]
 position = Vector2(0, 14)
@@ -27,15 +29,9 @@ position = Vector2(318.5, 311)
 shape = SubResource("RectangleShape2D_sx256")
 
 [node name="Platform" parent="." instance=ExtResource("2_g5rv4")]
-position = Vector2(143, 231)
+position = Vector2(246, 242)
 
 [node name="Player" parent="." instance=ExtResource("3_mirjn")]
 
 [node name="Boss1" parent="." instance=ExtResource("4_e3ibo")]
 position = Vector2(322, 49)
-
-[node name="enemy_knight" parent="." instance=ExtResource("5_s1q8f")]
-position = Vector2(603, 231)
-
-[node name="Platform2" parent="." instance=ExtResource("2_g5rv4")]
-position = Vector2(285, 233)
