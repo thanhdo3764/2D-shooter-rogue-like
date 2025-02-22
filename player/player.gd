@@ -17,7 +17,7 @@ signal hit
 @onready var raycast: RayCast2D = $RayCast2D
 
 var screen_size: Vector2
-var WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
+var WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
 var weapon
 
 # Called when the node enters the scene tree for the first time.

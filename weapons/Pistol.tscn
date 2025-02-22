@@ -1,7 +1,72 @@
-[gd_scene load_steps=16 format=3 uid="uid://bu323hea1ntrc"]
+[gd_scene load_steps=33 format=3 uid="uid://bu323hea1ntrc"]
 
 [ext_resource type="Script" path="res://weapons/pistol.gd" id="1_g02pa"]
+[ext_resource type="Texture2D" uid="uid://ct3vhyud6v2h2" path="res://assets/pistol/[RELOAD] Glock - P80.png" id="2_fjj74"]
 [ext_resource type="Texture2D" uid="uid://gjawqnwr5j51" path="res://assets/pistol/[SHOOT WITH MUZZLE FLASH] Glock - P80.png" id="2_xy5u2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pdr5v"]
+atlas = ExtResource("2_fjj74")
+region = Rect2(0, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_af0xl"]
+atlas = ExtResource("2_fjj74")
+region = Rect2(64, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i8s46"]
+atlas = ExtResource("2_fjj74")
+region = Rect2(128, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r536u"]
+atlas = ExtResource("2_fjj74")
+region = Rect2(192, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ob7kh"]
+atlas = ExtResource("2_fjj74")
+region = Rect2(256, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ojuxs"]
+atlas = ExtResource("2_fjj74")
+region = Rect2(320, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2v0td"]
+atlas = ExtResource("2_fjj74")
+region = Rect2(384, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vjqm"]
+atlas = ExtResource("2_fjj74")
+region = Rect2(448, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wgxti"]
+atlas = ExtResource("2_fjj74")
+region = Rect2(512, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yff55"]
+atlas = ExtResource("2_fjj74")
+region = Rect2(576, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kedmd"]
+atlas = ExtResource("2_fjj74")
+region = Rect2(640, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gt8yg"]
+atlas = ExtResource("2_fjj74")
+region = Rect2(704, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h60y5"]
+atlas = ExtResource("2_fjj74")
+region = Rect2(768, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rkakx"]
+atlas = ExtResource("2_fjj74")
+region = Rect2(832, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yq6on"]
+atlas = ExtResource("2_fjj74")
+region = Rect2(896, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qj6w7"]
+atlas = ExtResource("2_fjj74")
+region = Rect2(960, 0, 64, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dcyp6"]
 atlas = ExtResource("2_xy5u2")
@@ -55,6 +120,59 @@ region = Rect2(704, 0, 64, 48)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_pdr5v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_af0xl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i8s46")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r536u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ob7kh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ojuxs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2v0td")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8vjqm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wgxti")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yff55")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kedmd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gt8yg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h60y5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rkakx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yq6on")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qj6w7")
+}],
+"loop": false,
+"name": &"reloading",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_dcyp6")
 }, {
 "duration": 1.0,
@@ -103,9 +221,15 @@ script = ExtResource("1_g02pa")
 position = Vector2(31, -6)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(18, -6)
+position = Vector2(-16, -18)
 sprite_frames = SubResource("SpriteFrames_1rbgt")
 animation = &"shooting"
-frame = 11
-frame_progress = 1.0
-offset = Vector2(0, 12)
+centered = false
+
+[node name="ShootTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ReloadTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
