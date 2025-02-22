@@ -14,7 +14,7 @@ signal hit
 var screen_size: Vector2
 var raycast: RayCast2D
 
-var WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
+var WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
 var weapon
 
 
