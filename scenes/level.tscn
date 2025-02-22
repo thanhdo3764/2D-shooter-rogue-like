@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://cfxky3wsmddss"]
+[gd_scene load_steps=8 format=3 uid="uid://cfxky3wsmddss"]
 
 [ext_resource type="Script" path="res://scenes/level.gd" id="1_0wm6v"]
 [ext_resource type="PackedScene" uid="uid://olh5bqt5tvrl" path="res://scenes/platform.tscn" id="2_g5rv4"]
 [ext_resource type="PackedScene" uid="uid://fra6qckawjji" path="res://player/player.tscn" id="3_mirjn"]
 [ext_resource type="PackedScene" uid="uid://barsmnu577o5u" path="res://enemies/flying_boss/boss1.tscn" id="4_e3ibo"]
 [ext_resource type="PackedScene" uid="uid://3yv27yusrury" path="res://enemies/enemy_knight/enemy_knight.tscn" id="5_s1q8f"]
+[ext_resource type="PackedScene" uid="uid://5871bs5w0s0u" path="res://HUD/HUD.tscn" id="6_j04wo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sx256"]
 size = Vector2(639, 40)
@@ -39,3 +40,5 @@ position = Vector2(603, 231)
 
 [node name="Platform2" parent="." instance=ExtResource("2_g5rv4")]
 position = Vector2(285, 233)
+
+[node name="HUD" parent="." instance=ExtResource("6_j04wo")]

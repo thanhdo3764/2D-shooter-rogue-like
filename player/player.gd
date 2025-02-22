@@ -1,11 +1,10 @@
 extends CharacterBody2D
 signal hit
 
-# Hi Thanh! Sorry for adding this :3 -MM
-@export var health: int = 100
-@export var max_health: int = 100
-@export var shield: int = 50
-@export var max_shield: int = 100
+@export var HEALTH: int = 100
+@export var MAX_HEALTH: int = 100
+@export var SHIELD: int = 50
+@export var MAX_SHIELD: int = 100
 
 @export var SPEED: int = 100
 @export var ACCELERATION_H: int = 475
