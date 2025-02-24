@@ -17,6 +17,9 @@ signal hit
 
 var screen_size: Vector2
 
+var WEAPON_LOAD
+var weapon
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if EquipItems.weapon == 0:
