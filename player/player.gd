@@ -24,11 +24,11 @@ var weapon
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	#if EquipItems.weapon == 0:
-		#WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
+	if EquipItems.weapon == 0:
+		WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
 		
-	#if EquipItems.weapon == 1:
-		#WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
+	if EquipItems.weapon == 1:
+		WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
 	
 	weapon = WEAPON_LOAD.instantiate()
 	add_child(weapon)
