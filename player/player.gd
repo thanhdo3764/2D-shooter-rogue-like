@@ -6,6 +6,8 @@ signal hit
 @export var SHIELD: int = 50
 @export var MAX_SHIELD: int = 100
 
+@export var SCORE: int = 0
+
 @export var SPEED: int = 100
 @export var ACCELERATION_H: int = 475
 @export var GRAVITY: int = 1000
@@ -17,13 +19,16 @@ signal hit
 
 var screen_size: Vector2
 
+var WEAPON_LOAD
+var weapon
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	if EquipItems.weapon == 0:
-		WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
+	#if EquipItems.weapon == 0:
+		#WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
 		
-	if EquipItems.weapon == 1:
-		WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
+	#if EquipItems.weapon == 1:
+		#WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
 	
 	weapon = WEAPON_LOAD.instantiate()
 	add_child(weapon)
