@@ -22,10 +22,10 @@ var weapon
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	if EquipItems.weapon == 0:
+	if EquipItems.weapon == 1:
 		WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
 		
-	if EquipItems.weapon == 1:
+	if EquipItems.weapon == 2:
 		WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
 	
 	weapon = WEAPON_LOAD.instantiate()
@@ -34,6 +34,7 @@ func _ready() -> void:
 	screen_size = get_viewport_rect().size
 
 	add_to_group("player") # for the HUD
+	print("Player has $" + str(EquipItems._get_bank()) + " in their Bank.")
 
 func _physics_process(delta: float) -> void:
 	# handle jumping
@@ -112,3 +113,8 @@ func start(pos):
 	position = pos
 	show()
 	$CollisionShape2D.disabled = false
+
+func _on_money_timer_timeout() -> void:
+	if HEALTH > 0:
+		EquipItems.money += 5
+		print(EquipItems.money)
