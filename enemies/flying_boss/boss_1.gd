@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends Area2D
 
 enum bossState {
 	FLY_IDLE,		# idle flying movement
@@ -8,15 +8,20 @@ enum bossState {
 }
 
 @export var fire_rate : float = 0.6
-@export var hp : int = 50
+@export var hp : int = 100
 @onready var main_node = get_tree().get_root().get_node("Main")
 @onready var player_node = main_node.get_node("Player")
-@onready var animation = $AnimationPlayer
+
+# TODO: can't play multiple animations with one node. So consolidate both animations into an animationtree instead of using 2
+@onready var move_anim = $MoveAnim
+@onready var hurt_anim = $HurtAnim
+
 @onready var state_timer = $StateTimer
 @onready var shoot_timer = $ShootTimer
 
 const bullet_prefab = preload("res://enemies/flying_boss/bullet.tscn")
 const beam_prefab = preload("res://enemies/flying_boss/beam.tscn")
+signal boss_dead
 
 var state = bossState.FLY_IDLE
 var active_beam : Node2D = null
@@ -29,8 +34,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	match state:
 		bossState.FLY_IDLE:
-			if !animation.is_playing():
-				animation.play("Idle")
+			if !move_anim.is_playing():
+				move_anim.play("Idle")
 				
 			# state change
 			# TODO: state change when hp is low
@@ -41,7 +46,7 @@ func _physics_process(delta: float) -> void:
 				else:
 					state = bossState.ATTACK_BEAM
 				state_timer.start()
-				animation.stop()
+				move_anim.stop()
 			
 		bossState.ATTACK_BULLET:
 			# start shooting
@@ -66,16 +71,20 @@ func _physics_process(delta: float) -> void:
 		bossState.FLY_RAMPAGE:
 			pass # unimplemented
 			
-	# TODO: take appropriate action when boss dies
 	if hp <= 0:
-		pass
+		despawn()
 		
 func _on_shoot_timer_timeout() -> void:
 	if state == bossState.ATTACK_BULLET:
 		shoot_bullet()
 
-# NOTE: this could be moved to a projectileEmitter node, might not need to depending on whether behavior is shared with the other boss
-# creates new bullet node and adds it to the root node
+func _on_area_entered(area: Area2D) -> void:
+	# NOTE: assumes the only thing that can collide with the boss is the player bullets, based on collision layers
+	# should change to using signals instead
+	hp -= 10
+	hurt_anim.play("Hurt")
+	print("BOSS HP: ", hp)
+		
 func shoot_bullet() -> void:
 	var bullet = bullet_prefab.instantiate()
 	bullet.position = self.global_position
@@ -94,3 +103,8 @@ func shoot_beam() -> void:
 # returns the normalized direction vector from the boss to the player
 func get_player_dir() -> Vector2:
 	return self.global_position.direction_to(player_node.global_position).normalized()
+
+
+func despawn() -> void:
+	emit_signal("boss_dead")
+	queue_free()
