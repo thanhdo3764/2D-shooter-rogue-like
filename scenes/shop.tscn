@@ -44,6 +44,19 @@ corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 shadow_size = 3
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nwf7w"]
+bg_color = Color(0, 0, 0, 0.423529)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5xvl3"]
 bg_color = Color(0, 0, 0, 0.635294)
 
@@ -95,19 +108,6 @@ corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 shadow_size = 3
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nwf7w"]
-bg_color = Color(0, 0, 0, 0.423529)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0, 0, 0, 1)
-border_blend = true
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -163,7 +163,7 @@ select_mode = 1
 allow_search = false
 item_count = 2
 same_column_width = true
-item_0/text = "Pistol - $200"
+item_0/text = "Pistol - $0"
 item_1/text = "Sniper Rifle - $500"
 
 [node name="Equipment List" type="ItemList" parent="."]
@@ -183,7 +183,7 @@ select_mode = 1
 allow_search = false
 item_count = 2
 same_column_width = true
-item_0/text = "Double Jump - $200"
+item_0/text = "Double Jump - $0"
 item_1/text = "Grapple Hook - $500"
 
 [node name="Label2" type="Label" parent="."]
@@ -223,6 +223,31 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_wsjs3")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_qqqpp")
 theme_override_styles/normal = SubResource("StyleBoxFlat_uktrp")
 text = "Confirm Selection"
+
+[node name="Bank" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -204.0
+offset_top = 6.0
+offset_right = -8.0
+offset_bottom = 70.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_nwf7w")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cart" type="Label" parent="."]
+layout_mode = 0
+offset_left = 463.0
+offset_top = 73.0
+offset_right = 596.0
+offset_bottom = 102.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+vertical_alignment = 1
 
 [node name="Select_Confirm" type="Control" parent="."]
 visible = false
@@ -394,29 +419,78 @@ Weapon And Equipment"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Bank" type="Label" parent="."]
+[node name="Not_Enough" type="Control" parent="."]
+visible = false
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
+anchors_preset = 15
 anchor_right = 1.0
-offset_left = -204.0
-offset_top = 6.0
-offset_right = -8.0
-offset_bottom = 70.0
-grow_horizontal = 0
-theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = SubResource("StyleBoxFlat_nwf7w")
-horizontal_alignment = 1
-vertical_alignment = 1
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Cart" type="Label" parent="."]
-layout_mode = 0
-offset_left = 463.0
-offset_top = 73.0
-offset_right = 596.0
-offset_bottom = 102.0
-theme_override_colors/font_color = Color(1, 0, 0, 1)
+[node name="Panel2" type="Panel" parent="Not_Enough"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5xvl3")
+
+[node name="Panel" type="Panel" parent="Not_Enough"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -159.5
+offset_top = -83.0
+offset_right = 159.5
+offset_bottom = 83.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7dg0r")
+
+[node name="Okay2" type="Button" parent="Not_Enough"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -34.5
+offset_top = -173.0
+offset_right = 34.5
+offset_bottom = -131.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/hover = SubResource("StyleBoxFlat_x4801")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_iw1oh")
+theme_override_styles/normal = SubResource("StyleBoxFlat_bcgog")
+text = "Okay
+"
+
+[node name="Label" type="Label" parent="Not_Enough"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -149.0
+offset_top = -63.0
+offset_right = 149.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_font_sizes/font_size = 20
+text = "Insufficient Funds"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [connection signal="item_clicked" from="Weapons List" to="." method="_on_weapons_list_item_clicked"]
@@ -425,3 +499,4 @@ vertical_alignment = 1
 [connection signal="pressed" from="Select_Confirm/Yes" to="." method="_on_yes_pressed"]
 [connection signal="pressed" from="Select_Confirm/No" to="." method="_on_no_pressed"]
 [connection signal="pressed" from="Must_Select/Okay" to="." method="_on_okay_pressed"]
+[connection signal="pressed" from="Not_Enough/Okay2" to="." method="_on_okay_2_pressed"]

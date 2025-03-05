@@ -107,6 +107,9 @@ func _on_body_entered(body: Node2D) -> void:
 # called once whenever the player is hit by a bullet.
 # TODO: even though Ground is on a diff collision layer, the bullet still emits. fix
 func _on_bullet_hit() -> void:
+	HEALTH -= 50
+	if HEALTH == 0:
+		_on_death()
 	print("BULLET OW!!")
 	
 func start(pos):
@@ -118,3 +121,6 @@ func _on_money_timer_timeout() -> void:
 	if HEALTH > 0:
 		EquipItems.money += 5
 		print(EquipItems.money)
+		
+func _on_death() -> void:
+	get_tree().change_scene_to_file("res://scenes/game_over.tscn")

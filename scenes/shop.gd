@@ -2,6 +2,9 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	EquipItems.weapon = 0
+	EquipItems.equipment = 0
+	EquipItems.cart = 0
 	get_node("Bank").text = "Bank: $" + str(EquipItems.bank)
 
 
@@ -10,11 +13,15 @@ func _process(delta: float) -> void:
 	pass
 
 func _on_confirm_pressed() -> void:
-	if (EquipItems.weapon != 0) and (EquipItems.equipment != 0):
-		$Select_Confirm.visible = true
-	else:
-		$Must_Select.visible = true
-		$Select_Confirm.visible = false
+	if EquipItems.cart > EquipItems.bank:
+		$Not_Enough.visible = true
+	
+	if EquipItems.cart <= EquipItems.bank:
+		if (EquipItems.weapon == 0) or (EquipItems.equipment == 0):
+			$Must_Select.visible = true
+			$Select_Confirm.visible = false
+		if (EquipItems.weapon != 0) and (EquipItems.equipment != 0):
+			$Select_Confirm.visible = true
 
 func _on_yes_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/level.tscn")
@@ -22,6 +29,9 @@ func _on_yes_pressed() -> void:
 
 func _on_okay_pressed() -> void:
 	$Must_Select.visible = false
+	
+func _on_okay_2_pressed() -> void:
+	$Not_Enough.visible = false
 
 func _on_no_pressed() -> void:
 	$Select_Confirm.visible = false
