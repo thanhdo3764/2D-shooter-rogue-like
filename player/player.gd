@@ -14,7 +14,6 @@ signal hit
 @export var JUMP_POWER: int = -310
 
 @onready var coyote_timer: Timer = $CoyoteTimer
-@onready var jump_timer: Timer = $JumpTimer
 @onready var raycast: RayCast2D = $RayCast2D
 
 var screen_size: Vector2
