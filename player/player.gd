@@ -24,10 +24,10 @@ var weapon
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	if EquipItems.weapon == 0:
+	if EquipItems.weapon == 1:
 		WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
 		
-	if EquipItems.weapon == 1:
+	if EquipItems.weapon == 2:
 		WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
 	
 	weapon = WEAPON_LOAD.instantiate()
@@ -36,6 +36,7 @@ func _ready() -> void:
 	screen_size = get_viewport_rect().size
 
 	add_to_group("player") # for the HUD
+	print("Player has $" + str(EquipItems._get_bank()) + " in their Bank.")
 
 func _physics_process(delta: float) -> void:
 	# handle jumping
@@ -108,9 +109,20 @@ func _on_body_entered(body: Node2D) -> void:
 # called once whenever the player is hit by a bullet.
 # TODO: even though Ground is on a diff collision layer, the bullet still emits. fix
 func _on_bullet_hit() -> void:
+	HEALTH -= 50
+	if HEALTH == 0:
+		_on_death()
 	print("BULLET OW!!")
 	
 func start(pos):
 	position = pos
 	show()
 	$CollisionShape2D.disabled = false
+
+func _on_money_timer_timeout() -> void:
+	if HEALTH > 0:
+		EquipItems.money += 5
+		print(EquipItems.money)
+		
+func _on_death() -> void:
+	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
