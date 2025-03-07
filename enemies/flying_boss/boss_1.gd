@@ -1,81 +1,70 @@
-extends StaticBody2D
+extends Area2D
 
-enum bossState {
-	FLY_IDLE,		# idle flying movement
-	FLY_RAMPAGE,	# flying movement for when health is low
+enum BossState {
+	FLY_IDLE,		# flying movement
 	ATTACK_BULLET,	# emitting bullets in a pattern
 	ATTACK_BEAM,	# da laser beam
 }
+const RAMPAGE_MOVEMENT_SPEED = 2
+const RAMPAGE_HEALTH_THRESHOLD = 0.5
+const BOSS_MAX_HP = 100
 
 @export var fire_rate : float = 0.6
-@export var hp : int = 50
-@onready var main_node = get_tree().get_root().get_node("Main")
-@onready var player_node = main_node.get_node("Player")
-@onready var animation = $AnimationPlayer
+
+# TODO: can't play multiple animations with one node. So consolidate both animations into an animationtree instead of using 2
+@onready var move_anim = $MoveAnim
+@onready var hurt_anim = $HurtAnim
 @onready var state_timer = $StateTimer
 @onready var shoot_timer = $ShootTimer
+@onready var main_node = get_tree().get_root().get_node("Main")
+@onready var player_node = main_node.get_node("Player")
 
 const bullet_prefab = preload("res://enemies/flying_boss/bullet.tscn")
 const beam_prefab = preload("res://enemies/flying_boss/beam.tscn")
+signal killed
 
-var state = bossState.FLY_IDLE
+var state: BossState = BossState.FLY_IDLE
+var hp : int = BOSS_MAX_HP
 var active_beam : Node2D = null
+var rampage_enabled: bool = false
 
 func _ready() -> void:
-	print(main_node)
-	# Might not need to set the wait time manually
 	shoot_timer.wait_time = fire_rate
+	move_anim.play("Idle")
 
 func _physics_process(delta: float) -> void:
-	match state:
-		bossState.FLY_IDLE:
-			if !animation.is_playing():
-				animation.play("Idle")
-				
-			# state change
-			# TODO: state change when hp is low
-			if state_timer.is_stopped():
-				# swtich to a random attack state (equal chance)
-				if randf() > 0.5:
-					state = bossState.ATTACK_BULLET
-				else:
-					state = bossState.ATTACK_BEAM
-				state_timer.start()
-				animation.stop()
-			
-		bossState.ATTACK_BULLET:
-			# start shooting
-			if shoot_timer.is_stopped():
-				shoot_timer.start()
-			# state change
-			if state_timer.is_stopped():
-				state = bossState.FLY_IDLE
-				state_timer.start()
-				shoot_timer.stop()
-				
-		bossState.ATTACK_BEAM:
-			# don't create a new beam if there's already one
-			if active_beam == null:
-				shoot_beam()
-			# state change
-			if state_timer.is_stopped():
-				active_beam = null
-				state = bossState.FLY_IDLE
-				state_timer.start()
-			
-		bossState.FLY_RAMPAGE:
-			pass # unimplemented
-			
-	# TODO: take appropriate action when boss dies
+	# TODO: Fix animation timing when rampage is enabled during flying
+	if hp <= BOSS_MAX_HP * RAMPAGE_HEALTH_THRESHOLD and !rampage_enabled:
+		move_anim.speed_scale = RAMPAGE_MOVEMENT_SPEED
+		shoot_timer.wait_time = fire_rate * 0.5
+		rampage_enabled = true
 	if hp <= 0:
-		pass
-		
-func _on_shoot_timer_timeout() -> void:
-	if state == bossState.ATTACK_BULLET:
-		shoot_bullet()
+		despawn()
 
-# NOTE: this could be moved to a projectileEmitter node, might not need to depending on whether behavior is shared with the other boss
-# creates new bullet node and adds it to the root node
+# takes a state, and return the next state
+func do_state_change(current: BossState) -> BossState:
+	match current:
+		BossState.FLY_IDLE:
+			move_anim.stop()
+			if randf() > 0.5:
+				shoot_timer.start()
+				return BossState.ATTACK_BULLET
+			else:
+				shoot_beam()
+				return BossState.ATTACK_BEAM
+				
+		BossState.ATTACK_BULLET:
+			shoot_timer.stop()
+			move_anim.play("Idle")
+			return BossState.FLY_IDLE
+			
+		BossState.ATTACK_BEAM:
+			active_beam = null
+			move_anim.play("Idle")
+			return BossState.FLY_IDLE
+			
+	return -1
+		
 func shoot_bullet() -> void:
 	var bullet = bullet_prefab.instantiate()
 	bullet.position = self.global_position
@@ -94,3 +83,21 @@ func shoot_beam() -> void:
 # returns the normalized direction vector from the boss to the player
 func get_player_dir() -> Vector2:
 	return self.global_position.direction_to(player_node.global_position).normalized()
+
+func despawn() -> void:
+	emit_signal("killed", self)
+	queue_free()
+
+func _on_state_timer_timeout() -> void:
+	state = do_state_change(state)
+
+func _on_shoot_timer_timeout() -> void:
+	if state == BossState.ATTACK_BULLET:
+		shoot_bullet()
+
+func _on_area_entered(area: Area2D) -> void:
+	# NOTE: assumes the only thing that can collide with the boss is the player bullets, based on collision layers
+	# should change to using signals instead
+	hp -= 10
+	hurt_anim.play("Hurt")
+	print("BOSS HP: ", hp)

@@ -13,6 +13,8 @@ func _ready():
 	if player:
 		latest_position = player.position
 		update_minimap_position()
+	else:
+		print_debug("Player not found")
 
 func _process(_delta):
 	if player and player.position != latest_position:
@@ -21,7 +23,8 @@ func _process(_delta):
 
 func update_minimap_position():
 	if not player:
-		return # When player not found
+		print_debug("Player not found")
+		return
 
 	var minimap_pos = Vector2(
 		(player.position.x / world_size.x) * minimap_size.x,

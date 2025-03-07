@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://barsmnu577o5u"]
+[gd_scene load_steps=10 format=3 uid="uid://barsmnu577o5u"]
 
 [ext_resource type="Script" path="res://enemies/flying_boss/boss_1.gd" id="1_ugcko"]
 [ext_resource type="Texture2D" uid="uid://c4jwxsohcjn0j" path="res://assets/boss1/TEMP_boss1.png" id="2_0vle4"]
@@ -25,6 +25,18 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_bud26"]
 length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D/Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ua0xc"]
 _data = {
@@ -32,9 +44,46 @@ _data = {
 "RESET": SubResource("Animation_bud26")
 }
 
-[node name="Boss1" type="StaticBody2D"]
+[sub_resource type="Animation" id="Animation_8kab3"]
+resource_name = "Hurt"
+length = 0.04
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D/Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.02, 0.04),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.48, 0.48, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_bw0yw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D/Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6bfjj"]
+_data = {
+"Hurt": SubResource("Animation_8kab3"),
+"RESET": SubResource("Animation_bw0yw")
+}
+
+[node name="Boss1" type="Area2D"]
 collision_layer = 4
-collision_mask = 0
+collision_mask = 20
 script = ExtResource("1_ugcko")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -48,14 +97,20 @@ texture = ExtResource("2_0vle4")
 
 [node name="StateTimer" type="Timer" parent="."]
 wait_time = 4.0
-one_shot = true
 autostart = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="MoveAnim" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_ua0xc")
 }
 
+[node name="HurtAnim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6bfjj")
+}
+
 [node name="ShootTimer" type="Timer" parent="."]
 
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="timeout" from="StateTimer" to="." method="_on_state_timer_timeout"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

@@ -6,13 +6,14 @@ signal hit
 @export var SHIELD: int = 50
 @export var MAX_SHIELD: int = 100
 
+@export var SCORE: int = 0
+
 @export var SPEED: int = 250
 @export var ACCELERATION_H: int = 800
 @export var GRAVITY: int = 2500
 @export var JUMP_POWER: int = -700
 
 @onready var coyote_timer: Timer = $CoyoteTimer
-@onready var jump_timer: Timer = $JumpTimer
 @onready var raycast: RayCast2D = $RayCast2D
 
 var screen_size: Vector2
@@ -31,10 +32,10 @@ var STATE: PlayerState = PlayerState.STANDING
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	if EquipItems.weapon == 0:
+	if EquipItems.weapon == 1:
 		WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
 		
-	if EquipItems.weapon == 1:
+	if EquipItems.weapon == 2:
 		WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
 	
 	weapon = WEAPON_LOAD.instantiate()
@@ -43,6 +44,7 @@ func _ready() -> void:
 	screen_size = get_viewport_rect().size
 
 	add_to_group("player") # for the HUD
+	print("Player has $" + str(EquipItems._get_bank()) + " in their Bank.")
 
 	
 func _physics_process(delta: float) -> void:
@@ -165,9 +167,20 @@ func _on_body_entered(body: Node2D) -> void:
 # called once whenever the player is hit by a bullet.
 # TODO: even though Ground is on a diff collision layer, the bullet still emits. fix
 func _on_bullet_hit() -> void:
+	HEALTH -= 50
+	if HEALTH == 0:
+		_on_death()
 	print("BULLET OW!!")
 	
 func start(pos):
 	position = pos
 	show()
 	$CollisionShape2D.disabled = false
+
+func _on_money_timer_timeout() -> void:
+	if HEALTH > 0:
+		EquipItems.money += 5
+		print(EquipItems.money)
+		
+func _on_death() -> void:
+	get_tree().change_scene_to_file("res://scenes/game_over.tscn")

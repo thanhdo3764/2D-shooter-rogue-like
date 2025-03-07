@@ -75,3 +75,8 @@ position = Vector2(0, 10.3333)
 [node name="CoyoteTimer" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
+
+[node name="Money_Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Money_Timer" to="." method="_on_money_timer_timeout"]
