@@ -21,7 +21,7 @@ enum bossState {
 
 const bullet_prefab = preload("res://enemies/flying_boss/bullet.tscn")
 const beam_prefab = preload("res://enemies/flying_boss/beam.tscn")
-signal boss_dead
+signal killed
 
 var state = bossState.FLY_IDLE
 var active_beam : Node2D = null
@@ -52,6 +52,7 @@ func _physics_process(delta: float) -> void:
 			# start shooting
 			if shoot_timer.is_stopped():
 				shoot_timer.start()
+				
 			# state change
 			if state_timer.is_stopped():
 				state = bossState.FLY_IDLE
@@ -62,6 +63,7 @@ func _physics_process(delta: float) -> void:
 			# don't create a new beam if there's already one
 			if active_beam == null:
 				shoot_beam()
+				
 			# state change
 			if state_timer.is_stopped():
 				active_beam = null
@@ -104,7 +106,6 @@ func shoot_beam() -> void:
 func get_player_dir() -> Vector2:
 	return self.global_position.direction_to(player_node.global_position).normalized()
 
-
 func despawn() -> void:
-	emit_signal("boss_dead")
+	emit_signal("killed", self)
 	queue_free()
