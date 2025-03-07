@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://5871bs5w0s0u"]
+[gd_scene load_steps=9 format=3 uid="uid://5871bs5w0s0u"]
 
 [ext_resource type="Script" path="res://HUD/player_hp.gd" id="1_cn0im"]
 [ext_resource type="Texture2D" uid="uid://b4dsw04dds0su" path="res://assets/hud/healthbar_overlay.png" id="2_pfrmy"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dmrhkrxrsfv2x" path="res://assets/hud/shieldbar_overlay.png" id="5_kwpl0"]
 [ext_resource type="Texture2D" uid="uid://ckb7p0ywhmsxj" path="res://assets/hud/shieldbar_fill.png" id="6_r0t1c"]
 [ext_resource type="Script" path="res://HUD/minimap.gd" id="8_tw3p4"]
+[ext_resource type="Script" path="res://HUD/score.gd" id="8_xsint"]
 [ext_resource type="Texture2D" uid="uid://qtwe4dpeft11" path="res://assets/hud/player_icon.png" id="9_eoj5s"]
 
 [node name="HUD" type="CanvasLayer"]
@@ -61,3 +62,18 @@ zoom = Vector2(0.3, 0.3)
 
 [node name="PlayerIcon" type="Sprite2D" parent="Minimap/MinimapViewport/MinimapWorld"]
 texture = ExtResource("9_eoj5s")
+
+[node name="Score" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+script = ExtResource("8_xsint")
+
+[node name="ScoreLabel" type="Label" parent="Score"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 21.0
+offset_right = 113.0
+offset_bottom = 44.0
+text = "Score: 0"

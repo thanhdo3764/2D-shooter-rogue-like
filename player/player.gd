@@ -6,6 +6,8 @@ signal hit
 @export var SHIELD: int = 50
 @export var MAX_SHIELD: int = 100
 
+@export var SCORE: int = 0
+
 @export var SPEED: int = 100
 @export var ACCELERATION_H: int = 475
 @export var GRAVITY: int = 1000

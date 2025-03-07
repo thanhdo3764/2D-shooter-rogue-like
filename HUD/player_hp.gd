@@ -14,6 +14,8 @@ func _ready() -> void:
 		
 		health_bar.value = latest_health
 		shield_bar.value = latest_shield
+	else:
+		print_debug("Player not found")
 
 func _process(_delta) -> void:
 	if player:
@@ -24,3 +26,5 @@ func _process(_delta) -> void:
 		if player.SHIELD != latest_shield:
 			shield_bar.value = player.SHIELD
 			latest_shield = player.SHIELD
+	else:
+		print_debug("Player not found")
