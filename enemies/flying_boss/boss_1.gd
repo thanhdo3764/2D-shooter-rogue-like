@@ -31,6 +31,8 @@ var rampage_enabled: bool = false
 func _ready() -> void:
 	shoot_timer.wait_time = fire_rate
 	move_anim.play("Idle")
+	
+	add_to_group("enemies") # HUD
 
 func _physics_process(delta: float) -> void:
 	# TODO: Fix animation timing when rampage is enabled during flying

@@ -20,6 +20,8 @@ var flipped = false
 func _ready():
 	change_state(State.sleep)
 	
+	add_to_group("enemies") # HUD
+	
 	# detection signal when player enters the detection area
 	if not detection_area.body_entered.is_connected(_on_detection):
 		detection_area.body_entered.connect(_on_detection)
