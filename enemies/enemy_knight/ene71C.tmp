@@ -213,7 +213,7 @@ script = ExtResource("1_babqs")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(30, -16)
 sprite_frames = SubResource("SpriteFrames_736vv")
-animation = &"sleep"
+animation = &"walk"
 autoplay = "sleep"
 
 [node name="SleepCollision" type="CollisionShape2D" parent="."]
