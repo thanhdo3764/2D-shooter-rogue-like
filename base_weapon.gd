@@ -60,7 +60,6 @@ func display_weapon() -> void:
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	print(AMMO_COUNT)
 	display_weapon()
 	if not _reload_timer.is_stopped():
 		return
