@@ -79,4 +79,8 @@ one_shot = true
 [node name="Money_Timer" type="Timer" parent="."]
 autostart = true
 
+[node name="Slide_Timer" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
+
 [connection signal="timeout" from="Money_Timer" to="." method="_on_money_timer_timeout"]

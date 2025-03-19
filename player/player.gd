@@ -9,15 +9,16 @@ signal hit
 @export var SCORE: int = 0
 
 @export var SPEED: int = 250
+@export var SLIDE_SPEED: int = 1000
 @export var ACCELERATION_H: int = 800
 @export var GRAVITY: int = 2500
 @export var JUMP_POWER: int = -700
 
+@onready var slide_timer: Timer = $Slide_Timer
 @onready var coyote_timer: Timer = $CoyoteTimer
 @onready var raycast: RayCast2D = $RayCast2D
 
 var screen_size: Vector2
-
 var WEAPON_LOAD
 var weapon
 
@@ -26,6 +27,7 @@ enum PlayerState {
 	FALLING,
 	JUMPING,
 	RUNNING,
+	SLIDING,
 }
 
 var STATE: PlayerState = PlayerState.STANDING
@@ -35,9 +37,11 @@ func _ready() -> void:
 	if EquipItems.weapon == 1:
 		WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
 		
-	if EquipItems.weapon == 2:
+	elif EquipItems.weapon == 2:
 		WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
-	
+	else: 
+		WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
+		
 	weapon = WEAPON_LOAD.instantiate()
 	add_child(weapon)
 	weapon.position = $Weapon_Spawn.position
@@ -58,6 +62,8 @@ func _physics_process(delta: float) -> void:
 			handle_jumping(delta)
 		PlayerState.RUNNING:
 			handle_running(delta)
+		PlayerState.SLIDING:
+			handle_sliding(delta)
 	
 	# apply gravity
 	try_fall_through_platform()
@@ -74,6 +80,16 @@ func _physics_process(delta: float) -> void:
 	position = position.clamp(Vector2.ZERO, screen_size)
 	try_walk_animation()
 
+func handle_sliding(delta: float) -> void:
+	if not slide_timer.is_stopped() and velocity.x != 0:
+		velocity.x = SLIDE_SPEED * sign(velocity.x)
+	else:
+		velocity.x = SPEED * sign(velocity.x)
+		if is_on_floor():
+			STATE = PlayerState.STANDING if velocity.x == 0 else PlayerState.RUNNING
+		elif velocity.y > 0:
+			STATE = PlayerState.FALLING
+		
 
 func handle_standing(delta: float) -> void:
 	if not is_on_floor():
@@ -133,6 +149,9 @@ func handle_running(delta: float) -> void:
 	elif Input.is_action_pressed("jump"):
 		STATE = PlayerState.JUMPING
 		velocity.y = JUMP_POWER
+	elif Input.is_action_pressed("shift"):
+		slide_timer.start()
+		STATE = PlayerState.SLIDING
 	else:
 		var direction = Input.get_axis("move_left", "move_right") * SPEED
 		
