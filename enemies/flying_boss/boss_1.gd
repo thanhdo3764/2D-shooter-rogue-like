@@ -17,7 +17,7 @@ const BOSS_MAX_HP = 100
 @onready var state_timer = $StateTimer
 @onready var shoot_timer = $ShootTimer
 @onready var main_node = get_tree().get_root().get_node("Main")
-@onready var player_node = main_node.get_node("Player")
+var player_node: Node2D
 
 const bullet_prefab = preload("res://enemies/flying_boss/bullet.tscn")
 const beam_prefab = preload("res://enemies/flying_boss/beam.tscn")
@@ -29,6 +29,8 @@ var active_beam : Node2D = null
 var rampage_enabled: bool = false
 
 func _ready() -> void:
+	if main_node:
+		player_node = main_node.get_node("Player")
 	shoot_timer.wait_time = fire_rate
 	move_anim.play("Idle")
 	
@@ -36,12 +38,16 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	# TODO: Fix animation timing when rampage is enabled during flying
-	if hp <= BOSS_MAX_HP * RAMPAGE_HEALTH_THRESHOLD and !rampage_enabled:
+	do_hp_check()
+		
+func do_hp_check() -> void:
+	if hp <= 0:
+		emit_signal("killed", self)
+		queue_free()
+	elif hp <= BOSS_MAX_HP * RAMPAGE_HEALTH_THRESHOLD and !rampage_enabled:
 		move_anim.speed_scale = RAMPAGE_MOVEMENT_SPEED
 		shoot_timer.wait_time = fire_rate * 0.5
 		rampage_enabled = true
-	if hp <= 0:
-		despawn()
 
 # takes a state, and return the next state
 func do_state_change(current: BossState) -> BossState:
@@ -89,6 +95,9 @@ func get_player_dir() -> Vector2:
 func despawn() -> void:
 	emit_signal("killed", self)
 	queue_free()
+	
+func update_hp(new: int) -> void:
+	hp = new
 
 func _on_state_timer_timeout() -> void:
 	state = do_state_change(state)
