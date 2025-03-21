@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 EquipItems="*res://equip_items.gd"
 LevelManager="*res://level_manager.gd"
+AudioManager="*res://audio_manager.tscn"
 
 [display]
 

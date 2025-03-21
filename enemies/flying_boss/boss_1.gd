@@ -32,7 +32,7 @@ func _ready() -> void:
 	if main_node:
 		player_node = main_node.get_node("Player")
 	shoot_timer.wait_time = fire_rate
-	move_anim.play("Idle")
+	do_idle_movement()
 	
 	add_to_group("enemies") # HUD
 
@@ -42,11 +42,11 @@ func _physics_process(delta: float) -> void:
 		
 func do_hp_check() -> void:
 	if hp <= 0:
-		emit_signal("killed", self)
-		queue_free()
+		despawn()
 	elif hp <= BOSS_MAX_HP * RAMPAGE_HEALTH_THRESHOLD and !rampage_enabled:
 		move_anim.speed_scale = RAMPAGE_MOVEMENT_SPEED
 		shoot_timer.wait_time = fire_rate * 0.5
+		AudioManager.set_pitch("flyingboss_idle", 1.5)
 		rampage_enabled = true
 
 # takes a state, and return the next state
@@ -54,6 +54,7 @@ func do_state_change(current: BossState) -> BossState:
 	match current:
 		BossState.FLY_IDLE:
 			move_anim.stop()
+			AudioManager.stop("flyingboss_idle")
 			if randf() > 0.5:
 				shoot_timer.start()
 				return BossState.ATTACK_BULLET
@@ -63,17 +64,22 @@ func do_state_change(current: BossState) -> BossState:
 				
 		BossState.ATTACK_BULLET:
 			shoot_timer.stop()
-			move_anim.play("Idle")
+			do_idle_movement()
 			return BossState.FLY_IDLE
 			
 		BossState.ATTACK_BEAM:
 			active_beam = null
-			move_anim.play("Idle")
+			do_idle_movement()
 			return BossState.FLY_IDLE
 			
 	return -1
-		
+
+func do_idle_movement() -> void:
+	move_anim.play("Idle")
+	AudioManager.play("flyingboss_idle")
+
 func shoot_bullet() -> void:
+	AudioManager.play("flyingboss_shoot")
 	var bullet = bullet_prefab.instantiate()
 	bullet.position = self.global_position
 	bullet.direction = get_player_dir()
@@ -94,6 +100,7 @@ func get_player_dir() -> Vector2:
 
 func despawn() -> void:
 	emit_signal("killed", self)
+	AudioManager.stop("flyingboss_idle")
 	queue_free()
 	
 func update_hp(new: int) -> void:
