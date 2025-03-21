@@ -9,12 +9,13 @@ signal hit
 @export var SCORE: int = 0
 
 @export var SPEED: int = 250
-@export var SLIDE_SPEED: int = 1000
+@export var SLIDE_SPEED: int = 500
 @export var ACCELERATION_H: int = 800
 @export var GRAVITY: int = 2500
 @export var JUMP_POWER: int = -700
 
 @onready var slide_timer: Timer = $Slide_Timer
+@onready var slide_cooldown: Timer = $Slide_Cooldown
 @onready var coyote_timer: Timer = $CoyoteTimer
 @onready var raycast: RayCast2D = $RayCast2D
 
@@ -49,22 +50,30 @@ func _ready() -> void:
 
 	add_to_group("player") # for the HUD
 	print("Player has $" + str(EquipItems._get_bank()) + " in their Bank.")
+	
+	# Speed scale for animations
+	
 
 	
 func _physics_process(delta: float) -> void:
-	# handle jumping
+	$AnimatedSprite2D.set_speed_scale(1)
 	match STATE:
 		PlayerState.STANDING:
 			handle_standing(delta)
+			$AnimatedSprite2D.play("idle")
 		PlayerState.FALLING:
 			handle_falling(delta)
+			$AnimatedSprite2D.play("walk")
 		PlayerState.JUMPING:
+			$AnimatedSprite2D.play("walk")
 			handle_jumping(delta)
 		PlayerState.RUNNING:
 			handle_running(delta)
+			$AnimatedSprite2D.play("walk")
 		PlayerState.SLIDING:
 			handle_sliding(delta)
-	
+			$AnimatedSprite2D.set_speed_scale(1 / slide_timer.get_wait_time())
+			$AnimatedSprite2D.play("evade")
 	# apply gravity
 	try_fall_through_platform()
 	velocity.y += GRAVITY * delta # Make player fall
@@ -78,12 +87,13 @@ func _physics_process(delta: float) -> void:
 		coyote_timer.start()
 	
 	position = position.clamp(Vector2.ZERO, screen_size)
-	try_walk_animation()
+	$AnimatedSprite2D.flip_h = (get_global_mouse_position() - global_position).x < 0
 
 func handle_sliding(delta: float) -> void:
 	if not slide_timer.is_stopped() and velocity.x != 0:
 		velocity.x = SLIDE_SPEED * sign(velocity.x)
 	else:
+		slide_cooldown.start()
 		velocity.x = SPEED * sign(velocity.x)
 		if is_on_floor():
 			STATE = PlayerState.STANDING if velocity.x == 0 else PlayerState.RUNNING
@@ -149,7 +159,7 @@ func handle_running(delta: float) -> void:
 	elif Input.is_action_pressed("jump"):
 		STATE = PlayerState.JUMPING
 		velocity.y = JUMP_POWER
-	elif Input.is_action_pressed("shift"):
+	elif Input.is_action_pressed("shift") and slide_cooldown.is_stopped():
 		slide_timer.start()
 		STATE = PlayerState.SLIDING
 	else:
@@ -167,15 +177,6 @@ func try_fall_through_platform() -> void:
 		# The platform scene must have a func disable()
 		if collision.has_method("disable") and Input.is_action_pressed("move_down"):
 			collision.disable()
-
-
-func try_walk_animation() -> void:
-	if velocity.length() > 0:
-		$AnimatedSprite2D.play("walk")
-	else:
-		$AnimatedSprite2D.stop()
-	
-	$AnimatedSprite2D.flip_h = (get_global_mouse_position() - global_position).x < 0
 		
 
 func _on_body_entered(body: Node2D) -> void:
