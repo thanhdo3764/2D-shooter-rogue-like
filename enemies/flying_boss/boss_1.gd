@@ -43,6 +43,7 @@ func _physics_process(delta: float) -> void:
 func do_hp_check() -> void:
 	if hp <= 0:
 		despawn()
+		player_node.SCORE += 100
 	elif hp <= BOSS_MAX_HP * RAMPAGE_HEALTH_THRESHOLD and !rampage_enabled:
 		move_anim.speed_scale = RAMPAGE_MOVEMENT_SPEED
 		shoot_timer.wait_time = fire_rate * 0.5
