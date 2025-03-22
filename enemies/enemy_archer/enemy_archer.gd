@@ -12,8 +12,8 @@ func _ready():
 	super()
 	change_state(State.idle)
 	
-	if not attack_timer.timeout.is_connected(_on_attack_timer_timeout):
-		attack_timer.timeout.connect(_on_attack_timer_timeout)
+	#if not attack_timer.timeout.is_connected(_on_attack_timer_timeout):
+		#attack_timer.timeout.connect(_on_attack_timer_timeout)
 
 func change_state(new_state:State):
 	if current_state == new_state:
@@ -38,13 +38,13 @@ func _on_attack_timer_timeout():
 	if current_state == State.aim:
 		change_state(State.attack)
 
-func archer_shoot(delta: float):
-	shoot_arrow()
-	shoot_timer.start(attack_cooldown)
-	change(State.aim)
+#func archer_shoot(delta: float):
+	#shoot_arrow()
+	#shoot_timer.start(attack_cooldown)
+	#change(State.aim)
 	
-func shoot_arrow():
-	if arrow_scene and player:
+#func shoot_arrow():
+	#if arrow_scene and player:
 		
 
 func _on_detection(body):
