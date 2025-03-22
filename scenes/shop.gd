@@ -50,3 +50,8 @@ func _on_equipment_list_item_clicked(index: int, at_position: Vector2, mouse_but
 	
 	EquipItems._equip_equipment(index+1)
 	get_node("Cart").text = "-$" + str(EquipItems._get_cart_())
+
+
+func _on_modifiers_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
+	EquipItems._equip_modifier(index+1)
+	get_node("Cart").text = "-$" + str(EquipItems._get_cart_())
