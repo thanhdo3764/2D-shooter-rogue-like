@@ -1,5 +1,6 @@
 extends base_enemy
 
+signal died
 enum State {sleep, wakeup, walk, dead}
 var current_state: State = State.sleep
 
@@ -11,10 +12,7 @@ var current_state: State = State.sleep
 func _ready():
 	super()
 	change_state(State.sleep)
-	
-	add_to_group("enemies") # HUD
-	
-	# detection signal when player enters the detection area
+
 	if detection_area and not detection_area.body_entered.is_connected(_on_detection):
 		detection_area.body_entered.connect(_on_detection)
 
