@@ -1,7 +1,63 @@
-[gd_scene load_steps=10 format=3 uid="uid://fra6qckawjji"]
+[gd_scene load_steps=24 format=3 uid="uid://fra6qckawjji"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_7i0sq"]
 [ext_resource type="Texture2D" uid="uid://ccxj5nhl7feq1" path="res://assets/player/Character 5.png" id="2_2vtge"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_75x80"]
+atlas = ExtResource("2_2vtge")
+region = Rect2(0, 1344, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k7fd0"]
+atlas = ExtResource("2_2vtge")
+region = Rect2(64, 1344, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uv4xd"]
+atlas = ExtResource("2_2vtge")
+region = Rect2(128, 1344, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d285q"]
+atlas = ExtResource("2_2vtge")
+region = Rect2(192, 1344, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_af7k2"]
+atlas = ExtResource("2_2vtge")
+region = Rect2(256, 1344, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vtnmm"]
+atlas = ExtResource("2_2vtge")
+region = Rect2(320, 1344, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mk8lr"]
+atlas = ExtResource("2_2vtge")
+region = Rect2(384, 1344, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ir1af"]
+atlas = ExtResource("2_2vtge")
+region = Rect2(448, 1344, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q6840"]
+atlas = ExtResource("2_2vtge")
+region = Rect2(512, 1344, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxhr4"]
+atlas = ExtResource("2_2vtge")
+region = Rect2(448, 1344, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i30gh"]
+atlas = ExtResource("2_2vtge")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rslxu"]
+atlas = ExtResource("2_2vtge")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3b3i8"]
+atlas = ExtResource("2_2vtge")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xhx1c"]
+atlas = ExtResource("2_2vtge")
+region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ewakp"]
 atlas = ExtResource("2_2vtge")
@@ -27,6 +83,58 @@ region = Rect2(256, 128, 64, 64)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_75x80")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k7fd0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uv4xd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d285q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_af7k2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vtnmm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mk8lr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ir1af")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q6840")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxhr4")
+}],
+"loop": true,
+"name": &"evade",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i30gh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rslxu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3b3i8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xhx1c")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ewakp")
 }, {
 "duration": 1.0,
@@ -43,7 +151,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 24.0
+"speed": 10.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mtdbd"]
@@ -57,8 +165,8 @@ script = ExtResource("1_7i0sq")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_4bc3d")
-animation = &"walk"
-frame_progress = 0.356901
+animation = &"evade"
+frame_progress = 0.854582
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -78,5 +186,12 @@ one_shot = true
 
 [node name="Money_Timer" type="Timer" parent="."]
 autostart = true
+
+[node name="Slide_Timer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[node name="Slide_Cooldown" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="timeout" from="Money_Timer" to="." method="_on_money_timer_timeout"]
