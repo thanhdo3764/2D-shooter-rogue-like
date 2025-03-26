@@ -27,11 +27,12 @@ func _ready() -> void:
 func shoot_weapon() -> void:
 	if not _shoot_timer.is_stopped():
 		return
-	
 	AMMO_COUNT -= 1
 
 	$AnimatedSprite2D.stop()
 	$AnimatedSprite2D.play("shooting")
+	AudioManager.play_vary_pitch("pistol_shoot", 0.2)
+	
 	var projectile = BULLET.instantiate()
 	projectile.set_bullet($Muzzle.global_position, get_global_mouse_position(), BULLET_SPEED)
 	get_node("/root").add_child(projectile)
@@ -42,6 +43,7 @@ func reload() -> void:
 	if AMMO_COUNT < MAX_AMMO:
 		$AnimatedSprite2D.set_speed_scale(1/RELOAD_SPEED_SEC)
 		$AnimatedSprite2D.play("reloading")
+		AudioManager.play("pistol_reload")
 		_reload_timer.start(RELOAD_SPEED_SEC)
 		
 		

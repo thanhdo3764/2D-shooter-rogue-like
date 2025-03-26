@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=4 uid="uid://dxf3y8dovssny"]
 
-[ext_resource type="Texture2D" uid="uid://chw16tjxmbp22" path="res://assets/Tileset/TilesetTest.png" id="1_ebpby"]
+[ext_resource type="Texture2D" uid="uid://cwh0hlewfr7w" path="res://assets/Tileset/TilesetTest.png" id="1_ebpby"]
 [ext_resource type="PackedScene" uid="uid://fra6qckawjji" path="res://player/player.tscn" id="2_iieou"]
 [ext_resource type="PackedScene" uid="uid://olh5bqt5tvrl" path="res://scenes/platform.tscn" id="3_bnen7"]
 [ext_resource type="PackedScene" uid="uid://3yv27yusrury" path="res://enemies/enemy_knight/enemy_knight.tscn" id="4_rcx4m"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://cy4b2juakvc5u"]
 
 [ext_resource type="Script" path="res://scenes/door.gd" id="1_2v0cg"]
-[ext_resource type="Texture2D" uid="uid://cmm5uo3xbodng" path="res://assets/TEMP_door.png" id="1_03c2j"]
+[ext_resource type="Texture2D" uid="uid://b74snegteofys" path="res://assets/TEMP_door.png" id="1_03c2j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hfyur"]
 atlas = ExtResource("1_03c2j")

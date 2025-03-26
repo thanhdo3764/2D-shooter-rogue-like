@@ -1,0 +1,4 @@
+pistol_shoot: https://opengameart.org/content/gunshots
+pistol_reload: https://opengameart.org/content/handgun-reload-sound-effect
+flyingboss_idle: https://opengameart.org/content/spaceship-engine-sound-effects
+flyingboss_shoot: https://opengameart.org/content/laser-fire

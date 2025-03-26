@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://6ssm5rjh8a5l"]
+
+[ext_resource type="Script" path="res://audio_manager.gd" id="1_li4j7"]
+[ext_resource type="AudioStream" uid="uid://cviierbhe4vta" path="res://audio/pistol_reload.wav" id="2_3k1pj"]
+[ext_resource type="AudioStream" uid="uid://bd1mh8q1xlgg7" path="res://audio/pistol_shoot.wav" id="2_d6sml"]
+[ext_resource type="AudioStream" uid="uid://df8r37uos357d" path="res://audio/flyingboss_idle.mp3" id="4_x7shp"]
+[ext_resource type="AudioStream" uid="uid://1ndtsqic7y7" path="res://audio/flyingboss_shoot.wav" id="5_t0fdq"]
+
+[node name="AudioManager" type="Node2D"]
+script = ExtResource("1_li4j7")
+
+[node name="pistol_shoot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_d6sml")
+
+[node name="pistol_reload" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_3k1pj")
+volume_db = -10.0
+
+[node name="flyingboss_idle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_x7shp")
+volume_db = -15.0
+
+[node name="flyingboss_shoot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_t0fdq")
+volume_db = -10.0
