@@ -6,16 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://barsmnu577o5u" path="res://enemies/flying_boss/boss1.tscn" id="4_e3ibo"]
 [ext_resource type="PackedScene" uid="uid://3yv27yusrury" path="res://enemies/enemy_knight/enemy_knight.tscn" id="5_s1q8f"]
 [ext_resource type="PackedScene" uid="uid://5871bs5w0s0u" path="res://HUD/HUD.tscn" id="6_j04wo"]
-[ext_resource type="PackedScene" uid="uid://c0hj3adsxktd1" path="res://scenes/door.tscn" id="7_hlilm"]
+[ext_resource type="PackedScene" uid="uid://cy4b2juakvc5u" path="res://scenes/door.tscn" id="7_hlilm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sx256"]
 size = Vector2(639, 40)
 
-[node name="Main" type="Node2D" node_paths=PackedStringArray("entrance_door", "exit_door", "active_enemies")]
+[node name="Main" type="Node2D" node_paths=PackedStringArray("entrance_door", "exit_door")]
 script = ExtResource("1_0wm6v")
 entrance_door = NodePath("EntranceDoor")
 exit_door = NodePath("ExitDoor")
-active_enemies = [NodePath("Boss1")]
 
 [node name="Ground" type="StaticBody2D" parent="."]
 position = Vector2(0, 14)
