@@ -48,7 +48,7 @@ func _ready() -> void:
 	weapon.position = $Weapon_Spawn.position
 	screen_size = get_viewport_rect().size
 
-	add_to_group("player") # for the HUD
+	add_to_group("player") # for the HUD and enemy detection
 	print("Player has $" + str(EquipItems._get_bank()) + " in their Bank.")
 	
 	# Speed scale for animations

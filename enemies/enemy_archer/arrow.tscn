@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://bheryr4qirkcq"]
+
+[ext_resource type="Script" path="res://enemies/enemy_archer/arrow.gd" id="1_7f1f5"]
+[ext_resource type="Texture2D" uid="uid://b67iw4jwt0aey" path="res://assets/enemy_archer/projectile.png" id="1_popci"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_57eep"]
+atlas = ExtResource("1_popci")
+region = Rect2(186, 0, 93, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mdeen"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_57eep")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2nsfl"]
+size = Vector2(18.5, 2)
+
+[node name="Arrow" type="Area2D"]
+script = ExtResource("1_7f1f5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(17, -16)
+sprite_frames = SubResource("SpriteFrames_mdeen")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(9.25, 0)
+shape = SubResource("RectangleShape2D_2nsfl")
