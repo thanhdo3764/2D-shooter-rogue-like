@@ -90,8 +90,14 @@ func _physics_process(delta: float) -> void:
 	$AnimatedSprite2D.flip_h = (get_global_mouse_position() - global_position).x < 0
 
 func handle_sliding(delta: float) -> void:
-	if not slide_timer.is_stopped() and velocity.x != 0:
-		velocity.x = SLIDE_SPEED * sign(velocity.x)
+	if not slide_timer.is_stopped():
+		# Super jump
+		if Input.is_action_pressed("jump"):
+			slide_cooldown.start()
+			STATE = PlayerState.JUMPING
+			velocity.y = 1.3*JUMP_POWER
+		elif velocity.x != 0:
+			velocity.x = SLIDE_SPEED * sign(velocity.x)
 	else:
 		slide_cooldown.start()
 		velocity.x = SPEED * sign(velocity.x)
