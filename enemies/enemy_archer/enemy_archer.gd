@@ -66,6 +66,11 @@ func shoot_arrow() -> void:
 	get_tree().current_scene.add_child(arrow)
 	arrow.connect("hit_arrow", player._on_bullet_hit())
 
+func on_death():
+	if current_state == State.dead:
+		return
+	print("Enemy archer died")
+	change_state(State.dead)
 
 func _on_detection(body):
 	if body.is_in_group("player") and current_state == State.idle:
