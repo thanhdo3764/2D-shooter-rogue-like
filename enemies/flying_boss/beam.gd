@@ -1,11 +1,12 @@
 extends Area2D
 
-# NOTE: superclass for bullet and beam?
-var lifetime : int = 4
+var lifetime : int
 var damage : int = 2
-var speed  : int = 100
+var speed  : int = 200
 var direction : Vector2
 
+@onready var damage_timer = $DamageTimer
+signal hit_beam
 var life = 0
 
 func _ready() -> void:
@@ -19,3 +20,15 @@ func _physics_process(delta: float) -> void:
 
 func despawn() -> void:
 	queue_free()
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.name == "Player":
+		emit_signal("hit_beam")
+		damage_timer.start()
+		
+func _on_body_exited(body: Node2D) -> void:
+	if body.name == "Player":
+		damage_timer.stop()
+
+func _on_damage_timer_timeout() -> void:
+	emit_signal("hit_beam")

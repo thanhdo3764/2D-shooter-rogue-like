@@ -11,10 +11,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sx256"]
 size = Vector2(639, 40)
 
-[node name="Main" type="Node2D" node_paths=PackedStringArray("entrance_door", "exit_door")]
+[node name="Main" type="Node2D" node_paths=PackedStringArray("entrance_door", "exit_door", "active_enemies")]
 script = ExtResource("1_0wm6v")
 entrance_door = NodePath("EntranceDoor")
 exit_door = NodePath("ExitDoor")
+active_enemies = [NodePath("Boss1")]
 
 [node name="Ground" type="StaticBody2D" parent="."]
 position = Vector2(0, 14)
