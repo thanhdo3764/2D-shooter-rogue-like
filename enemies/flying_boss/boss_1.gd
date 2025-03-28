@@ -24,9 +24,6 @@ const bullet_prefab = preload("res://enemies/flying_boss/bullet.tscn")
 const beam_prefab = preload("res://enemies/flying_boss/beam.tscn")
 signal killed
 
-var idle_speed = 300
-var idle_direction = Vector2.RIGHT
-
 var player_node: Node2D
 var origin_pos: Vector2 = Vector2.ZERO
 var state: BossState = BossState.FLY_IDLE
@@ -35,6 +32,8 @@ var hp : int = BOSS_MAX_HP
 var arc_chance: float = 0.1
 var active_beam : Node2D = null
 var rampage_enabled: bool = false
+var idle_speed = 300
+var idle_direction = Vector2.RIGHT
 
 func _ready() -> void:
 	if main_node:
@@ -87,8 +86,7 @@ func do_state_change(current: BossState) -> BossState:
 	return -1
 
 # shoots an arc of bullets at the player, angle given is the arc angle
-func shoot_bullet_arc(angle: float, count: int) -> void:
-	var dir = get_player_dir()
+func shoot_bullet_arc(dir: Vector2, angle: float, count: int) -> void:
 	for i in range(count):
 		shoot_bullet(dir.rotated(i * (angle / (count - 1)) - angle/2))
 
@@ -129,10 +127,11 @@ func _on_state_timer_timeout() -> void:
 func _on_shoot_timer_timeout() -> void:
 	if state == BossState.ATTACK_BULLET:
 		AudioManager.play("flyingboss_shoot")
+		var direction = get_player_dir().rotated(randf_range(-PI/16, PI/16))
 		if randf() > arc_chance:
-			shoot_bullet(get_player_dir())
+			shoot_bullet(direction)
 		else:
-			shoot_bullet_arc(PI/2.5, 5)
+			shoot_bullet_arc(direction, PI/2.5, 5)
 
 func _on_area_entered(area: Area2D) -> void:
 	# NOTE: assumes the only thing that can collide with the boss is the player bullets, based on collision layers
