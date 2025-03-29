@@ -216,13 +216,7 @@ func _on_bullet_hit() -> void:
 		
 func _on_beam_hit() -> void:
 	take_damage(3)
-	
-func take_damage(hp: int) -> void:
-	HEALTH -= hp
-	if HEALTH <= 0:
-		_on_death()
-	AudioManager.play_vary_pitch("player_hit", 0.1)
-	
+
 func start(pos):
 	position = pos
 	show()
@@ -240,7 +234,7 @@ func _on_money_timer_timeout() -> void:
 func _on_death() -> void:
 	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
 	
-func shield_damage(amount: int) -> void:
+func take_damage(amount: int) -> void:
 	if amount <= 0:
 		return
 	
@@ -252,10 +246,12 @@ func shield_damage(amount: int) -> void:
 	if SHIELD > 0:
 		var shield_damage = min(amount, SHIELD)
 		SHIELD -= shield_damage
+		AudioManager.play_vary_pitch("player_hit", 0.1)
 		amount -= shield_damage
 
 	# Then apply leftover damage to health
 	if amount > 0:
+		AudioManager.play_vary_pitch("player_hit", 0.1)
 		HEALTH = max(HEALTH - amount, 0)
 		
 	if HEALTH == 0:

@@ -57,7 +57,7 @@ func update_enemy_minimap_positions():
 	# Update positions for remaining enemies
 	for enemy in valid_enemies:
 		if not enemy_icons.has(enemy):
-			var icon_instance = enemy_icon.duplicate()
+			var icon_instance = enemy_icon_scene.instantiate()
 			minimap_world.add_child(icon_instance)
 			enemy_icons[enemy] = icon_instance  
 
