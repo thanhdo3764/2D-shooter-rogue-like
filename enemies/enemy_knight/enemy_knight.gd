@@ -9,6 +9,8 @@ var current_state: State = State.sleep
 @onready var awake_collision = $AwakeCollision
 
 func _ready():
+	add_to_group("enemies") # HUD
+	
 	super()
 	change_state(State.sleep)
 
