@@ -207,8 +207,16 @@ func _on_body_entered(body: Node2D) -> void:
 # called once whenever the player is hit by a bullet.
 # TODO: even though Ground is on a diff collision layer, the bullet still emits. fix
 func _on_bullet_hit() -> void:
-	take_damage(33)
-	print("BULLET OW!!")
+	take_damage(5)
+		
+func _on_beam_hit() -> void:
+	take_damage(3)
+	
+func take_damage(hp: int) -> void:
+	HEALTH -= hp
+	if HEALTH <= 0:
+		_on_death()
+	AudioManager.play_vary_pitch("player_hit", 0.1)
 	
 func start(pos):
 	position = pos

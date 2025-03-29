@@ -155,7 +155,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mtdbd"]
-size = Vector2(20, 32)
+size = Vector2(13, 25)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 3
@@ -169,8 +169,7 @@ animation = &"evade"
 frame_progress = 0.854582
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(-1, 0)
+position = Vector2(-1.5, 3.5)
 shape = SubResource("RectangleShape2D_mtdbd")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
