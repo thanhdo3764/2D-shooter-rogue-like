@@ -3,8 +3,13 @@ signal hit
 
 @export var HEALTH: int = 100
 @export var MAX_HEALTH: int = 100
-@export var SHIELD: int = 50
+@export var SHIELD: int = 0
 @export var MAX_SHIELD: int = 100
+
+@export var SHIELD_REGEN_DELAY: float = 3.0
+@export var SHIELD_REGEN_RATE: float = 3.0
+var SHIELD_REGEN_TIMER := 0.0
+var IS_SHIELD_REGENERATING := false
 
 @export var SCORE: int = 0
 
@@ -20,6 +25,7 @@ signal hit
 @onready var raycast: RayCast2D = $RayCast2D
 
 var screen_size: Vector2
+
 var WEAPON_LOAD
 var weapon
 
@@ -33,8 +39,14 @@ enum PlayerState {
 
 var STATE: PlayerState = PlayerState.STANDING
 
+var multiplier = 1
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+
+	set_process(true)
+	WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
+  
 	if EquipItems.weapon == 1:
 		WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
 		
@@ -51,8 +63,16 @@ func _ready() -> void:
 	add_to_group("player") # for the HUD and enemy detection
 	print("Player has $" + str(EquipItems._get_bank()) + " in their Bank.")
 	
-	# Speed scale for animations
-	
+func _process(delta: float) -> void:
+	if SHIELD < MAX_SHIELD and not IS_SHIELD_REGENERATING:
+		SHIELD_REGEN_TIMER += delta
+		if SHIELD_REGEN_TIMER >= SHIELD_REGEN_DELAY:
+			IS_SHIELD_REGENERATING = true
+	elif IS_SHIELD_REGENERATING:
+		SHIELD = min(SHIELD + SHIELD_REGEN_RATE * delta * 20, MAX_SHIELD)
+		if SHIELD >= MAX_SHIELD:
+			IS_SHIELD_REGENERATING = false
+			SHIELD_REGEN_TIMER = 0.0
 
 	
 func _physics_process(delta: float) -> void:
@@ -187,9 +207,7 @@ func _on_body_entered(body: Node2D) -> void:
 # called once whenever the player is hit by a bullet.
 # TODO: even though Ground is on a diff collision layer, the bullet still emits. fix
 func _on_bullet_hit() -> void:
-	HEALTH -= 50
-	if HEALTH == 0:
-		_on_death()
+	take_damage(33)
 	print("BULLET OW!!")
 	
 func start(pos):
@@ -198,9 +216,38 @@ func start(pos):
 	$CollisionShape2D.disabled = false
 
 func _on_money_timer_timeout() -> void:
+	if EquipItems.modifier == 1:
+		multiplier = 2
 	if HEALTH > 0:
-		EquipItems.money += 5
+		EquipItems.money += (5 * multiplier)
 		print(EquipItems.money)
 		
 func _on_death() -> void:
 	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
+	
+func take_damage(amount: int) -> void:
+	if amount <= 0:
+		return
+	
+	# Restart shield regeneration
+	IS_SHIELD_REGENERATING = false
+	SHIELD_REGEN_TIMER = 0.0
+	
+	# First deplete shield
+	if SHIELD > 0:
+		var shield_damage = min(amount, SHIELD)
+		SHIELD -= shield_damage
+		amount -= shield_damage
+
+	# Then apply leftover damage to health
+	if amount > 0:
+		HEALTH = max(HEALTH - amount, 0)
+		
+	if HEALTH == 0:
+		_on_death()
+
+func heal(amount: int) -> void:
+	if amount <= 0 or HEALTH == MAX_HEALTH:
+		return
+		
+	HEALTH = min(HEALTH + amount, MAX_HEALTH)
