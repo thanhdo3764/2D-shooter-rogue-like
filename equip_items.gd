@@ -9,7 +9,7 @@ var cart = 0
 
 var w_prices = [0, 500]
 var e_prices = [0, 500]
-var m_prices = [1000]
+var m_prices = [1000, 0, 0]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

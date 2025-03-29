@@ -3,24 +3,16 @@ signal hit
 
 @export var HEALTH: int = 100
 @export var MAX_HEALTH: int = 100
-@export var SHIELD: int = 0
+@export var SHIELD: int = 50
 @export var MAX_SHIELD: int = 100
-
-@export var SHIELD_REGEN_DELAY: float = 3.0
-@export var SHIELD_REGEN_RATE: float = 3.0
-var SHIELD_REGEN_TIMER := 0.0
-var IS_SHIELD_REGENERATING := false
 
 @export var SCORE: int = 0
 
 @export var SPEED: int = 250
-@export var SLIDE_SPEED: int = 500
 @export var ACCELERATION_H: int = 800
 @export var GRAVITY: int = 2500
 @export var JUMP_POWER: int = -700
 
-@onready var slide_timer: Timer = $Slide_Timer
-@onready var slide_cooldown: Timer = $Slide_Cooldown
 @onready var coyote_timer: Timer = $CoyoteTimer
 @onready var raycast: RayCast2D = $RayCast2D
 
@@ -34,7 +26,6 @@ enum PlayerState {
 	FALLING,
 	JUMPING,
 	RUNNING,
-	SLIDING,
 }
 
 var STATE: PlayerState = PlayerState.STANDING
@@ -43,57 +34,42 @@ var multiplier = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-
-	set_process(true)
 	WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
-  
+	weapon
+	
 	if EquipItems.weapon == 1:
 		WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
 		
-	elif EquipItems.weapon == 2:
+	if EquipItems.weapon == 2:
 		WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
-	else: 
-		WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
 		
+	if EquipItems.modifier == 2:
+		HEALTH = 200
+		MAX_HEALTH = 200
+		
+	if EquipItems.modifier == 3:
+		HEALTH = 50
+		MAX_HEALTH = 50
+	
 	weapon = WEAPON_LOAD.instantiate()
 	add_child(weapon)
 	weapon.position = $Weapon_Spawn.position
 	screen_size = get_viewport_rect().size
 
-	add_to_group("player") # for the HUD and enemy detection
-	print("Player has $" + str(EquipItems._get_bank()) + " in their Bank.")
-	
-func _process(delta: float) -> void:
-	if SHIELD < MAX_SHIELD and not IS_SHIELD_REGENERATING:
-		SHIELD_REGEN_TIMER += delta
-		if SHIELD_REGEN_TIMER >= SHIELD_REGEN_DELAY:
-			IS_SHIELD_REGENERATING = true
-	elif IS_SHIELD_REGENERATING:
-		SHIELD = min(SHIELD + SHIELD_REGEN_RATE * delta * 20, MAX_SHIELD)
-		if SHIELD >= MAX_SHIELD:
-			IS_SHIELD_REGENERATING = false
-			SHIELD_REGEN_TIMER = 0.0
-
+	add_to_group("player") # for the HUD
 	
 func _physics_process(delta: float) -> void:
-	$AnimatedSprite2D.set_speed_scale(1)
+	# handle jumping
 	match STATE:
 		PlayerState.STANDING:
 			handle_standing(delta)
-			$AnimatedSprite2D.play("idle")
 		PlayerState.FALLING:
 			handle_falling(delta)
-			$AnimatedSprite2D.play("walk")
 		PlayerState.JUMPING:
-			$AnimatedSprite2D.play("walk")
 			handle_jumping(delta)
 		PlayerState.RUNNING:
 			handle_running(delta)
-			$AnimatedSprite2D.play("walk")
-		PlayerState.SLIDING:
-			handle_sliding(delta)
-			$AnimatedSprite2D.set_speed_scale(1 / slide_timer.get_wait_time())
-			$AnimatedSprite2D.play("evade")
+	
 	# apply gravity
 	try_fall_through_platform()
 	velocity.y += GRAVITY * delta # Make player fall
@@ -107,19 +83,8 @@ func _physics_process(delta: float) -> void:
 		coyote_timer.start()
 	
 	position = position.clamp(Vector2.ZERO, screen_size)
-	$AnimatedSprite2D.flip_h = (get_global_mouse_position() - global_position).x < 0
+	try_walk_animation()
 
-func handle_sliding(delta: float) -> void:
-	if not slide_timer.is_stopped() and velocity.x != 0:
-		velocity.x = SLIDE_SPEED * sign(velocity.x)
-	else:
-		slide_cooldown.start()
-		velocity.x = SPEED * sign(velocity.x)
-		if is_on_floor():
-			STATE = PlayerState.STANDING if velocity.x == 0 else PlayerState.RUNNING
-		elif velocity.y > 0:
-			STATE = PlayerState.FALLING
-		
 
 func handle_standing(delta: float) -> void:
 	if not is_on_floor():
@@ -179,9 +144,6 @@ func handle_running(delta: float) -> void:
 	elif Input.is_action_pressed("jump"):
 		STATE = PlayerState.JUMPING
 		velocity.y = JUMP_POWER
-	elif Input.is_action_pressed("shift") and slide_cooldown.is_stopped():
-		slide_timer.start()
-		STATE = PlayerState.SLIDING
 	else:
 		var direction = Input.get_axis("move_left", "move_right") * SPEED
 		
@@ -197,6 +159,15 @@ func try_fall_through_platform() -> void:
 		# The platform scene must have a func disable()
 		if collision.has_method("disable") and Input.is_action_pressed("move_down"):
 			collision.disable()
+
+
+func try_walk_animation() -> void:
+	if velocity.length() > 0:
+		$AnimatedSprite2D.play("walk")
+	else:
+		$AnimatedSprite2D.stop()
+	
+	$AnimatedSprite2D.flip_h = (get_global_mouse_position() - global_position).x < 0
 		
 
 func _on_body_entered(body: Node2D) -> void:
@@ -207,7 +178,9 @@ func _on_body_entered(body: Node2D) -> void:
 # called once whenever the player is hit by a bullet.
 # TODO: even though Ground is on a diff collision layer, the bullet still emits. fix
 func _on_bullet_hit() -> void:
-	take_damage(33)
+	HEALTH -= 50
+	if HEALTH == 0:
+		_on_death()
 	print("BULLET OW!!")
 	
 func start(pos):
@@ -218,36 +191,11 @@ func start(pos):
 func _on_money_timer_timeout() -> void:
 	if EquipItems.modifier == 1:
 		multiplier = 2
+	if EquipItems.modifier == 2:
+		multiplier = 0.5
 	if HEALTH > 0:
 		EquipItems.money += (5 * multiplier)
 		print(EquipItems.money)
 		
 func _on_death() -> void:
 	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
-	
-func take_damage(amount: int) -> void:
-	if amount <= 0:
-		return
-	
-	# Restart shield regeneration
-	IS_SHIELD_REGENERATING = false
-	SHIELD_REGEN_TIMER = 0.0
-	
-	# First deplete shield
-	if SHIELD > 0:
-		var shield_damage = min(amount, SHIELD)
-		SHIELD -= shield_damage
-		amount -= shield_damage
-
-	# Then apply leftover damage to health
-	if amount > 0:
-		HEALTH = max(HEALTH - amount, 0)
-		
-	if HEALTH == 0:
-		_on_death()
-
-func heal(amount: int) -> void:
-	if amount <= 0 or HEALTH == MAX_HEALTH:
-		return
-		
-	HEALTH = min(HEALTH + amount, MAX_HEALTH)
