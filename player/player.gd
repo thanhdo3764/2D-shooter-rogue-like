@@ -49,11 +49,17 @@ func _ready() -> void:
   
 	if EquipItems.weapon == 1:
 		WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
-		
 	elif EquipItems.weapon == 2:
 		WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
 	else: 
 		WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
+		
+	if EquipItems.modifier == 2:
+		HEALTH = 200
+		MAX_HEALTH = 200
+	elif EquipItems.modifier == 3:
+		HEALTH = 50
+		MAX_HEALTH = 50
 		
 	weapon = WEAPON_LOAD.instantiate()
 	add_child(weapon)
@@ -61,7 +67,6 @@ func _ready() -> void:
 	screen_size = get_viewport_rect().size
 
 	add_to_group("player") # for the HUD and enemy detection
-	print("Player has $" + str(EquipItems._get_bank()) + " in their Bank.")
 	
 func _process(delta: float) -> void:
 	if SHIELD < MAX_SHIELD and not IS_SHIELD_REGENERATING:
@@ -226,6 +231,9 @@ func start(pos):
 func _on_money_timer_timeout() -> void:
 	if EquipItems.modifier == 1:
 		multiplier = 2
+	if EquipItems.modifier == 2:
+		multiplier = 0.5
+		
 	if HEALTH > 0:
 		EquipItems.money += (5 * multiplier)
 		print(EquipItems.money)
@@ -233,11 +241,11 @@ func _on_money_timer_timeout() -> void:
 func _on_death() -> void:
 	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
 	
-func take_damage(amount: int) -> void:
+func shield_damage(amount: int) -> void:
 	if amount <= 0:
 		return
 	
-	# Restart shield regeneration
+	#Restart shield regeneration
 	IS_SHIELD_REGENERATING = false
 	SHIELD_REGEN_TIMER = 0.0
 	

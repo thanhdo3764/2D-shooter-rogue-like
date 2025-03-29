@@ -4,6 +4,9 @@ extends Base_Weapon
 func _ready() -> void:
 	super()
 	DAMAGE = 100
+	if EquipItems.modifier == 3:
+		DAMAGE = 200
+	
 	RELOAD_SPEED_SEC = 3
 	WEIGHT = 100
 	SHOOT_SPEED_SEC = 1

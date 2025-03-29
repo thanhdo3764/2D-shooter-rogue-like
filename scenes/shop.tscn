@@ -182,9 +182,11 @@ grow_horizontal = 2
 grow_vertical = 2
 select_mode = 1
 allow_search = false
-item_count = 1
+item_count = 3
 same_column_width = true
 item_0/text = "2x Multiplier - $1000"
+item_1/text = "2x HP/0.5x Money"
+item_2/text = "2x Damage/0.5x HP"
 
 [node name="Label1" type="Label" parent="."]
 layout_mode = 0
@@ -203,6 +205,7 @@ offset_bottom = 133.0
 text = "Equipment"
 
 [node name="Label3" type="Label" parent="."]
+layout_mode = 0
 offset_left = 490.0
 offset_top = 111.0
 offset_right = 557.0
