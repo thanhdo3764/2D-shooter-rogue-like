@@ -109,7 +109,7 @@ corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 shadow_size = 3
 
-[node name="Control" type="Control"]
+[node name="Shop" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -127,25 +127,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hlxe3")
 
-[node name="Label" type="Label" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -283.0
-offset_top = -145.0
-offset_right = 283.0
-offset_bottom = -74.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 48
-text = "Shop"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="Weapons List" type="ItemList" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -153,9 +134,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -202.0
+offset_left = -289.0
 offset_top = -39.0
-offset_right = -37.0
+offset_right = -124.0
 offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -173,9 +154,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 34.0
+offset_left = -95.0
 offset_top = -39.0
-offset_right = 217.0
+offset_right = 88.0
 offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -186,21 +167,47 @@ same_column_width = true
 item_0/text = "Double Jump - $0"
 item_1/text = "Grapple Hook - $500"
 
-[node name="Label2" type="Label" parent="."]
+[node name="Modifiers" type="ItemList" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 115.0
+offset_top = -37.0
+offset_right = 298.0
+offset_bottom = 62.0
+grow_horizontal = 2
+grow_vertical = 2
+select_mode = 1
+allow_search = false
+item_count = 1
+same_column_width = true
+item_0/text = "2x Multiplier - $1000"
+
+[node name="Label1" type="Label" parent="."]
 layout_mode = 0
-offset_left = 162.0
+offset_left = 75.0
 offset_top = 110.0
-offset_right = 234.0
+offset_right = 147.0
 offset_bottom = 133.0
 text = "Weapons"
 
-[node name="Label3" type="Label" parent="."]
+[node name="Label2" type="Label" parent="."]
 layout_mode = 0
-offset_left = 405.0
+offset_left = 276.0
 offset_top = 110.0
-offset_right = 490.0
+offset_right = 361.0
 offset_bottom = 133.0
 text = "Equipment"
+
+[node name="Label3" type="Label" parent="."]
+offset_left = 490.0
+offset_top = 111.0
+offset_right = 557.0
+offset_bottom = 134.0
+text = "Modifier"
 
 [node name="Confirm" type="Button" parent="."]
 layout_mode = 1
@@ -495,6 +502,7 @@ vertical_alignment = 1
 
 [connection signal="item_clicked" from="Weapons List" to="." method="_on_weapons_list_item_clicked"]
 [connection signal="item_clicked" from="Equipment List" to="." method="_on_equipment_list_item_clicked"]
+[connection signal="item_clicked" from="Modifiers" to="." method="_on_modifiers_item_clicked"]
 [connection signal="pressed" from="Confirm" to="." method="_on_confirm_pressed"]
 [connection signal="pressed" from="Select_Confirm/Yes" to="." method="_on_yes_pressed"]
 [connection signal="pressed" from="Select_Confirm/No" to="." method="_on_no_pressed"]

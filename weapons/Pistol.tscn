@@ -1,7 +1,7 @@
 [gd_scene load_steps=33 format=3 uid="uid://bu323hea1ntrc"]
 
 [ext_resource type="Script" path="res://weapons/pistol.gd" id="1_g02pa"]
-[ext_resource type="Texture2D" uid="uid://ct3vhyud6v2h2" path="res://assets/pistol/[RELOAD] Glock - P80.png" id="2_fjj74"]
+[ext_resource type="Texture2D" uid="uid://f8goajarm8id" path="res://assets/pistol/[RELOAD] Glock - P80.png" id="2_fjj74"]
 [ext_resource type="Texture2D" uid="uid://gjawqnwr5j51" path="res://assets/pistol/[SHOOT WITH MUZZLE FLASH] Glock - P80.png" id="2_xy5u2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pdr5v"]
@@ -223,7 +223,9 @@ position = Vector2(31, -6)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-16, -18)
 sprite_frames = SubResource("SpriteFrames_1rbgt")
-animation = &"shooting"
+animation = &"reloading"
+frame = 15
+frame_progress = 1.0
 centered = false
 
 [node name="ShootTimer" type="Timer" parent="."]

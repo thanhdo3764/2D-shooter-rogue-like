@@ -25,6 +25,7 @@ var IS_SHIELD_REGENERATING := false
 @onready var raycast: RayCast2D = $RayCast2D
 
 var screen_size: Vector2
+
 var WEAPON_LOAD
 var weapon
 
@@ -38,9 +39,14 @@ enum PlayerState {
 
 var STATE: PlayerState = PlayerState.STANDING
 
+var multiplier = 1
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+
 	set_process(true)
+	WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
+  
 	if EquipItems.weapon == 1:
 		WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
 		
@@ -55,9 +61,7 @@ func _ready() -> void:
 	screen_size = get_viewport_rect().size
 
 	add_to_group("player") # for the HUD
-	print("Player has $" + str(EquipItems._get_bank()) + " in their Bank.")
-	
-	# Speed scale for animations
+  # Speed scale for animations
 	
 func _process(delta: float) -> void:
 	if SHIELD < MAX_SHIELD and not IS_SHIELD_REGENERATING:
@@ -212,8 +216,10 @@ func start(pos):
 	$CollisionShape2D.disabled = false
 
 func _on_money_timer_timeout() -> void:
+	if EquipItems.modifier == 1:
+		multiplier = 2
 	if HEALTH > 0:
-		EquipItems.money += 5
+		EquipItems.money += (5 * multiplier)
 		print(EquipItems.money)
 		
 func _on_death() -> void:
