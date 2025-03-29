@@ -235,8 +235,7 @@ func _on_money_timer_timeout() -> void:
 		multiplier = 0.5
 		
 	if HEALTH > 0:
-		EquipItems.money += (5 * multiplier)
-		print(EquipItems.money)
+		SCORE += (5 * multiplier)
 		
 func _on_death() -> void:
 	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
