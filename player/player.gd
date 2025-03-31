@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 signal hit
 
 @export var HEALTH: int = 100
@@ -28,6 +29,9 @@ var screen_size: Vector2
 
 var WEAPON_LOAD
 var weapon
+var ability
+
+var can_double_jump: bool = true
 
 enum PlayerState {
 	STANDING,
@@ -53,7 +57,7 @@ func _ready() -> void:
 		WEAPON_LOAD = preload("res://weapons/Sniper.tscn")
 	else: 
 		WEAPON_LOAD = preload("res://weapons/Pistol.tscn")
-		
+
 	if EquipItems.modifier == 2:
 		HEALTH = 200
 		MAX_HEALTH = 200
@@ -64,6 +68,8 @@ func _ready() -> void:
 	weapon = WEAPON_LOAD.instantiate()
 	add_child(weapon)
 	weapon.position = $Weapon_Spawn.position
+	
+	ability = load_ability("double_jump")
 	screen_size = get_viewport_rect().size
 
 	add_to_group("player") # for the HUD and enemy detection
@@ -82,6 +88,8 @@ func _process(delta: float) -> void:
 	
 func _physics_process(delta: float) -> void:
 	$AnimatedSprite2D.set_speed_scale(1)
+	if is_on_floor(): can_double_jump = true
+	
 	match STATE:
 		PlayerState.STANDING:
 			handle_standing(delta)
@@ -99,6 +107,10 @@ func _physics_process(delta: float) -> void:
 			handle_sliding(delta)
 			$AnimatedSprite2D.set_speed_scale(1 / slide_timer.get_wait_time())
 			$AnimatedSprite2D.play("evade")
+	
+	if Input.is_action_just_pressed("use_ability"):
+		ability.execute(self)
+		
 	# apply gravity
 	try_fall_through_platform()
 	velocity.y += GRAVITY * delta # Make player fall
@@ -113,10 +125,21 @@ func _physics_process(delta: float) -> void:
 	
 	position = position.clamp(Vector2.ZERO, screen_size)
 	$AnimatedSprite2D.flip_h = (get_global_mouse_position() - global_position).x < 0
+	
+
+func execute_jump(multiplier:float) -> void:
+	STATE = PlayerState.JUMPING
+	velocity.y = multiplier*JUMP_POWER
+
 
 func handle_sliding(delta: float) -> void:
-	if not slide_timer.is_stopped() and velocity.x != 0:
-		velocity.x = SLIDE_SPEED * sign(velocity.x)
+	if not slide_timer.is_stopped():
+		# Super jump
+		if Input.is_action_pressed("jump"):
+			slide_cooldown.start()
+			execute_jump(1.3)
+		elif velocity.x != 0:
+			velocity.x = SLIDE_SPEED * sign(velocity.x)
 	else:
 		slide_cooldown.start()
 		velocity.x = SPEED * sign(velocity.x)
@@ -136,17 +159,18 @@ func handle_standing(delta: float) -> void:
 		STATE = PlayerState.RUNNING
 		velocity.x = move_toward(velocity.x, direction, ACCELERATION_H*delta)
 	elif Input.is_action_pressed("jump"):
-		STATE = PlayerState.JUMPING
-		velocity.y = JUMP_POWER
+		execute_jump(1.0)
 
 
 func handle_air_horizontal_input(delta: float) -> void:
-	var direction = Input.get_axis("move_left", "move_right") * SPEED
+	var speed = SPEED
+	var direction = Input.get_axis("move_left", "move_right")
 	
 	if direction == 0:
-		direction = velocity.x
-
-	velocity.x = move_toward(velocity.x, direction, ACCELERATION_H * delta)
+		direction = sign(velocity.x)
+		speed = abs(velocity.x)
+		
+	velocity.x = move_toward(velocity.x, direction*speed, ACCELERATION_H * delta)
 
 		
 func handle_falling(delta: float) -> void:
@@ -156,8 +180,7 @@ func handle_falling(delta: float) -> void:
 		handle_air_horizontal_input(delta)
 	
 	if Input.is_action_pressed("jump") and coyote_timer.time_left > 0:
-		STATE = PlayerState.JUMPING
-		velocity.y = JUMP_POWER
+		execute_jump(1.0)
 		# stop the coyote timer to prevent repeated jumps
 		if not coyote_timer.is_stopped():
 			coyote_timer.stop()
@@ -182,8 +205,7 @@ func handle_running(delta: float) -> void:
 	if velocity.y > 0:
 		STATE = PlayerState.FALLING
 	elif Input.is_action_pressed("jump"):
-		STATE = PlayerState.JUMPING
-		velocity.y = JUMP_POWER
+		execute_jump(1.0)
 	elif Input.is_action_pressed("shift") and slide_cooldown.is_stopped():
 		slide_timer.start()
 		STATE = PlayerState.SLIDING
@@ -221,6 +243,12 @@ func start(pos):
 	position = pos
 	show()
 	$CollisionShape2D.disabled = false
+	
+
+func load_ability(name:String):
+	var scene_node = load("res://abilities/"+name+"/"+name+".tscn").instantiate()
+	add_child(scene_node)
+	return scene_node
 
 func _on_money_timer_timeout() -> void:
 	if EquipItems.modifier == 1:

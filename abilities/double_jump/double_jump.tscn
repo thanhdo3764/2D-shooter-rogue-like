@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpub2g5w7fos"]
+
+[ext_resource type="Script" path="res://abilities/double_jump/double_jump.gd" id="1_fqjwy"]
+
+[node name="DoubleJump" type="Node2D"]
+script = ExtResource("1_fqjwy")
