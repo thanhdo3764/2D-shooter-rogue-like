@@ -14,6 +14,7 @@ var latest_position: Vector2
 var enemy_icons = {}  # Dictionary to track minimap icons for each enemy
 
 func _ready():
+	set_process_input(true)
 	if player:
 		latest_position = player.position
 		update_minimap_position()
@@ -26,6 +27,10 @@ func _process(_delta):
 		update_minimap_position()
 	
 	update_enemy_minimap_positions()
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("toggle_minimap"):
+		visible = not visible
 
 func update_minimap_position():
 	if not player:
@@ -52,7 +57,7 @@ func update_enemy_minimap_positions():
 	# Update positions for remaining enemies
 	for enemy in valid_enemies:
 		if not enemy_icons.has(enemy):
-			var icon_instance = enemy_icon.duplicate()
+			var icon_instance = enemy_icon_scene.instantiate()
 			minimap_world.add_child(icon_instance)
 			enemy_icons[enemy] = icon_instance  
 

@@ -9,12 +9,11 @@ var current_state: State = State.sleep
 @onready var awake_collision = $AwakeCollision
 
 func _ready():
-	super()
-	change_state(State.sleep)
-	
 	add_to_group("enemies") # HUD
 	
-	# detection signal when player enters the detection area
+	super()
+	change_state(State.sleep)
+
 	if detection_area and not detection_area.body_entered.is_connected(_on_detection):
 		detection_area.body_entered.connect(_on_detection)
 
@@ -41,7 +40,7 @@ func change_state(new_state: State):
 		return  # prevent unnecessary transitions
 
 	#DEBUG 0 = sleep, 1 = wakeup, 2 = walk, 3 = dead
-	print("current state: ", current_state, " transitioning to ", new_state)
+	#print("enemy_knight current state: ", current_state, " transitioning to ", new_state)
 
 	current_state = new_state
 	update_collision_shape()
@@ -65,26 +64,12 @@ func enemy_wakeup():
 	if current_state == State.sleep:
 		change_state(State.wakeup)
 		
-func take_damage(damage: int):
+
+func on_death():
 	if current_state == State.dead:
 		return
-		
-	hp -= damage
-	print("Enemy took ", damage, " damage. HP:", hp)
-
-
-	if hp <= 0:
-		emit_signal("died")
-		die()
-
-func die():
-	if current_state == State.dead:
-		return
-	print("Enemy died!")
+	print("Enemy knight died")
 	change_state(State.dead)
-	sprite.play("death")
-	await sprite.animation_finished
-	queue_free()
 	
 # changes hit/collision box/shape based on the current state
 func update_collision_shape():

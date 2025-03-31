@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvkj51j6qwbs2"]
+
+[ext_resource type="Texture2D" uid="uid://c8d304r13p441" path="res://assets/hud/enemy_icon.png" id="1_amdo6"]
+
+[node name="EnemyIcon" type="Sprite2D"]
+texture = ExtResource("1_amdo6")
