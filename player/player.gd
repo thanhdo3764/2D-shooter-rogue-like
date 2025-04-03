@@ -69,7 +69,7 @@ func _ready() -> void:
 	add_child(weapon)
 	weapon.position = $Weapon_Spawn.position
 	
-	ability = load_ability("double_jump")
+	ability = load_ability("grapple")
 	screen_size = get_viewport_rect().size
 
 	add_to_group("player") # for the HUD and enemy detection

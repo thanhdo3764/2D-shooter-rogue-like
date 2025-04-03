@@ -22,6 +22,7 @@ animations = [{
 size = Vector2(18.5, 2)
 
 [node name="Arrow" type="Area2D"]
+collision_mask = 32
 script = ExtResource("1_7f1f5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

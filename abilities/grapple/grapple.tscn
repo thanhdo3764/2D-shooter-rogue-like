@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://djaidw33jv28l"]
+
+[ext_resource type="Script" path="res://abilities/grapple/grapple.gd" id="1_8vwd8"]
+
+[node name="Grapple" type="Node2D"]
+script = ExtResource("1_8vwd8")
