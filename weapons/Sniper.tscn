@@ -1,7 +1,7 @@
 [gd_scene load_steps=79 format=3 uid="uid://yrajxuubdkop"]
 
 [ext_resource type="Script" path="res://weapons/sniper.gd" id="1_55qq8"]
-[ext_resource type="Texture2D" uid="uid://djj6u8wt75usy" path="res://assets/sniper/[SCOPE__FIVE_ROUND_RELOADING]_Sniper_rifle_[KAR98]_V1.00-overlay.png" id="2_baex0"]
+[ext_resource type="Texture2D" uid="uid://djhpsp3oqgkos" path="res://assets/sniper/[SCOPE__FIVE_ROUND_RELOADING]_Sniper_rifle_[KAR98]_V1.00-overlay.png" id="2_baex0"]
 [ext_resource type="Texture2D" uid="uid://dclvimivpv8wk" path="res://assets/sniper/sniper_shooting.png" id="2_qweas"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6ajyu"]
