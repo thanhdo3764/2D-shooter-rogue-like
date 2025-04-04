@@ -14,5 +14,6 @@ func execute(player: Player) -> void:
 func _on_grappler_collided(pos) -> void:
 	var direction = PLAYER.position.direction_to(pos)
 	PLAYER.velocity = direction * PLAYER.SPEED * 2
-	if direction.y < 0: PLAYER.velocity.y *= 1.5
+	if direction.y < 0:
+		PLAYER.velocity.y *= 2
 	

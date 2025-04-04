@@ -111,9 +111,8 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("use_ability"):
 		ability.execute(self)
 		
-	# apply gravity
 	try_fall_through_platform()
-	velocity.y += GRAVITY * delta # Make player fall
+	apply_gravity(delta)
 	
 	# move the player
 	var previously_on_floor = is_on_floor()
@@ -125,7 +124,12 @@ func _physics_process(delta: float) -> void:
 	
 	position = position.clamp(Vector2.ZERO, screen_size)
 	$AnimatedSprite2D.flip_h = (get_global_mouse_position() - global_position).x < 0
-	
+
+func apply_gravity(delta: float) -> void:
+	if STATE == PlayerState.FALLING:
+		velocity.y += 1.25 * GRAVITY * delta # More gravity when falling for smoothness
+	else:
+		velocity.y += GRAVITY * delta 
 
 func execute_jump(multiplier:float) -> void:
 	STATE = PlayerState.JUMPING
