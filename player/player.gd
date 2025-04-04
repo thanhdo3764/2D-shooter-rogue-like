@@ -152,14 +152,14 @@ func handle_sliding(delta: float) -> void:
 func handle_standing(delta: float) -> void:
 	if not is_on_floor():
 		STATE = PlayerState.FALLING
-		return
-	
-	var direction = Input.get_axis("move_left", "move_right") * SPEED
-	if direction != 0:
-		STATE = PlayerState.RUNNING
-		velocity.x = move_toward(velocity.x, direction, ACCELERATION_H*delta)
 	elif Input.is_action_pressed("jump"):
 		execute_jump(1.0)
+	else:
+		var direction = Input.get_axis("move_left", "move_right")
+		if direction != 0 or velocity.x != 0:
+			STATE = PlayerState.RUNNING
+			velocity.x = move_toward(velocity.x, direction*SPEED, ACCELERATION_H*delta)
+	
 
 
 func handle_air_horizontal_input(delta: float) -> void:
@@ -202,7 +202,7 @@ func handle_jumping(delta: float) -> void:
 func handle_running(delta: float) -> void:
 	if velocity.x == 0:
 		STATE = PlayerState.STANDING
-	if velocity.y > 0:
+	if !is_on_floor():
 		STATE = PlayerState.FALLING
 	elif Input.is_action_pressed("jump"):
 		execute_jump(1.0)
@@ -238,6 +238,7 @@ func _on_bullet_hit() -> void:
 		
 func _on_beam_hit() -> void:
 	take_damage(3)
+	
 
 func start(pos):
 	position = pos
@@ -258,6 +259,8 @@ func _on_money_timer_timeout() -> void:
 		
 	if HEALTH > 0:
 		SCORE += (5 * multiplier)
+		
+
 		
 func _on_death() -> void:
 	get_tree().change_scene_to_file("res://scenes/game_over.tscn")

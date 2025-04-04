@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal grappler_collided(pos)
+
 var SPEED
 var DIRECTION
 var START_POS
@@ -18,4 +20,5 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 	else:
 		if move_and_collide(DIRECTION*SPEED*delta) != null:
+			grappler_collided.emit(global_position)
 			queue_free()

@@ -92,3 +92,4 @@ toggle_minimap={
 2d_physics/layer_4="bullets"
 2d_physics/layer_5="door"
 2d_physics/layer_6="player"
+2d_physics/layer_7="grappler_collision"

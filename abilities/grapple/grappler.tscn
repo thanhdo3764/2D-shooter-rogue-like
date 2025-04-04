@@ -9,6 +9,7 @@ radius = 22.0
 [node name="Grappler" type="CharacterBody2D"]
 scale = Vector2(0.322732, 0.322732)
 collision_layer = 0
+collision_mask = 65
 script = ExtResource("1_2orga")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
