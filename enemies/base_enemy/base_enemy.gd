@@ -3,7 +3,7 @@ class_name base_enemy
 
 const GRAVITY = 1000
 @export var SPEED: int = 100
-@export var hp: int = 10 
+@export var hp: int = 30 
 
 var player: Node2D = null
 var DEFAULT_SCALE_X: float = 1.0
