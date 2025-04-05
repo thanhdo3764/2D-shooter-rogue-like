@@ -69,7 +69,7 @@ func _ready() -> void:
 	add_child(weapon)
 	weapon.position = $Weapon_Spawn.position
 	
-	ability = load_ability("double_jump")
+	ability = load_ability("grapple")
 	screen_size = get_viewport_rect().size
 
 	add_to_group("player") # for the HUD and enemy detection
@@ -111,9 +111,8 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("use_ability"):
 		ability.execute(self)
 		
-	# apply gravity
 	try_fall_through_platform()
-	velocity.y += GRAVITY * delta # Make player fall
+	apply_gravity(delta)
 	
 	# move the player
 	var previously_on_floor = is_on_floor()
@@ -125,7 +124,12 @@ func _physics_process(delta: float) -> void:
 	
 	position = position.clamp(Vector2.ZERO, screen_size)
 	$AnimatedSprite2D.flip_h = (get_global_mouse_position() - global_position).x < 0
-	
+
+func apply_gravity(delta: float) -> void:
+	if STATE == PlayerState.FALLING:
+		velocity.y += 1.25 * GRAVITY * delta # More gravity when falling for smoothness
+	else:
+		velocity.y += GRAVITY * delta 
 
 func execute_jump(multiplier:float) -> void:
 	STATE = PlayerState.JUMPING
@@ -152,14 +156,14 @@ func handle_sliding(delta: float) -> void:
 func handle_standing(delta: float) -> void:
 	if not is_on_floor():
 		STATE = PlayerState.FALLING
-		return
-	
-	var direction = Input.get_axis("move_left", "move_right") * SPEED
-	if direction != 0:
-		STATE = PlayerState.RUNNING
-		velocity.x = move_toward(velocity.x, direction, ACCELERATION_H*delta)
 	elif Input.is_action_pressed("jump"):
 		execute_jump(1.0)
+	else:
+		var direction = Input.get_axis("move_left", "move_right")
+		if direction != 0 or velocity.x != 0:
+			STATE = PlayerState.RUNNING
+			velocity.x = move_toward(velocity.x, direction*SPEED, ACCELERATION_H*delta)
+	
 
 
 func handle_air_horizontal_input(delta: float) -> void:
@@ -202,7 +206,7 @@ func handle_jumping(delta: float) -> void:
 func handle_running(delta: float) -> void:
 	if velocity.x == 0:
 		STATE = PlayerState.STANDING
-	if velocity.y > 0:
+	if !is_on_floor():
 		STATE = PlayerState.FALLING
 	elif Input.is_action_pressed("jump"):
 		execute_jump(1.0)
@@ -238,6 +242,7 @@ func _on_bullet_hit() -> void:
 		
 func _on_beam_hit() -> void:
 	take_damage(3)
+	
 
 func start(pos):
 	position = pos
@@ -258,6 +263,8 @@ func _on_money_timer_timeout() -> void:
 		
 	if HEALTH > 0:
 		SCORE += (5 * multiplier)
+		
+
 		
 func _on_death() -> void:
 	get_tree().change_scene_to_file("res://scenes/game_over.tscn")

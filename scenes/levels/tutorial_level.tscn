@@ -339,6 +339,8 @@ position = Vector2(264, 226)
 
 [node name="enemy_knight" parent="." instance=ExtResource("5_lvcke")]
 position = Vector2(319, 307)
+platform_on_leave = 2
+platform_floor_layers = 4294901761
 
 [node name="enemy_archer" parent="." instance=ExtResource("6_7aewb")]
 position = Vector2(444, 123)
