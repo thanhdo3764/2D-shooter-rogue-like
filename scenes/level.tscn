@@ -19,6 +19,7 @@ active_enemies = [NodePath("Boss1")]
 
 [node name="Ground" type="StaticBody2D" parent="."]
 position = Vector2(0, 14)
+collision_mask = 0
 metadata/_edit_group_ = true
 
 [node name="ColorRect" type="ColorRect" parent="Ground"]

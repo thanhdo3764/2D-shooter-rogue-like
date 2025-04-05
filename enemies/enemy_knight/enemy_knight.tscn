@@ -209,7 +209,7 @@ radius = 117.068
 
 [node name="enemy_knight" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 17
+collision_mask = 49
 script = ExtResource("1_babqs")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -229,7 +229,7 @@ shape = SubResource("RectangleShape2D_4yqhw")
 [node name="AttackHitBox" type="Area2D" parent="."]
 visible = false
 position = Vector2(132, -29)
-collision_mask = 2
+collision_mask = 32
 
 [node name="AttackCollision" type="CollisionShape2D" parent="AttackHitBox"]
 visible = false
@@ -237,6 +237,7 @@ position = Vector2(-104, 21)
 shape = SubResource("RectangleShape2D_ygu55")
 
 [node name="DetectionArea" type="Area2D" parent="."]
+collision_mask = 32
 
 [node name="DetectionCollision" type="CollisionShape2D" parent="DetectionArea"]
 position = Vector2(0, -8)
