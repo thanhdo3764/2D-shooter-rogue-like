@@ -9,6 +9,8 @@ const RAMPAGE_MOVEMENT_SPEED = 2
 const RAMPAGE_HEALTH_THRESHOLD = 0.5
 const BOSS_MAX_HP = 100
 
+@onready var health_bar = $EnemyHealthBar
+
 # base fire rate
 @export var fire_rate : float = 0.6
 @export var move_distance: int = 500
@@ -43,6 +45,7 @@ func _ready() -> void:
 	AudioManager.play("flyingboss_idle")
 	
 	add_to_group("enemies") # HUD
+	health_bar.visible = false
 
 func _physics_process(delta: float) -> void:
 	if state == BossState.FLY_IDLE:
@@ -118,6 +121,9 @@ func despawn() -> void:
 	queue_free()
 	
 func take_damage(amt: int) -> void:
+	if hp < BOSS_MAX_HP:
+		health_bar.visible = true
+	health_bar.update_health(hp, BOSS_MAX_HP)
 	hp -= amt
 	do_hp_check()
 
