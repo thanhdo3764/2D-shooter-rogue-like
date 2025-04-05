@@ -1,12 +1,17 @@
 extends base_enemy
 
-enum State {sleep, wakeup, walk, dead}
+enum State {sleep, wakeup, walk, dead, attack}
 var current_state: State = State.sleep
 
 # reference to collision shapes
 @onready var detection_area: Area2D = $DetectionArea
 @onready var sleep_collision = $SleepCollision
 @onready var awake_collision = $AwakeCollision
+@onready var attack_hitbox: Area2D = $AttackHitBox
+@onready var attack_trigger: Area2D = $AttackTriggerArea
+var attack_cooldown := 2.0
+var can_attack := true
+var has_hit_player := false
 
 func _ready():
 	add_to_group("enemies") # HUD
@@ -20,7 +25,13 @@ func _ready():
 	# signal for when animations are finished
 	if not sprite.animation_finished.is_connected(_on_animation_finished):
 			sprite.animation_finished.connect(_on_animation_finished)
-
+			
+	if not attack_trigger.body_entered.is_connected(_on_attack_triggered_entered):
+		attack_trigger.body_entered.connect(_on_attack_triggered_entered)
+		
+	if not attack_hitbox.body_entered.is_connected(_on_attack_hitbox_body_entered):
+		attack_hitbox.body_entered.connect(_on_attack_hitbox_body_entered)
+		
 func _physics_process(delta: float) -> void:
 	apply_gravity(delta)
 		
@@ -31,6 +42,8 @@ func _physics_process(delta: float) -> void:
 			pass
 		State.walk:
 			move_towards_player()
+		State.attack:
+			enemy_attack(delta)
 	
 	move_and_slide() 
 
@@ -55,6 +68,10 @@ func change_state(new_state: State):
 			sprite.play("walk")
 		State.dead:
 			sprite.play("death")
+		State.attack:
+			sprite.play("attack")
+			attack_hitbox.set_deferred("monitoring", true)
+			has_hit_player = false
 			
 ### state behaviors ###
 func enemy_sleep(delta: float):
@@ -64,6 +81,10 @@ func enemy_wakeup():
 	if current_state == State.sleep:
 		change_state(State.wakeup)
 		
+func enemy_attack(delta: float):
+	if player:
+		var direction = (player.global_position - global_position).normalized()
+		velocity.x = direction.x * SPEED * 1.2  # knight charges forward
 
 func on_death():
 	if current_state == State.dead:
@@ -84,6 +105,12 @@ func _on_animation_finished():
 	
 	if current_state == State.wakeup:
 		change_state(State.walk)
+		
+	elif current_state == State.attack:
+		attack_hitbox.set_deferred("monitoring", false)
+		await get_tree().create_timer(attack_cooldown).timeout
+		can_attack = true
+		change_state(State.walk)
 
 #triggers the enemy to change state to wakeup when the player's collision is in the detection area
 func _on_detection(body):
@@ -91,4 +118,21 @@ func _on_detection(body):
 		player = body # stores the player's reference
 		enemy_wakeup()
 
-#TODO attacking functions
+# attacking functions
+func _on_attack_triggered_entered(body):
+	if body.is_in_group("player") and can_attack and current_state == State.walk:
+		change_state(State.attack)
+
+		
+func _on_attack_hitbox_body_entered(body):
+	print("hitbox collided with: ", body.name)
+	if has_hit_player:
+		print("already hit player with attack")
+		return
+
+	if body.is_in_group("player") and not has_hit_player:
+		print("player is in attack hitbox")
+		if body.has_method("take_damage"):
+			body.take_damage(10)
+			print("player took 10 damage")
+			has_hit_player = true

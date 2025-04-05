@@ -1,5 +1,5 @@
-extends CharacterBody2D
 class_name Player
+extends CharacterBody2D
 signal hit
 
 @export var HEALTH: int = 100

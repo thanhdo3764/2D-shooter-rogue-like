@@ -1,34 +1,14 @@
-[gd_scene load_steps=34 format=3 uid="uid://3yv27yusrury"]
+[gd_scene load_steps=30 format=3 uid="uid://3yv27yusrury"]
 
 [ext_resource type="Script" path="res://enemies/enemy_knight/enemy_knight.gd" id="1_babqs"]
-[ext_resource type="Texture2D" uid="uid://blskfovwvdjnc" path="res://assets/enemy_knight/attacks.png" id="2_e5ilb"]
-[ext_resource type="Texture2D" uid="uid://cxo3o4g0qiuhf" path="res://assets/enemy_knight/death.png" id="2_jbwo0"]
+[ext_resource type="Texture2D" uid="uid://c2gxgrjsxn2jy" path="res://assets/enemy_knight/attacks.png" id="2_e5ilb"]
+[ext_resource type="Texture2D" uid="uid://bmfqs0tj0ofgh" path="res://assets/enemy_knight/death.png" id="2_jbwo0"]
 [ext_resource type="Texture2D" uid="uid://caw81x3cldysj" path="res://assets/enemy_knight/wake.png" id="2_va63e"]
 [ext_resource type="Texture2D" uid="uid://h3od402fy6y8" path="res://assets/enemy_knight/run.png" id="3_rieob"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lfv56"]
 atlas = ExtResource("2_e5ilb")
 region = Rect2(0, 0, 145, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_p7rc5"]
-atlas = ExtResource("2_e5ilb")
-region = Rect2(145, 0, 145, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cc5kl"]
-atlas = ExtResource("2_e5ilb")
-region = Rect2(290, 0, 145, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7mnpn"]
-atlas = ExtResource("2_e5ilb")
-region = Rect2(435, 0, 145, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yy6cy"]
-atlas = ExtResource("2_e5ilb")
-region = Rect2(580, 0, 145, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5gvb1"]
-atlas = ExtResource("2_e5ilb")
-region = Rect2(725, 0, 145, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wcsum"]
 atlas = ExtResource("2_jbwo0")
@@ -103,21 +83,6 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lfv56")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_p7rc5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cc5kl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7mnpn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_yy6cy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5gvb1")
 }],
 "loop": false,
 "name": &"attack",
@@ -202,10 +167,13 @@ size = Vector2(12, 16)
 size = Vector2(15, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ygu55"]
-size = Vector2(42, 8)
+size = Vector2(24, 8)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vnktv"]
-radius = 117.068
+radius = 151.013
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k80yl"]
+radius = 103.0
 
 [node name="enemy_knight" type="CharacterBody2D"]
 collision_layer = 4
@@ -213,10 +181,11 @@ collision_mask = 49
 script = ExtResource("1_babqs")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(30, -16)
+position = Vector2(29, -16)
 sprite_frames = SubResource("SpriteFrames_736vv")
-animation = &"sleep"
+animation = &"attack"
 autoplay = "sleep"
+frame_progress = 1.0
 
 [node name="SleepCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -8)
@@ -227,18 +196,22 @@ position = Vector2(0.5, -12)
 shape = SubResource("RectangleShape2D_4yqhw")
 
 [node name="AttackHitBox" type="Area2D" parent="."]
-visible = false
-position = Vector2(132, -29)
-collision_mask = 32
+position = Vector2(0, -30)
+collision_layer = 2
+
 
 [node name="AttackCollision" type="CollisionShape2D" parent="AttackHitBox"]
-visible = false
-position = Vector2(-104, 21)
+position = Vector2(20, 25)
 shape = SubResource("RectangleShape2D_ygu55")
 
 [node name="DetectionArea" type="Area2D" parent="."]
-collision_mask = 32
+visible = false
 
 [node name="DetectionCollision" type="CollisionShape2D" parent="DetectionArea"]
 position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_vnktv")
+
+[node name="AttackTriggerArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackTriggerArea"]
+shape = SubResource("CircleShape2D_k80yl")
