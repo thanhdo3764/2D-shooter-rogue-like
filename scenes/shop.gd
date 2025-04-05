@@ -25,7 +25,7 @@ func _on_confirm_pressed() -> void:
 
 func _on_yes_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/level.tscn")
-	
+	Pause.in_level = true
 
 func _on_okay_pressed() -> void:
 	$Must_Select.visible = false

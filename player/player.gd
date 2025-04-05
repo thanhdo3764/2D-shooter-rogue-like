@@ -88,7 +88,7 @@ func _process(delta: float) -> void:
 	
 func _physics_process(delta: float) -> void:
 	$AnimatedSprite2D.set_speed_scale(1)
-	if is_on_floor(): can_double_jump = true
+	if is_on_floor() and EquipItems.equipment == 1: can_double_jump = true
 	
 	match STATE:
 		PlayerState.STANDING:
