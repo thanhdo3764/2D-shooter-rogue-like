@@ -9,6 +9,8 @@ var player: Node2D = null
 var DEFAULT_SCALE_X: float = 1.0
 var flipped: bool = false
 
+signal killed
+
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready():
@@ -45,6 +47,7 @@ func die():
 	print("Enemy died!")
 	on_death() # this calls will be overridden from the subclass
 	await sprite.animation_finished
+	emit_signal("killed", self)
 	queue_free()
 
 # called when the enemy dies, where the subclass (specific enemy) can override this
