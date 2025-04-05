@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://barsmnu577o5u"]
+[gd_scene load_steps=8 format=3 uid="uid://barsmnu577o5u"]
 
 [ext_resource type="Script" path="res://enemies/flying_boss/boss_1.gd" id="1_ugcko"]
 [ext_resource type="Texture2D" uid="uid://c4jwxsohcjn0j" path="res://assets/boss1/TEMP_boss1.png" id="2_0vle4"]
+[ext_resource type="PackedScene" uid="uid://44isp4e8hucp" path="res://HUD/enemy_health_bar.tscn" id="3_rbet8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nnweb"]
 size = Vector2(134, 23)
@@ -53,7 +54,7 @@ shape = SubResource("RectangleShape2D_nnweb")
 
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D"]
 texture_filter = 1
-position = Vector2(-3, -3.5)
+position = Vector2(-3, -4)
 scale = Vector2(3, 3)
 texture = ExtResource("2_0vle4")
 
@@ -67,6 +68,13 @@ libraries = {
 }
 
 [node name="ShootTimer" type="Timer" parent="."]
+
+[node name="EnemyHealthBar" parent="." instance=ExtResource("3_rbet8")]
+offset_left = -25.0
+offset_top = -40.0
+offset_right = 15.0
+offset_bottom = 0.0
+scale = Vector2(1.5, 1.5)
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="timeout" from="StateTimer" to="." method="_on_state_timer_timeout"]
