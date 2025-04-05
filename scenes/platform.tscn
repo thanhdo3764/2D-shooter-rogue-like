@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=4 uid="uid://olh5bqt5tvrl"]
+[gd_scene load_steps=8 format=4 uid="uid://olh5bqt5tvrl"]
 
 [ext_resource type="Script" path="res://scenes/platform.gd" id="1_ayfhw"]
-[ext_resource type="Texture2D" uid="uid://chw16tjxmbp22" path="res://assets/Tileset/TilesetTest.png" id="2_koybv"]
+[ext_resource type="Texture2D" uid="uid://cwh0hlewfr7w" path="res://assets/Tileset/TilesetTest.png" id="2_koybv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s4u75"]
 size = Vector2(96, 10)
@@ -20,9 +20,12 @@ texture_region_size = Vector2i(8, 8)
 tile_size = Vector2i(8, 8)
 sources/0 = SubResource("TileSetAtlasSource_olvyu")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vv208"]
+size = Vector2(96, 10)
+
 [node name="Platform" type="StaticBody2D"]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 0
 script = ExtResource("1_ayfhw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -31,8 +34,8 @@ shape = SubResource("RectangleShape2D_s4u75")
 one_way_collision = true
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 2
+collision_layer = 0
+collision_mask = 32
 monitoring = false
 monitorable = false
 
@@ -43,6 +46,14 @@ shape = SubResource("RectangleShape2D_ngsac")
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAD6////AAAOAAEAAAD7////AAAPAAEAAAD8////AAAPAAEAAAD9////AAAPAAEAAAD+////AAAPAAEAAAD/////AAAPAAEAAAAAAP//AAAPAAEAAAABAP//AAAPAAEAAAACAP//AAAPAAEAAAADAP//AAAPAAEAAAAEAP//AAAPAAEAAAAFAP//AAAQAAEAAAA=")
 tile_set = SubResource("TileSet_uj7cf")
+
+[node name="CollisionForGrappler" type="StaticBody2D" parent="."]
+collision_layer = 64
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionForGrappler"]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_vv208")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

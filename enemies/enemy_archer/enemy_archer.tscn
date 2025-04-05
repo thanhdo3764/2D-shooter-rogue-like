@@ -246,7 +246,7 @@ radius = 117.068
 
 [node name="enemy_archer" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 17
+collision_mask = 49
 script = ExtResource("1_ili01")
 arrow = ExtResource("2_thl6h")
 
@@ -262,6 +262,7 @@ position = Vector2(0.25, -0.5)
 shape = SubResource("RectangleShape2D_8r6l5")
 
 [node name="DetectionArea" type="Area2D" parent="."]
+collision_mask = 32
 
 [node name="DetectionCollision" type="CollisionShape2D" parent="DetectionArea"]
 position = Vector2(0, -8)
