@@ -3,9 +3,9 @@ extends Base_Weapon
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	super()
-	DAMAGE = 100
+	DAMAGE = 30
 	if EquipItems.modifier == 3:
-		DAMAGE = 200
+		DAMAGE = DAMAGE * 2
 	
 	RELOAD_SPEED_SEC = 2
 	WEIGHT = 100

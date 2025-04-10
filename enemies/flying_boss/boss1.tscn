@@ -44,9 +44,9 @@ _data = {
 "RESET": SubResource("Animation_bw0yw")
 }
 
-[node name="Boss1" type="Area2D"]
+[node name="Boss1" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 20
+collision_mask = 144
 script = ExtResource("1_ugcko")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -78,6 +78,5 @@ scale = Vector2(1.5, 1.5)
 texture_under = null
 texture_progress = null
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="timeout" from="StateTimer" to="." method="_on_state_timer_timeout"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

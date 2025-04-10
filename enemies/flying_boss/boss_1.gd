@@ -1,4 +1,4 @@
-extends Area2D
+extends CharacterBody2D
 
 enum BossState {
 	FLY_IDLE,		# flying movement
@@ -7,7 +7,7 @@ enum BossState {
 }
 const RAMPAGE_MOVEMENT_SPEED = 2
 const RAMPAGE_HEALTH_THRESHOLD = 0.5
-const BOSS_MAX_HP = 100
+const BOSS_MAX_HP = 500
 
 @onready var health_bar = $EnemyHealthBar
 
@@ -123,6 +123,7 @@ func despawn() -> void:
 func take_damage(amt: int) -> void:
 	if hp < BOSS_MAX_HP:
 		health_bar.visible = true
+	hurt_anim.play("Hurt")
 	health_bar.update_health(hp, BOSS_MAX_HP)
 	hp -= amt
 	do_hp_check()
@@ -138,9 +139,3 @@ func _on_shoot_timer_timeout() -> void:
 			shoot_bullet(direction)
 		else:
 			shoot_bullet_arc(direction, PI/2.5, 5)
-
-func _on_area_entered(area: Area2D) -> void:
-	# NOTE: assumes the only thing that can collide with the boss is the player bullets, based on collision layers
-	# should change to using signals instead
-	take_damage(3)
-	hurt_anim.play("Hurt")

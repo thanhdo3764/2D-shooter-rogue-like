@@ -1,4 +1,4 @@
-extends Area2D
+extends CharacterBody2D
 
 var DAMAGE
 var SPEED: int
@@ -17,13 +17,20 @@ func set_bullet(position, target_position, speed, damage) -> void:
 	DAMAGE = damage
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	position += DIRECTION * SPEED * delta
+func _physics_process(delta: float) -> void:
+	var kinematic_collision = move_and_collide(DIRECTION*SPEED*delta)
+	if kinematic_collision != null:
+		queue_free()
+		var collider = kinematic_collision.get_collider()
+		if collider.is_in_group("enemy"):
+			print("bullet hit ", collider.name)
+			if collider.has_method("take_damage"):
+				collider.take_damage(DAMAGE) # TODO change damage number to weapon's damage
 
-func _on_body_entered(body):
-	if body.is_in_group("enemy"):
-		#DEBUG
-		print("bullet hit ", body.name)
-		if body.has_method("take_damage"):
-			body.take_damage(DAMAGE) # TODO change damage number to weapon's damage
-	queue_free()
+#func _on_body_entered(body):
+	#if body.is_in_group("enemy"):
+		##DEBUG
+		#print("bullet hit ", body.name)
+		#if body.has_method("take_damage"):
+			#body.take_damage(DAMAGE) # TODO change damage number to weapon's damage
+	#queue_free()
