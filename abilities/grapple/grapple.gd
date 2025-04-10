@@ -12,8 +12,9 @@ func execute(player: Player) -> void:
 	COOLDOWN.start()
 	var grappler = load("res://abilities/grapple/grappler.tscn").instantiate()
 	grappler.grappler_collided.connect(_on_grappler_collided)
-	grappler.set_grappler(player.global_position, get_global_mouse_position(), GRAPPLER_SPEED, GRAPPLER_MAX_DISTANCE)
+	grappler.set_grappler(player, get_global_mouse_position(), GRAPPLER_SPEED, GRAPPLER_MAX_DISTANCE)
 	root.add_child(grappler)
+	
 	
 func _on_grappler_collided(pos) -> void:
 	var direction = PLAYER.position.direction_to(pos)
