@@ -115,6 +115,7 @@ func get_player_dir() -> Vector2:
 	return self.global_position.direction_to(player_node.global_position).normalized()
 
 func despawn() -> void:
+	EquipItems.money += 500
 	emit_signal("killed", self)
 	AudioManager.stop("flyingboss_idle")
 	AudioManager.set_pitch("flyingboss_idle", 1)

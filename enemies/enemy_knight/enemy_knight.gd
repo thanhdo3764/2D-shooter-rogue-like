@@ -87,6 +87,7 @@ func enemy_attack(delta: float):
 		velocity.x = direction.x * SPEED * 1.2  # knight charges forward
 
 func on_death():
+	EquipItems.money += 25
 	if current_state == State.dead:
 		return
 	print("Enemy knight died")
