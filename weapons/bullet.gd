@@ -26,11 +26,3 @@ func _physics_process(delta: float) -> void:
 			print("bullet hit ", collider.name)
 			if collider.has_method("take_damage"):
 				collider.take_damage(DAMAGE) # TODO change damage number to weapon's damage
-
-#func _on_body_entered(body):
-	#if body.is_in_group("enemy"):
-		##DEBUG
-		#print("bullet hit ", body.name)
-		#if body.has_method("take_damage"):
-			#body.take_damage(DAMAGE) # TODO change damage number to weapon's damage
-	#queue_free()

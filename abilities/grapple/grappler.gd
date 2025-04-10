@@ -35,8 +35,9 @@ func grapple_player_to_terrain(pos):
 		
 
 func grapple_enemy_to_player(enemy):
+	enemy.change_state(enemy.State.sleep)
 	var direction = enemy.global_position.direction_to(PLAYER.global_position)
-	enemy.velocity = direction * 1000
+	enemy.velocity = direction * 500
 
 
 func _physics_process(delta: float) -> void:
@@ -51,7 +52,7 @@ func _physics_process(delta: float) -> void:
 			queue_free()
 			LINE.queue_free()
 			var collider = kinematic_collision.get_collider()
-			if collider.is_class("CharacterBody2D"):
+			if collider is base_enemy:
 				grapple_enemy_to_player(collider)
 			else:
 				grapple_player_to_terrain(global_position)
