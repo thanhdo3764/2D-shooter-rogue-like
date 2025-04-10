@@ -25,6 +25,18 @@ func set_grappler(player, target_position, speed, max) -> void:
 	LINE.add_point(global_position, 0)
 	LINE.add_point(global_position, 1)
 	LINE.set_width(1)
+	
+func grapple_player_to_terrain(pos):
+	var direction = PLAYER.global_position.direction_to(pos)
+	PLAYER.STATE = PLAYER.PlayerState.JUMPING
+	PLAYER.velocity = direction * PLAYER.SPEED * 2
+	if direction.y <= 0:
+		PLAYER.velocity.y = min(PLAYER.JUMP_POWER, PLAYER.velocity.y)
+		
+
+func grapple_enemy_to_player(enemy):
+	var direction = enemy.global_position.direction_to(PLAYER.global_position)
+	enemy.velocity = direction * 1000
 
 
 func _physics_process(delta: float) -> void:
@@ -34,7 +46,12 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 		LINE.queue_free()
 	else:
-		if move_and_collide(DIRECTION*SPEED*delta) != null:
-			grappler_collided.emit(global_position)
+		var kinematic_collision = move_and_collide(DIRECTION*SPEED*delta)
+		if kinematic_collision != null:
 			queue_free()
 			LINE.queue_free()
+			var collider = kinematic_collision.get_collider()
+			if collider.is_class("CharacterBody2D"):
+				grapple_enemy_to_player(collider)
+			else:
+				grapple_player_to_terrain(global_position)

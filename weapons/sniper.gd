@@ -7,10 +7,10 @@ func _ready() -> void:
 	if EquipItems.modifier == 3:
 		DAMAGE = 200
 	
-	RELOAD_SPEED_SEC = 3
+	RELOAD_SPEED_SEC = 2
 	WEIGHT = 100
-	SHOOT_SPEED_SEC = 1
+	SHOOT_SPEED_SEC = 0.5
 	MAX_AMMO = 5
 	AMMO_COUNT = MAX_AMMO
-	BULLET_SPEED = 5000
+	BULLET_SPEED = 2500
 	BULLET =  preload("res://weapons/Bullet.tscn")

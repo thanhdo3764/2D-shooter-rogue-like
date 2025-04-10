@@ -44,7 +44,7 @@ func _ready() -> void:
 	shoot_timer.wait_time = fire_rate
 	AudioManager.play("flyingboss_idle")
 	
-	add_to_group("enemies") # HUD
+	add_to_group("enemy") # HUD
 	health_bar.visible = false
 
 func _physics_process(delta: float) -> void:

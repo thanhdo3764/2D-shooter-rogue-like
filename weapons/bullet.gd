@@ -1,5 +1,6 @@
 extends Area2D
 
+var DAMAGE
 var SPEED: int
 var DIRECTION : Vector2
 
@@ -8,11 +9,12 @@ func _ready():
 	connect("body_entered", Callable(self, "_on_body_entered"))
 	add_to_group("bullet") # for on enemy hit
 
-func set_bullet(position, target_position, speed) -> void:
+func set_bullet(position, target_position, speed, damage) -> void:
 	SPEED = speed
 	global_position = position
 	rotation_degrees = rad_to_deg(global_position.angle_to_point(target_position))
 	DIRECTION = position.direction_to(target_position)
+	DAMAGE = damage
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -23,5 +25,5 @@ func _on_body_entered(body):
 		#DEBUG
 		print("bullet hit ", body.name)
 		if body.has_method("take_damage"):
-			body.take_damage(5) # TODO change damage number to weapon's damage
-		queue_free()
+			body.take_damage(DAMAGE) # TODO change damage number to weapon's damage
+	queue_free()
