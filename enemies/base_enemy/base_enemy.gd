@@ -39,12 +39,12 @@ func take_damage(damage: int):
 	if hp <= 0:
 		return
 	hp -= damage
-	print("Enemy took ", damage, " damage. HP:", hp)
+	#print("Enemy took ", damage, " damage. HP:", hp)
 	if hp <= 0:
 		die()
 
 func die():
-	print("Enemy died!")
+	#print("Enemy died!")
 	on_death() # this calls will be overridden from the subclass
 	await sprite.animation_finished
 	emit_signal("killed", self)
