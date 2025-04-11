@@ -9,19 +9,21 @@ var enemy_levels = [
 	preload(LEVEL_PATH + "enemy_level1.tscn"),
 ]
  
-var current_level: int = 1
 # NOTE: how many levels until a boss stage. Checkpoint will follow after the boss is defeated
-var boss_interval: int = 3
+var boss_interval = 3
+var current_level = 0
 
-func _ready() -> void:
-	pass # Replace with function body.
+@onready var scene_transition = $FadeTransition
 
 func next_room() -> void:
 	current_level += 1
+	
+	await scene_transition.level_finished()
 	if current_level % boss_interval == 0:
 		change_scene(boss_level)
 	else:
 		change_scene(enemy_levels.pick_random())
-
+	await scene_transition.level_begin()
+		
 func change_scene(scene: PackedScene) -> void:
 	scene_tree.call_deferred("change_scene_to_packed", scene)

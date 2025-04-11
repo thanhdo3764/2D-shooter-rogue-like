@@ -18,9 +18,9 @@ config/icon="res://icon.svg"
 [autoload]
 
 EquipItems="*res://equip_items.gd"
-LevelManager="*res://level_manager.gd"
 AudioManager="*res://audio_manager.tscn"
 Pause="*res://pause.tscn"
+LevelManager="*res://level_manager.tscn"
 
 [display]
 

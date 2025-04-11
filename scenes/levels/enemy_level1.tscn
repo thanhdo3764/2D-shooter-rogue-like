@@ -266,10 +266,10 @@ tile_set = SubResource("TileSet_iaa8h")
 position = Vector2(47, 284)
 
 [node name="EntranceDoor" parent="." instance=ExtResource("4_fhaxq")]
-position = Vector2(48, 284)
+position = Vector2(31, 288)
 
 [node name="ExitDoor" parent="." instance=ExtResource("4_fhaxq")]
-position = Vector2(617, 221)
+position = Vector2(618, 224)
 
 [node name="HUD" parent="." instance=ExtResource("5_yqf6c")]
 
