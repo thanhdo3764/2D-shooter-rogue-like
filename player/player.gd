@@ -90,27 +90,31 @@ func _physics_process(delta: float) -> void:
 	$AnimatedSprite2D.set_speed_scale(1)
 	if is_on_floor() and EquipItems.equipment == 1: can_double_jump = true
 	
-	match STATE:
-		PlayerState.STANDING:
-			handle_standing(delta)
-			$AnimatedSprite2D.play("idle")
-		PlayerState.FALLING:
-			handle_falling(delta)
-			$AnimatedSprite2D.play("walk")
-		PlayerState.JUMPING:
-			$AnimatedSprite2D.play("walk")
-			handle_jumping(delta)
-		PlayerState.RUNNING:
-			handle_running(delta)
-			$AnimatedSprite2D.play("walk")
-		PlayerState.SLIDING:
-			handle_sliding(delta)
-			$AnimatedSprite2D.set_speed_scale(1 / slide_timer.get_wait_time())
-			$AnimatedSprite2D.play("evade")
+	# lock the horizontal player movement if we're changing to a new level
+	if LevelManager.transition_active:
+		velocity.x = 0
+	else:
+		match STATE:
+			PlayerState.STANDING:
+				handle_standing(delta)
+				$AnimatedSprite2D.play("idle")
+			PlayerState.FALLING:
+				handle_falling(delta)
+				$AnimatedSprite2D.play("walk")
+			PlayerState.JUMPING:
+				$AnimatedSprite2D.play("walk")
+				handle_jumping(delta)
+			PlayerState.RUNNING:
+				handle_running(delta)
+				$AnimatedSprite2D.play("walk")
+			PlayerState.SLIDING:
+				handle_sliding(delta)
+				$AnimatedSprite2D.set_speed_scale(1 / slide_timer.get_wait_time())
+				$AnimatedSprite2D.play("evade")
 	
 	if Input.is_action_just_pressed("use_ability"):
 		ability.execute(self)
-		
+	
 	try_fall_through_platform()
 	apply_gravity(delta)
 	
@@ -238,10 +242,10 @@ func _on_body_entered(body: Node2D) -> void:
 # called once whenever the player is hit by a bullet.
 # TODO: even though Ground is on a diff collision layer, the bullet still emits. fix
 func _on_bullet_hit() -> void:
-	take_damage(5)
+	take_damage(8)
 		
 func _on_beam_hit() -> void:
-	take_damage(3)
+	take_damage(10)
 	
 
 func start(pos):
@@ -264,10 +268,8 @@ func _on_money_timer_timeout() -> void:
 	if HEALTH > 0:
 		SCORE += (5 * multiplier)
 		
-
-		
 func _on_death() -> void:
-	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
+	LevelManager.game_over()
 	
 func take_damage(amount: int) -> void:
 	if amount <= 0:

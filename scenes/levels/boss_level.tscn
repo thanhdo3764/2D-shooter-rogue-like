@@ -248,6 +248,7 @@ sources/0 = SubResource("TileSetAtlasSource_0b0qs")
 
 [node name="EnemyLevel1" type="Node2D" node_paths=PackedStringArray("exit_door", "active_enemies")]
 script = ExtResource("1_ot2wc")
+level_type = 2
 exit_door = NodePath("ExitDoor")
 active_enemies = [NodePath("Boss1")]
 

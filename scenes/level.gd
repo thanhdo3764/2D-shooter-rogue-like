@@ -1,7 +1,9 @@
 extends Node2D
 
 enum LevelType {
-	ENEMIES, BOSS1, BOSS2,
+	ENEMIES_BASIC,
+	ENEMIES_PLATFORMING,
+	BOSS1,
 }
 
 @export var level_type: LevelType
