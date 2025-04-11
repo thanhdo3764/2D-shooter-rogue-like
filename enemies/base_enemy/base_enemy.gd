@@ -36,6 +36,7 @@ func move_towards_player():
 			flipped = !flipped
 
 		velocity.x = new_velocity_x
+		
 
 func take_damage(damage: int):
 	if hp <= 0:

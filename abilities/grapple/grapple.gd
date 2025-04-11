@@ -1,6 +1,6 @@
 extends Node2D
 
-var GRAPPLER_SPEED = 500
+var GRAPPLER_SPEED = 1000
 var GRAPPLER_MAX_DISTANCE = 250
 @onready var COOLDOWN = $Cooldown
 var PLAYER

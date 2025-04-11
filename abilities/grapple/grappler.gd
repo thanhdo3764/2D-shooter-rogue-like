@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 signal grappler_collided(pos)
+signal grappled_enemy(player_pos)
 
 var SPEED
 var DIRECTION
@@ -26,18 +27,13 @@ func set_grappler(player, target_position, speed, max) -> void:
 	LINE.add_point(global_position, 1)
 	LINE.set_width(1)
 	
+	
 func grapple_player_to_terrain(pos):
-	var direction = PLAYER.global_position.direction_to(pos)
-	PLAYER.STATE = PLAYER.PlayerState.JUMPING
-	PLAYER.velocity = direction * PLAYER.SPEED * 2
-	if direction.y <= 0:
-		PLAYER.velocity.y = min(PLAYER.JUMP_POWER, PLAYER.velocity.y)
+	PLAYER.grapple_to_position(pos)
 		
 
 func grapple_enemy_to_player(enemy):
-	enemy.change_state(enemy.State.sleep)
-	var direction = enemy.global_position.direction_to(PLAYER.global_position)
-	enemy.velocity = direction * 500
+	enemy.grappled_to_position(PLAYER.global_position)
 
 
 func _physics_process(delta: float) -> void:

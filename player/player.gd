@@ -297,3 +297,11 @@ func heal(amount: int) -> void:
 		return
 		
 	HEALTH = min(HEALTH + amount, MAX_HEALTH)
+	
+
+func grapple_to_position(pos: Vector2) -> void:
+	var direction = global_position.direction_to(pos)
+	STATE = PlayerState.JUMPING
+	velocity = direction * SPEED * 2
+	if direction.y <= 0:
+		velocity.y = min(JUMP_POWER*1.2, velocity.y)
