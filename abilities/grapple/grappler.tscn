@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cvis1e6bcjroo"]
 
 [ext_resource type="Script" path="res://abilities/grapple/grappler.gd" id="1_2orga"]
-[ext_resource type="Texture2D" uid="uid://bl0i1xr6wru78" path="res://assets/icon.svg" id="2_ioq4x"]
+[ext_resource type="Texture2D" uid="uid://dwmvibdmpge7x" path="res://assets/grappler/grappler.png" id="2_orpy4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tl5yr"]
 radius = 22.0
@@ -9,12 +9,14 @@ radius = 22.0
 [node name="Grappler" type="CharacterBody2D"]
 scale = Vector2(0.322732, 0.322732)
 collision_layer = 0
-collision_mask = 65
+collision_mask = 69
 script = ExtResource("1_2orga")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_tl5yr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.320312, 0.320312)
-texture = ExtResource("2_ioq4x")
+position = Vector2(-2.38419e-07, 3.09855)
+rotation = 1.5708
+scale = Vector2(0.963164, 0.963164)
+texture = ExtResource("2_orpy4")

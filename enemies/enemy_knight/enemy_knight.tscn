@@ -1,8 +1,8 @@
 [gd_scene load_steps=30 format=3 uid="uid://3yv27yusrury"]
 
 [ext_resource type="Script" path="res://enemies/enemy_knight/enemy_knight.gd" id="1_babqs"]
-[ext_resource type="Texture2D" uid="uid://c2gxgrjsxn2jy" path="res://assets/enemy_knight/attacks.png" id="2_e5ilb"]
-[ext_resource type="Texture2D" uid="uid://bmfqs0tj0ofgh" path="res://assets/enemy_knight/death.png" id="2_jbwo0"]
+[ext_resource type="Texture2D" uid="uid://blskfovwvdjnc" path="res://assets/enemy_knight/attacks.png" id="2_e5ilb"]
+[ext_resource type="Texture2D" uid="uid://cxo3o4g0qiuhf" path="res://assets/enemy_knight/death.png" id="2_jbwo0"]
 [ext_resource type="Texture2D" uid="uid://caw81x3cldysj" path="res://assets/enemy_knight/wake.png" id="2_va63e"]
 [ext_resource type="Texture2D" uid="uid://h3od402fy6y8" path="res://assets/enemy_knight/run.png" id="3_rieob"]
 
@@ -206,12 +206,16 @@ shape = SubResource("RectangleShape2D_ygu55")
 
 [node name="DetectionArea" type="Area2D" parent="."]
 visible = false
+collision_layer = 0
+collision_mask = 32
 
 [node name="DetectionCollision" type="CollisionShape2D" parent="DetectionArea"]
 position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_vnktv")
 
 [node name="AttackTriggerArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackTriggerArea"]
 shape = SubResource("CircleShape2D_k80yl")
