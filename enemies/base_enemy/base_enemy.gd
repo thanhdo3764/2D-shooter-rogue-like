@@ -8,6 +8,7 @@ const GRAVITY = 1000
 var player: Node2D = null
 var DEFAULT_SCALE_X: float = 1.0
 var flipped: bool = false
+var is_stunned: bool = false
 
 signal killed
 
@@ -22,6 +23,7 @@ func apply_gravity(delta:float):
 	velocity.y += GRAVITY * delta
 
 func move_towards_player():
+	
 	if player:
 		var direction = (player.global_position - global_position).normalized()
 		var new_velocity_x = direction.x * SPEED
@@ -34,6 +36,7 @@ func move_towards_player():
 			flipped = !flipped
 
 		velocity.x = new_velocity_x
+		
 
 func take_damage(damage: int):
 	if hp <= 0:

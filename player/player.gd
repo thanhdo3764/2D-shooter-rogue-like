@@ -12,8 +12,6 @@ signal hit
 var SHIELD_REGEN_TIMER := 0.0
 var IS_SHIELD_REGENERATING := false
 
-@export var SCORE: int = 0
-
 @export var SPEED: int = 250
 @export var SLIDE_SPEED: int = 500
 @export var ACCELERATION_H: int = 800
@@ -69,7 +67,10 @@ func _ready() -> void:
 	add_child(weapon)
 	weapon.position = $Weapon_Spawn.position
 	
-	ability = load_ability("grapple")
+	if EquipItems.equipment == 1:
+		ability = load_ability("double_jump")
+	if EquipItems.equipment == 2:
+		ability = load_ability("grapple")
 	screen_size = get_viewport_rect().size
 
 	add_to_group("player") # for the HUD and enemy detection
@@ -262,9 +263,8 @@ func _on_money_timer_timeout() -> void:
 		multiplier = 0.5
 		
 	if HEALTH > 0:
-		SCORE += (5 * multiplier)
+		EquipItems.money += (5 * multiplier)
 		
-
 		
 func _on_death() -> void:
 	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
@@ -297,3 +297,11 @@ func heal(amount: int) -> void:
 		return
 		
 	HEALTH = min(HEALTH + amount, MAX_HEALTH)
+	
+
+func grapple_to_position(pos: Vector2) -> void:
+	var direction = global_position.direction_to(pos)
+	STATE = PlayerState.JUMPING
+	velocity = direction * SPEED * 2
+	if direction.y <= 0:
+		velocity.y = min(JUMP_POWER*1.2, velocity.y)

@@ -93,6 +93,7 @@ func enemy_attack(delta: float):
 		velocity.x = direction.x * SPEED * 1.2  # knight charges forward
 
 func on_death():
+	EquipItems.money += 25
 	if current_state == State.dead:
 		return
 	print("Enemy knight died")
@@ -151,3 +152,11 @@ func _on_attack_hitbox_body_entered(body):
 			body.take_damage(10)
 			#print("player took 10 damage")
 			has_hit_player = true
+
+func grappled_to_position(pos):
+	if current_state == State.dead: return
+	change_state(State.sleep)
+	var direction = global_position.direction_to(pos)
+	velocity = direction * 500
+	await get_tree().create_timer(0.5).timeout
+	if current_state != State.dead: change_state(State.walk)

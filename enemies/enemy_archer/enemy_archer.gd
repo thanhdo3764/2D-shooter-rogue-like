@@ -110,6 +110,7 @@ func _on_detection_exit(body):
 		change_state(State.walk)
 		
 func on_death():
+	EquipItems.money += 50
 	if current_state == State.dead:
 		return
 	print("Enemy archer died")
