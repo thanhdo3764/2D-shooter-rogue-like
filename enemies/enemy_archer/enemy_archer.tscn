@@ -242,7 +242,7 @@ animations = [{
 size = Vector2(15.5, 19)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vqo18"]
-radius = 117.068
+radius = 135.004
 
 [node name="enemy_archer" type="CharacterBody2D"]
 collision_layer = 4
@@ -262,8 +262,13 @@ position = Vector2(0.25, -0.5)
 shape = SubResource("RectangleShape2D_8r6l5")
 
 [node name="DetectionArea" type="Area2D" parent="."]
+visible = false
 collision_mask = 32
 
 [node name="DetectionCollision" type="CollisionShape2D" parent="DetectionArea"]
+visible = false
 position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_vqo18")
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
