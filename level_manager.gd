@@ -2,12 +2,13 @@ extends Node
 
 @onready var scene_tree = get_tree()
 
-var boss_level = preload("res://scenes/level.tscn")
-var enemy_levels = [
-	preload("res://scenes/levels/enemy_level_1.tscn"),
-	preload("res://scenes/levels/tutorial_level.tscn"),
-]
+const LEVEL_PATH = "res://scenes/levels/"
 
+var boss_level = preload(LEVEL_PATH + "boss_level.tscn")
+var enemy_levels = [
+	preload(LEVEL_PATH + "enemy_level1.tscn"),
+]
+ 
 var current_level: int = 1
 # NOTE: how many levels until a boss stage. Checkpoint will follow after the boss is defeated
 var boss_interval: int = 3

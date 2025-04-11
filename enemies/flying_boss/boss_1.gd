@@ -20,7 +20,7 @@ const BOSS_MAX_HP = 100
 @onready var state_timer = $StateTimer
 @onready var shoot_timer = $ShootTimer
 @onready var collision_shape = $CollisionShape2D
-@onready var main_node = get_tree().get_root().get_node("Main")
+@onready var main_node = get_parent()
 
 const bullet_prefab = preload("res://enemies/flying_boss/bullet.tscn")
 const beam_prefab = preload("res://enemies/flying_boss/beam.tscn")
