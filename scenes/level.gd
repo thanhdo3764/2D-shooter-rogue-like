@@ -4,6 +4,7 @@ enum LevelType {
 	ENEMIES, BOSS1, BOSS2,
 }
 
+@export var level_type: LevelType
 @export var entrance_door: Node2D = null
 @export var exit_door: Node2D = null
 @export var active_enemies: Array[Node2D]
