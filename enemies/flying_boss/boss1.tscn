@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://44isp4e8hucp" path="res://HUD/enemy_health_bar.tscn" id="3_rbet8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nnweb"]
-size = Vector2(134, 23)
+size = Vector2(119, 14.5)
 
 [sub_resource type="Animation" id="Animation_8kab3"]
 resource_name = "Hurt"
@@ -55,7 +55,7 @@ shape = SubResource("RectangleShape2D_nnweb")
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D"]
 texture_filter = 1
 position = Vector2(-3, -4)
-scale = Vector2(3, 3)
+scale = Vector2(2.5, 2.5)
 texture = ExtResource("2_0vle4")
 
 [node name="StateTimer" type="Timer" parent="."]
@@ -75,6 +75,8 @@ offset_top = -40.0
 offset_right = 15.0
 offset_bottom = 0.0
 scale = Vector2(1.5, 1.5)
+texture_under = null
+texture_progress = null
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="timeout" from="StateTimer" to="." method="_on_state_timer_timeout"]

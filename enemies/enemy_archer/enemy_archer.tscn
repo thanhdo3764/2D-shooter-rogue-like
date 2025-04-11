@@ -246,11 +246,12 @@ radius = 117.068
 
 [node name="enemy_archer" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 49
+collision_mask = 51
 script = ExtResource("1_ili01")
 arrow = ExtResource("2_thl6h")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
 position = Vector2(62, -16)
 sprite_frames = SubResource("SpriteFrames_uu0kt")
 animation = &"walk"
