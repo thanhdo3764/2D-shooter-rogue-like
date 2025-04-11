@@ -199,13 +199,12 @@ shape = SubResource("RectangleShape2D_4yqhw")
 position = Vector2(0, -30)
 collision_layer = 2
 
-
 [node name="AttackCollision" type="CollisionShape2D" parent="AttackHitBox"]
 position = Vector2(20, 25)
 shape = SubResource("RectangleShape2D_ygu55")
 
 [node name="DetectionArea" type="Area2D" parent="."]
-visible = false
+collision_mask = 32
 
 [node name="DetectionCollision" type="CollisionShape2D" parent="DetectionArea"]
 position = Vector2(0, -8)
