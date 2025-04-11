@@ -67,6 +67,7 @@ func shoot_arrow() -> void:
 	arrow.connect("hit_arrow", player._on_bullet_hit())
 
 func on_death():
+	EquipItems.money += 50
 	if current_state == State.dead:
 		return
 	print("Enemy archer died")
