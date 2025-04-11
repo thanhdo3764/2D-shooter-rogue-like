@@ -1,14 +1,16 @@
-[gd_scene load_steps=9 format=4 uid="uid://cy1ari1bunoe3"]
+[gd_scene load_steps=11 format=4 uid="uid://bygrn1jqx4o1n"]
 
-[ext_resource type="Script" path="res://scenes/level.gd" id="1_cnyhv"]
-[ext_resource type="Texture2D" uid="uid://djh7msl127rp5" path="res://assets/Tileset/level_tileset.png" id="2_csdhy"]
-[ext_resource type="PackedScene" uid="uid://fra6qckawjji" path="res://player/player.tscn" id="3_bqj0l"]
-[ext_resource type="PackedScene" uid="uid://cy4b2juakvc5u" path="res://scenes/door.tscn" id="5_0orki"]
-[ext_resource type="PackedScene" uid="uid://5871bs5w0s0u" path="res://HUD/HUD.tscn" id="5_xkyow"]
-[ext_resource type="PackedScene" uid="uid://olh5bqt5tvrl" path="res://scenes/platform.tscn" id="6_3dt4a"]
+[ext_resource type="Script" path="res://scenes/level.gd" id="1_7grfi"]
+[ext_resource type="Texture2D" uid="uid://djh7msl127rp5" path="res://assets/Tileset/level_tileset.png" id="2_nc6hf"]
+[ext_resource type="PackedScene" uid="uid://fra6qckawjji" path="res://player/player.tscn" id="3_7opik"]
+[ext_resource type="PackedScene" uid="uid://cy4b2juakvc5u" path="res://scenes/door.tscn" id="4_fhaxq"]
+[ext_resource type="PackedScene" uid="uid://5871bs5w0s0u" path="res://HUD/HUD.tscn" id="5_yqf6c"]
+[ext_resource type="PackedScene" uid="uid://olh5bqt5tvrl" path="res://scenes/platform.tscn" id="6_5pmim"]
+[ext_resource type="PackedScene" uid="uid://c4cy7ov6l3q0" path="res://enemies/enemy_archer/enemy_archer.tscn" id="7_3ouoq"]
+[ext_resource type="PackedScene" uid="uid://3yv27yusrury" path="res://enemies/enemy_knight/enemy_knight.tscn" id="8_bxm7x"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0b0qs"]
-texture = ExtResource("2_csdhy")
+texture = ExtResource("2_nc6hf")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/terrain_set = 0
@@ -242,10 +244,11 @@ terrain_set_0/terrain_0/name = "ground"
 terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 sources/0 = SubResource("TileSetAtlasSource_0b0qs")
 
-[node name="EnemyLevel1" type="Node2D" node_paths=PackedStringArray("entrance_door", "exit_door")]
-script = ExtResource("1_cnyhv")
+[node name="EnemyLevel1" type="Node2D" node_paths=PackedStringArray("entrance_door", "exit_door", "active_enemies")]
+script = ExtResource("1_7grfi")
 entrance_door = NodePath("EntranceDoor")
 exit_door = NodePath("ExitDoor")
+active_enemies = [NodePath("enemy_archer"), NodePath("enemy_knight"), NodePath("enemy_archer2")]
 
 [node name="BackgroundTilemap" type="TileMapLayer" parent="."]
 modulate = Color(0.674814, 0.674815, 0.674814, 1)
@@ -256,25 +259,28 @@ tile_set = SubResource("TileSet_iaa8h")
 
 [node name="GroundTilemap" type="TileMapLayer" parent="."]
 texture_filter = 1
-tile_map_data = PackedByteArray("AAATAAsAAAABAAMAAAATAAoAAAACAAAAAAASAAsAAAACAAMAAAASAAoAAAABAAAAAAARAAsAAAABAAMAAAARAAoAAAACAAAAAAAQAAsAAAACAAMAAAAQAAoAAAACAAAAAAAPAAsAAAACAAMAAAAPAAoAAAACAAAAAAAOAAsAAAABAAMAAAAOAAoAAAABAAUAAAANAAsAAAACAAMAAAANAAoAAAAAAAUAAAAMAAsAAAABAAMAAAAMAAoAAAACAAIAAAALAAsAAAABAAMAAAALAAoAAAACAAIAAAAKAAsAAAABAAMAAAAKAAoAAAACAAIAAAAJAAsAAAACAAMAAAAJAAoAAAACAAIAAAAIAAsAAAACAAMAAAAIAAoAAAACAAIAAAAHAAsAAAABAAMAAAAHAAoAAAACAAIAAAAGAAsAAAACAAMAAAAGAAoAAAADAAUAAAAFAAsAAAACAAMAAAAFAAoAAAACAAUAAAAEAAsAAAACAAMAAAAEAAoAAAABAAAAAAADAAsAAAABAAMAAAADAAoAAAACAAAAAAACAAsAAAACAAMAAAACAAoAAAACAAAAAAABAAsAAAABAAMAAAABAAoAAAACAAAAAAAAAAsAAAACAAMAAAAAAAoAAAABAAAAAAAUAAAAAAADAAMAAAAUAP//AAADAAAAAAATAAAAAAACAAMAAAATAP//AAABAAAAAAASAAAAAAACAAMAAAASAP//AAABAAAAAAARAAAAAAABAAMAAAARAP//AAABAAAAAAAQAAAAAAACAAMAAAAQAP//AAABAAAAAAAPAAAAAAABAAMAAAAPAP//AAABAAAAAAAOAAAAAAACAAMAAAAOAP//AAABAAAAAAANAAAAAAACAAMAAAANAP//AAABAAAAAAAMAAAAAAACAAMAAAAMAP//AAABAAAAAAALAAAAAAACAAMAAAALAP//AAACAAAAAAAKAAAAAAACAAMAAAAKAP//AAACAAAAAAAJAAAAAAABAAMAAAAJAP//AAACAAAAAAAIAAAAAAACAAMAAAAIAP//AAABAAAAAAAHAAAAAAACAAMAAAAHAP//AAACAAAAAAAGAAAAAAABAAMAAAAGAP//AAACAAAAAAAFAAAAAAACAAMAAAAFAP//AAABAAAAAAAEAAAAAAABAAMAAAAEAP//AAACAAAAAAADAAAAAAABAAMAAAADAP//AAACAAAAAAACAAAAAAABAAMAAAACAP//AAABAAAAAAABAAAAAAACAAMAAAABAP//AAACAAAAAAAAAAAAAAACAAMAAAAAAP//AAABAAAAAAD//wAAAAAAAAMAAAD/////AAAAAAAAAAD//wsAAAAAAAMAAAD//woAAAAAAAAAAAAUAAsAAAADAAMAAAAUAAoAAAADAAAAAAAFAAkAAAACAAQAAAAOAAkAAAABAAQAAAANAAkAAAAAAAQAAAAGAAkAAAADAAQAAAAHAAkAAAABAAAAAAAIAAkAAAABAAAAAAAJAAkAAAABAAAAAAAKAAkAAAABAAAAAAALAAkAAAABAAAAAAAMAAkAAAABAAAAAAA=")
+tile_map_data = PackedByteArray("AAATAAsAAAABAAMAAAATAAoAAAABAAIAAAASAAsAAAACAAMAAAASAAoAAAABAAEAAAARAAsAAAABAAMAAAARAAoAAAACAAIAAAAQAAsAAAACAAMAAAAQAAoAAAACAAEAAAAPAAsAAAABAAMAAAAPAAoAAAACAAEAAAAOAAsAAAABAAMAAAANAAsAAAABAAMAAAAMAAsAAAABAAMAAAAMAAoAAAACAAEAAAALAAsAAAABAAMAAAALAAoAAAABAAIAAAAKAAsAAAABAAMAAAAKAAoAAAABAAEAAAAJAAsAAAACAAMAAAAJAAoAAAACAAIAAAAIAAsAAAACAAMAAAAIAAoAAAACAAIAAAAHAAsAAAABAAMAAAAHAAoAAAACAAIAAAAGAAsAAAACAAMAAAAGAAoAAAADAAUAAAAFAAsAAAACAAMAAAAFAAoAAAACAAUAAAAEAAsAAAACAAMAAAAEAAoAAAABAAAAAAADAAsAAAABAAMAAAADAAoAAAACAAAAAAACAAsAAAACAAMAAAACAAoAAAACAAAAAAABAAsAAAABAAMAAAABAAoAAAACAAAAAAAAAAsAAAACAAMAAAAAAAoAAAABAAAAAAAUAAAAAAADAAMAAAAUAP//AAADAAAAAAATAAAAAAACAAMAAAATAP//AAABAAAAAAASAAAAAAACAAMAAAASAP//AAABAAAAAAARAAAAAAABAAMAAAARAP//AAABAAAAAAAQAAAAAAACAAMAAAAQAP//AAABAAAAAAAPAAAAAAABAAMAAAAPAP//AAABAAAAAAAOAAAAAAACAAMAAAAOAP//AAABAAAAAAANAAAAAAACAAMAAAANAP//AAABAAAAAAAMAAAAAAACAAMAAAAMAP//AAABAAAAAAALAAAAAAACAAMAAAALAP//AAACAAAAAAAKAAAAAAACAAMAAAAKAP//AAACAAAAAAAJAAAAAAABAAMAAAAJAP//AAACAAAAAAAIAAAAAAACAAMAAAAIAP//AAABAAAAAAAHAAAAAAACAAMAAAAHAP//AAACAAAAAAAGAAAAAAABAAMAAAAGAP//AAACAAAAAAAFAAAAAAACAAMAAAAFAP//AAABAAAAAAAEAAAAAAABAAMAAAAEAP//AAACAAAAAAADAAAAAAABAAMAAAADAP//AAACAAAAAAACAAAAAAABAAMAAAACAP//AAABAAAAAAABAAAAAAACAAMAAAABAP//AAACAAAAAAAAAAAAAAACAAMAAAAAAP//AAABAAAAAAD//wAAAAAAAAMAAAD/////AAAAAAAAAAD//wsAAAAAAAMAAAD//woAAAAAAAAAAAAUAAsAAAADAAMAAAAUAAoAAAADAAIAAAAFAAkAAAACAAQAAAAGAAkAAAADAAQAAAAHAAgAAAACAAQAAAAIAAgAAAADAAQAAAAHAAkAAAACAAUAAAAIAAkAAAADAAUAAAAJAAgAAAACAAAAAAAKAAgAAAACAAAAAAALAAgAAAABAAAAAAAMAAgAAAABAAAAAAANAAgAAAABAAAAAAAOAAgAAAABAAAAAAAPAAgAAAABAAAAAAAQAAgAAAABAAAAAAARAAgAAAABAAAAAAASAAgAAAACAAAAAAATAAgAAAABAAAAAAAUAAgAAAADAAAAAAAUAAkAAAADAAEAAAATAAkAAAACAAIAAAASAAkAAAABAAEAAAARAAkAAAABAAEAAAAQAAkAAAACAAEAAAAPAAkAAAABAAIAAAAOAAkAAAABAAEAAAANAAkAAAACAAEAAAAMAAkAAAACAAIAAAALAAkAAAACAAEAAAAKAAkAAAABAAEAAAAJAAkAAAACAAIAAAANAAoAAAACAAIAAAAOAAoAAAACAAIAAAA=")
 tile_set = SubResource("TileSet_iaa8h")
 
-[node name="Player" parent="." instance=ExtResource("3_bqj0l")]
-position = Vector2(231, 244)
+[node name="Player" parent="." instance=ExtResource("3_7opik")]
+position = Vector2(47, 284)
 
-[node name="EntranceDoor" parent="." instance=ExtResource("5_0orki")]
-position = Vector2(48, 284)
+[node name="EntranceDoor" parent="." instance=ExtResource("4_fhaxq")]
+position = Vector2(31, 288)
 
-[node name="ExitDoor" parent="." instance=ExtResource("5_0orki")]
-position = Vector2(363, 132)
+[node name="ExitDoor" parent="." instance=ExtResource("4_fhaxq")]
+position = Vector2(515, 138)
 
-[node name="HUD" parent="." instance=ExtResource("5_xkyow")]
+[node name="HUD" parent="." instance=ExtResource("5_yqf6c")]
 
-[node name="Platform" parent="." instance=ExtResource("6_3dt4a")]
-position = Vector2(588, 293)
+[node name="Platform2" parent="." instance=ExtResource("6_5pmim")]
+position = Vector2(485, 180)
 
-[node name="Platform2" parent="." instance=ExtResource("6_3dt4a")]
-position = Vector2(362, 174)
+[node name="enemy_archer" parent="." instance=ExtResource("7_3ouoq")]
+position = Vector2(480, 160)
 
-[node name="Platform3" parent="." instance=ExtResource("6_3dt4a")]
-position = Vector2(479, 210)
+[node name="enemy_knight" parent="." instance=ExtResource("8_bxm7x")]
+position = Vector2(299, 255)
+
+[node name="enemy_archer2" parent="." instance=ExtResource("7_3ouoq")]
+position = Vector2(592, 246)
