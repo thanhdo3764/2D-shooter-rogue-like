@@ -34,7 +34,7 @@ func shoot_weapon() -> void:
 	AudioManager.play_vary_pitch("pistol_shoot", 0.2)
 	
 	var projectile = BULLET.instantiate()
-	projectile.set_bullet($Muzzle.global_position, get_global_mouse_position(), BULLET_SPEED)
+	projectile.set_bullet($Muzzle.global_position, get_global_mouse_position(), BULLET_SPEED, DAMAGE)
 	get_node("/root").add_child(projectile)
 	
 	_shoot_timer.start(SHOOT_SPEED_SEC)

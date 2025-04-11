@@ -5,7 +5,7 @@ func _ready() -> void:
 	super()
 	DAMAGE = 10
 	if EquipItems.modifier == 3:
-		DAMAGE = 20
+		DAMAGE = DAMAGE * 2
 	
 	RELOAD_SPEED_SEC = 1
 	WEIGHT = 0
