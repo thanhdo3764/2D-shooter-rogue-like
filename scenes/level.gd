@@ -2,7 +2,7 @@ extends Node2D
 
 enum LevelType {
 	ENEMIES_BASIC,
-	ENEMIES_PLATFORMING,
+	PLATFORMING,
 	BOSS1,
 }
 
@@ -15,6 +15,9 @@ func _ready() -> void:
 	# connect exit door signal (entrance door is non-functional and just for looks)
 	if exit_door:
 		exit_door.connect("door_entered", self._on_exit_door_entered)
+	if level_type == LevelType.PLATFORMING:
+		exit_door.toggle_door()
+		
 	# connect enemy kill signals
 	for enemy in active_enemies:
 		if enemy.has_signal("killed"):
