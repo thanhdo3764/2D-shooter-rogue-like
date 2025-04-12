@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=4 uid="uid://olh5bqt5tvrl"]
 
 [ext_resource type="Script" path="res://scenes/platform.gd" id="1_ayfhw"]
-[ext_resource type="Texture2D" uid="uid://cwh0hlewfr7w" path="res://assets/Tileset/TilesetTest.png" id="2_koybv"]
+[ext_resource type="Texture2D" uid="uid://dcme7dniyj55k" path="res://assets/Tileset/TilesetTest.png" id="2_koybv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s4u75"]
 size = Vector2(96, 10)
@@ -44,6 +44,7 @@ position = Vector2(0, -10)
 shape = SubResource("RectangleShape2D_ngsac")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
+texture_filter = 1
 tile_map_data = PackedByteArray("AAD6////AAAOAAEAAAD7////AAAPAAEAAAD8////AAAPAAEAAAD9////AAAPAAEAAAD+////AAAPAAEAAAD/////AAAPAAEAAAAAAP//AAAPAAEAAAABAP//AAAPAAEAAAACAP//AAAPAAEAAAADAP//AAAPAAEAAAAEAP//AAAPAAEAAAAFAP//AAAQAAEAAAA=")
 tile_set = SubResource("TileSet_uj7cf")
 

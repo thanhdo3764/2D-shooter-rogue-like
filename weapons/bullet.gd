@@ -6,7 +6,8 @@ var DIRECTION : Vector2
 
 # for bullet collision with enemies
 func _ready():
-	connect("body_entered", Callable(self, "_on_body_entered"))
+	if has_signal("body_entered"):
+		connect("body_entered", Callable(self, "_on_body_entered"))
 	add_to_group("bullet") # for on enemy hit
 
 func set_bullet(position, target_position, speed, damage) -> void:

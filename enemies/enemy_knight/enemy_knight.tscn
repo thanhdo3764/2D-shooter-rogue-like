@@ -177,10 +177,11 @@ radius = 103.0
 
 [node name="enemy_knight" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 49
+collision_mask = 51
 script = ExtResource("1_babqs")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
 position = Vector2(29, -16)
 sprite_frames = SubResource("SpriteFrames_736vv")
 animation = &"attack"

@@ -1,0 +1,61 @@
+[gd_scene load_steps=6 format=3 uid="uid://wri50nofh5ny"]
+
+[ext_resource type="Script" path="res://level_manager.gd" id="1_liu43"]
+[ext_resource type="Script" path="res://HUD/fade_transition.gd" id="2_p6qf6"]
+
+[sub_resource type="Animation" id="Animation_h8txn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_w8f26"]
+resource_name = "fade"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rq53i"]
+_data = {
+"RESET": SubResource("Animation_h8txn"),
+"fade": SubResource("Animation_w8f26")
+}
+
+[node name="LevelManager" type="Node"]
+script = ExtResource("1_liu43")
+
+[node name="FadeTransition" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("2_p6qf6")
+
+[node name="ColorRect" type="ColorRect" parent="FadeTransition"]
+z_index = 2
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FadeTransition"]
+libraries = {
+"": SubResource("AnimationLibrary_rq53i")
+}
