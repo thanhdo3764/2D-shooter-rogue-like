@@ -197,16 +197,18 @@ position = Vector2(0.5, -12)
 shape = SubResource("RectangleShape2D_4yqhw")
 
 [node name="AttackHitBox" type="Area2D" parent="."]
+visible = false
 position = Vector2(0, -30)
 collision_layer = 2
+collision_mask = 32
 
 [node name="AttackCollision" type="CollisionShape2D" parent="AttackHitBox"]
+visible = false
 position = Vector2(20, 25)
 shape = SubResource("RectangleShape2D_ygu55")
 
 [node name="DetectionArea" type="Area2D" parent="."]
 visible = false
-collision_layer = 0
 collision_mask = 32
 
 [node name="DetectionCollision" type="CollisionShape2D" parent="DetectionArea"]
@@ -214,8 +216,10 @@ position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_vnktv")
 
 [node name="AttackTriggerArea" type="Area2D" parent="."]
-collision_layer = 0
+visible = false
+collision_layer = 2
 collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackTriggerArea"]
+visible = false
 shape = SubResource("CircleShape2D_k80yl")

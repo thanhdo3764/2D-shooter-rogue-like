@@ -9,7 +9,7 @@ var current_state: State = State.sleep
 @onready var awake_collision = $AwakeCollision
 @onready var attack_hitbox: Area2D = $AttackHitBox
 @onready var attack_trigger: Area2D = $AttackTriggerArea
-var attack_cooldown := 2.0
+var attack_cooldown := 1.0
 var can_attack := true
 var has_hit_player := false
 
@@ -52,7 +52,7 @@ func change_state(new_state: State):
 	if current_state == new_state:
 		return  # prevent unnecessary transitions
 
-	#DEBUG 0 = sleep, 1 = wakeup, 2 = walk, 3 = dead
+	#DEBUG 0 = sleep, 1 = wakeup, 2 = walk, 3 = dead 4 = attack
 	#print("enemy_knight current state: ", current_state, " transitioning to ", new_state)
 
 	current_state = new_state
@@ -70,8 +70,14 @@ func change_state(new_state: State):
 			sprite.play("death")
 		State.attack:
 			sprite.play("attack")
-			attack_hitbox.set_deferred("monitoring", true)
 			has_hit_player = false
+			attack_hitbox.set_deferred("monitoring", true)
+			await get_tree().process_frame # wait for frame
+			# case for when player is already in attack hitbox
+			for body in attack_hitbox.get_overlapping_bodies():
+				if body.is_in_group("player") and not has_hit_player:
+					body.take_damage(10)
+					has_hit_player = true
 			
 ### state behaviors ###
 func enemy_sleep(delta: float):
@@ -108,6 +114,14 @@ func _on_animation_finished():
 		change_state(State.walk)
 		
 	elif current_state == State.attack:
+		# checks for overlapping bodies
+		for body in attack_hitbox.get_overlapping_bodies():
+			if body.is_in_group("player") and not has_hit_player:
+				if body.has_method("take_damage"):
+					body.take_damage(10)
+					#print("player took 10 damage")
+					has_hit_player = true
+		
 		attack_hitbox.set_deferred("monitoring", false)
 		await get_tree().create_timer(attack_cooldown).timeout
 		can_attack = true
@@ -126,16 +140,17 @@ func _on_attack_triggered_entered(body):
 
 		
 func _on_attack_hitbox_body_entered(body):
-	print("hitbox collided with: ", body.name)
+	#print("hitbox collided with: ", body.name)
 	if has_hit_player:
-		print("already hit player with attack")
+		#print("already hit player with attack")
 		return
 
 	if body.is_in_group("player") and not has_hit_player:
-		print("player is in attack hitbox")
-		if body.has_method("take_damage"):
+		#print("player is in attack hitbox")
+		
+		if body is Player:
 			body.take_damage(10)
-			print("player took 10 damage")
+			#print("player took 10 damage")
 			has_hit_player = true
 
 func grappled_to_position(pos):

@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=4 uid="uid://dxf3y8dovssny"]
 
 [ext_resource type="Script" path="res://scenes/level.gd" id="1_oq4px"]
-[ext_resource type="Texture2D" uid="uid://cwh0hlewfr7w" path="res://assets/Tileset/TilesetTest.png" id="2_kx8sd"]
+[ext_resource type="Texture2D" uid="uid://chw16tjxmbp22" path="res://assets/Tileset/TilesetTest.png" id="2_kx8sd"]
 [ext_resource type="PackedScene" uid="uid://fra6qckawjji" path="res://player/player.tscn" id="3_tn31y"]
 [ext_resource type="PackedScene" uid="uid://olh5bqt5tvrl" path="res://scenes/platform.tscn" id="4_8d581"]
 [ext_resource type="PackedScene" uid="uid://3yv27yusrury" path="res://enemies/enemy_knight/enemy_knight.tscn" id="5_lvcke"]
@@ -338,12 +338,12 @@ position = Vector2(48, 252)
 position = Vector2(264, 226)
 
 [node name="enemy_knight" parent="." instance=ExtResource("5_lvcke")]
-position = Vector2(319, 307)
+position = Vector2(323, 324)
 platform_on_leave = 2
 platform_floor_layers = 4294901761
 
 [node name="enemy_archer" parent="." instance=ExtResource("6_7aewb")]
-position = Vector2(444, 123)
+position = Vector2(443, 120)
 
 [node name="EntranceDoor" parent="." instance=ExtResource("7_8spbd")]
 position = Vector2(69, 304)
@@ -352,3 +352,11 @@ position = Vector2(69, 304)
 position = Vector2(71, 88)
 
 [node name="HUD" parent="." instance=ExtResource("8_5q6p7")]
+
+[node name="BackgroundText" type="Label" parent="."]
+offset_left = 30.0
+offset_top = 154.0
+offset_right = 153.0
+offset_bottom = 203.0
+text = "WASD TO MOVE
+M1 TO SHOOT"

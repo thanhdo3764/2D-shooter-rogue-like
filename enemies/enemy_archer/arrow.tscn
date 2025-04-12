@@ -22,7 +22,8 @@ animations = [{
 size = Vector2(18.5, 2)
 
 [node name="Arrow" type="Area2D"]
-collision_mask = 32
+collision_layer = 8
+collision_mask = 33
 script = ExtResource("1_7f1f5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -32,3 +33,5 @@ sprite_frames = SubResource("SpriteFrames_mdeen")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(9.25, 0)
 shape = SubResource("RectangleShape2D_2nsfl")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
