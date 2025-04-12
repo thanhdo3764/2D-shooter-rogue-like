@@ -13,6 +13,7 @@ var player_in_range: bool = false
 
 
 func _ready():
+	add_to_group("enemies") # HUD
 	super()
 	change_state(State.idle)
 	

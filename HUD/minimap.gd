@@ -8,7 +8,11 @@ extends SubViewportContainer
 
 @export var enemy_icon_scene: PackedScene
 @export var world_size: Vector2 = Vector2(640, 360)  # Game world size
-@export var minimap_size: Vector2 = Vector2(160, 90)  # Minimap size
+@export var minimap_size: Vector2 = Vector2(120, 67.5)  # Minimap size
+
+# New export variables for scaling the icons.
+@export var player_icon_scale: Vector2 = Vector2(0.4, 0.4)  # Adjust as needed
+@export var enemy_icon_scale: Vector2 = Vector2(0.4, 0.4)   # Adjust as needed
 
 var latest_position: Vector2
 var enemy_icons = {}  # Dictionary to track minimap icons for each enemy
@@ -42,8 +46,10 @@ func update_minimap_position():
 		(player.position.y / world_size.y) * minimap_size.y
 	)
 
-	minimap_pos.clamp(Vector2.ZERO, minimap_size)
+	minimap_pos = minimap_pos.clamp(Vector2.ZERO, minimap_size)
 	player_icon.position = minimap_pos
+	# Apply the scale to the player icon.
+	player_icon.scale = player_icon_scale
 
 func update_enemy_minimap_positions():
 	var valid_enemies = get_tree().get_nodes_in_group("enemies")
@@ -68,3 +74,5 @@ func update_enemy_minimap_positions():
 		)
 		minimap_pos = minimap_pos.clamp(Vector2.ZERO, minimap_size)
 		minimap_icon.position = minimap_pos
+		# Apply the scale to the enemy icon.
+		minimap_icon.scale = enemy_icon_scale

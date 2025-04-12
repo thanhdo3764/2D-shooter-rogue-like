@@ -2,6 +2,8 @@ extends Node
 
 @onready var scene_tree = get_tree()
 
+var current_tilemap: TileMap = null
+
 # NOTE: how many levels are in a dungeon. The dungeon will end with a boss stage, then reset
 const dungeon_length = 4
 const LEVEL_PATH = "res://scenes/levels/"
@@ -59,3 +61,13 @@ func generate_dungeon() -> void:
 
 func change_scene(scene: PackedScene) -> void:
 	scene_tree.call_deferred("change_scene_to_packed", scene)
+	
+
+func set_current_tilemap(tilemap_node: Node) -> void:
+	# Debug: print the incoming node's type.
+	print("LevelManager: Received node with type: ", tilemap_node.get_class())
+	if tilemap_node is TileMap:
+		current_tilemap = tilemap_node as TileMap
+		print("LevelManager: current_tilemap set to ", current_tilemap.name)
+	else:
+		push_error("LevelManager: Provided node is not a TileMap! It is: " + str(tilemap_node))
