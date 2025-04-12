@@ -115,3 +115,13 @@ func on_death():
 		return
 	print("Enemy archer died")
 	change_state(State.dead)
+
+func grappled_to_position(pos):
+	if current_state == State.dead:
+		return
+	change_state(State.idle)
+	var direction = global_position.direction_to(pos)
+	velocity = direction * 500
+	await get_tree().create_timer(0.5).timeout
+	if current_state != State.dead:
+		change_state(State.walk)
