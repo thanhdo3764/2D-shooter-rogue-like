@@ -22,6 +22,15 @@ func _ready() -> void:
 	for enemy in active_enemies:
 		if enemy.has_signal("killed"):
 			enemy.connect("killed", self._on_enemy_killed)
+	
+	print("Level.gd: _ready() called for ", self.name)
+	# Use the exact node name as seen in the editor.
+	var ground_tilemap = get_node("GroundTilemap")
+	if ground_tilemap:
+		print("Level.gd: Found tilemap: ", ground_tilemap.name)
+		LevelManager.set_current_tilemap(ground_tilemap)
+	else:
+		push_error("Level.gd: Error – 'GroundTilemap' not found in this level!")
 
 func _on_exit_door_entered():
 	LevelManager.next_room()

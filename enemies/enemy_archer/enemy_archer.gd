@@ -10,6 +10,7 @@ var attack_cooldown: float = 2.0
 
 
 func _ready():
+	add_to_group("enemies") # HUD
 	super()
 	change_state(State.idle)
 	
