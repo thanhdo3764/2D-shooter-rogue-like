@@ -10,7 +10,7 @@ extends SubViewportContainer
 @export var world_size: Vector2 = Vector2(640, 360)  # Game world size
 @export var minimap_size: Vector2 = Vector2(120, 67.5)  # Minimap size
 
-# New export variables for scaling the icons.
+# Export variables for scaling the icons.
 @export var player_icon_scale: Vector2 = Vector2(0.4, 0.4) 
 @export var enemy_icon_scale: Vector2 = Vector2(0.4, 0.4) 
 
