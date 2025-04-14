@@ -11,8 +11,8 @@ extends SubViewportContainer
 @export var minimap_size: Vector2 = Vector2(120, 67.5)  # Minimap size
 
 # New export variables for scaling the icons.
-@export var player_icon_scale: Vector2 = Vector2(0.4, 0.4)  # Adjust as needed
-@export var enemy_icon_scale: Vector2 = Vector2(0.4, 0.4)   # Adjust as needed
+@export var player_icon_scale: Vector2 = Vector2(0.4, 0.4) 
+@export var enemy_icon_scale: Vector2 = Vector2(0.4, 0.4) 
 
 var latest_position: Vector2
 var enemy_icons = {}  # Dictionary to track minimap icons for each enemy
