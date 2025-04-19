@@ -1,7 +1,7 @@
 extends Area2D
 
 var speed: int = 200
-var damage: int = 2
+var damage: int = 25
 var direction:Vector2
 var lifetime: int = 5
 var life: int = 0

@@ -118,7 +118,7 @@ func _on_animation_finished():
 		for body in attack_hitbox.get_overlapping_bodies():
 			if body.is_in_group("player") and not has_hit_player:
 				if body.has_method("take_damage"):
-					body.take_damage(10)
+					body.take_damage(50)
 					#print("player took 10 damage")
 					has_hit_player = true
 		
@@ -149,7 +149,7 @@ func _on_attack_hitbox_body_entered(body):
 		#print("player is in attack hitbox")
 		
 		if body is Player:
-			body.take_damage(10)
+			body.take_damage(25)
 			#print("player took 10 damage")
 			has_hit_player = true
 
