@@ -1,9 +1,13 @@
 extends Node2D
+var event
 
 func _ready() -> void:
-	var event = InputEventKey.new()
+	event = InputEventKey.new()
 	event.set_physical_keycode(KEY_W)
 	InputMap.action_add_event("use_ability", event)
+	
+func _exit_tree() -> void:
+	InputMap.action_erase_event("use_ability", event)
 
 func execute(player: Player) -> void:
 	if player.can_double_jump and not player.is_on_floor():

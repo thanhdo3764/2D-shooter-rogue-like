@@ -12,11 +12,11 @@ signal hit
 var SHIELD_REGEN_TIMER := 0.0
 var IS_SHIELD_REGENERATING := false
 
-@export var SPEED: int = 250
-@export var SLIDE_SPEED: int = 500
+@export var SPEED: int = 200
+@export var SLIDE_SPEED: int = 300
 @export var ACCELERATION_H: int = 800
-@export var GRAVITY: int = 2500
-@export var JUMP_POWER: int = -700
+@export var GRAVITY: int = 1750
+@export var JUMP_POWER: int = -500
 
 @onready var slide_timer: Timer = $Slide_Timer
 @onready var slide_cooldown: Timer = $Slide_Cooldown
@@ -132,7 +132,7 @@ func _physics_process(delta: float) -> void:
 
 func apply_gravity(delta: float) -> void:
 	if STATE == PlayerState.FALLING:
-		velocity.y += 1.25 * GRAVITY * delta # More gravity when falling for smoothness
+		velocity.y += 1.5 * GRAVITY * delta # More gravity when falling for smoothness
 	else:
 		velocity.y += GRAVITY * delta 
 
@@ -243,7 +243,7 @@ func _on_body_entered(body: Node2D) -> void:
 # called once whenever the player is hit by a bullet.
 # TODO: even though Ground is on a diff collision layer, the bullet still emits. fix
 func _on_bullet_hit() -> void:
-	take_damage(8)
+	take_damage(25)
 		
 func _on_beam_hit() -> void:
 	take_damage(10)
