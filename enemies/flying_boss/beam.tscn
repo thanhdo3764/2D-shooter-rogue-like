@@ -1,9 +1,47 @@
-[gd_scene load_steps=3 format=3 uid="uid://cp4p2fcorhyfd"]
+[gd_scene load_steps=6 format=3 uid="uid://cp4p2fcorhyfd"]
 
 [ext_resource type="Script" path="res://enemies/flying_boss/beam.gd" id="1_2jbht"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kavog"]
 size = Vector2(20, 2)
+
+[sub_resource type="Animation" id="Animation_of4wt"]
+resource_name = "idle"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.834614, 0.834615, 0.834614, 1), Color(1, 1, 1, 1), Color(0.835294, 0.835294, 0.835294, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_t2lvi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_33nil"]
+_data = {
+"RESET": SubResource("Animation_t2lvi"),
+"idle": SubResource("Animation_of4wt")
+}
 
 [node name="Beam" type="Area2D"]
 collision_mask = 33
@@ -16,14 +54,27 @@ offset_bottom = 2.0
 
 [node name="ColorRect" type="ColorRect" parent="ColorRect"]
 layout_mode = 0
-offset_left = 7.0
-offset_right = 23.0
+offset_left = 6.0
+offset_right = 24.0
 offset_bottom = 2.0
-color = Color(0.648, 0.8496, 0.9, 1)
+color = Color(0.522, 0.8244, 0.9, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="ColorRect"]
+offset_left = 11.0
+offset_right = 19.0
+offset_bottom = 2.0
+color = Color(0.4264, 0.74128, 0.82, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_kavog")
+
+[node name="IdleAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_33nil")
+}
+autoplay = "idle"
 
 [node name="DamageTimer" type="Timer" parent="."]
 wait_time = 0.2

@@ -7,7 +7,7 @@ enum BossState {
 }
 const RAMPAGE_MOVEMENT_SPEED = 2
 const RAMPAGE_HEALTH_THRESHOLD = 0.5
-const BOSS_MAX_HP = 500
+const BOSS_MAX_HP = 450
 
 @onready var health_bar = $EnemyHealthBar
 
@@ -20,6 +20,7 @@ const BOSS_MAX_HP = 500
 @onready var state_timer = $StateTimer
 @onready var shoot_timer = $ShootTimer
 @onready var collision_shape = $CollisionShape2D
+@onready var sprite = $CollisionShape2D/Sprite2D
 @onready var main_node = get_parent()
 
 const bullet_prefab = preload("res://enemies/flying_boss/bullet.tscn")
@@ -60,11 +61,12 @@ func do_hp_check() -> void:
 	if hp <= 0:
 		despawn()
 	elif hp <= BOSS_MAX_HP * RAMPAGE_HEALTH_THRESHOLD and !rampage_enabled:
+		rampage_enabled = true
 		idle_speed *= RAMPAGE_MOVEMENT_SPEED
 		shoot_timer.wait_time = fire_rate * 0.5
-		AudioManager.set_pitch("flyingboss_idle", 1.5)
 		arc_chance = 0.25
-		rampage_enabled = true
+		AudioManager.set_pitch("flyingboss_idle", 1.5)
+		sprite.frame = 1
 
 # takes a state, and return the next state
 func do_state_change(current: BossState) -> BossState:
@@ -90,14 +92,16 @@ func do_state_change(current: BossState) -> BossState:
 	return -1
 
 # shoots an arc of bullets at the player, angle given is the arc angle
-func shoot_bullet_arc(dir: Vector2, angle: float, count: int) -> void:
+func shoot_bullet_arc(dir: Vector2, angle: float, count: int, speed: int = -1) -> void:
 	for i in range(count):
-		shoot_bullet(dir.rotated(i * (angle / (count - 1)) - angle/2))
+		shoot_bullet(dir.rotated(i * (angle / (count - 1)) - angle/2), speed)
 
-func shoot_bullet(dir: Vector2) -> void:
+func shoot_bullet(dir: Vector2, speed: int = -1) -> void:
 	var bullet = bullet_prefab.instantiate()
 	bullet.position = self.global_position
 	bullet.direction = dir
+	if speed != -1:
+		bullet.speed = speed
 	bullet.connect("hit_bullet", player_node._on_bullet_hit)
 	main_node.add_child(bullet)
 
@@ -117,9 +121,14 @@ func get_player_dir() -> Vector2:
 
 func despawn() -> void:
 	EquipItems.money += 500
-	emit_signal("killed", self)
 	AudioManager.stop("flyingboss_idle")
 	AudioManager.set_pitch("flyingboss_idle", 1)
+	shoot_bullet_arc(get_player_dir(), 2*PI, 35, 275)
+	shoot_bullet_arc(get_player_dir(), 2*PI, 25, 250)
+	shoot_bullet_arc(get_player_dir(), 2*PI, 20, 200)
+	shoot_bullet_arc(get_player_dir(), 2*PI, 15)
+	
+	emit_signal("killed", self)
 	queue_free()
 	
 func take_damage(amt: int) -> void:
@@ -136,8 +145,10 @@ func _on_state_timer_timeout() -> void:
 func _on_shoot_timer_timeout() -> void:
 	if state == BossState.ATTACK_BULLET:
 		AudioManager.play("flyingboss_shoot")
-		var direction = get_player_dir().rotated(randf_range(-PI/16, PI/16))
+		$SquishAnim.play("squish")
+		# apply random angle offset to player direction
+		var direction = get_player_dir().rotated(randf_range(-PI/20, PI/20))
 		if randf() > arc_chance:
 			shoot_bullet(direction)
 		else:
-			shoot_bullet_arc(direction, PI/2.5, 5)
+			shoot_bullet_arc(direction, PI/2.5, randi_range(4, 6))
