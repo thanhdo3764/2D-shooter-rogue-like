@@ -3,7 +3,7 @@ extends Area2D
 # NOTE: combine functionality with Thanh's bullet node
 var lifetime : int = 5
 var damage : int = 2
-var speed  : int = 150
+var speed  : int = 175
 var direction : Vector2
 
 signal hit_bullet

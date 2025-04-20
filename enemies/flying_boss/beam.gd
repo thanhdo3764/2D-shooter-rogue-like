@@ -2,7 +2,7 @@ extends Area2D
 
 var lifetime : int
 var damage : int = 2
-var speed  : int = 200
+var speed  : int = 250
 var direction : Vector2
 
 @onready var damage_timer = $DamageTimer
