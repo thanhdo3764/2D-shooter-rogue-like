@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=4 uid="uid://dp3a22ha8tukf"]
+[gd_scene load_steps=12 format=4 uid="uid://dp3a22ha8tukf"]
 
 [ext_resource type="Script" path="res://scenes/level.gd" id="1_ta2xe"]
 [ext_resource type="Texture2D" uid="uid://djh7msl127rp5" path="res://assets/Tileset/level_tileset.png" id="2_sksr7"]
+[ext_resource type="Texture2D" uid="uid://sp66pq4qulax" path="res://assets/hud/enemy_level2.png" id="2_vop37"]
 [ext_resource type="PackedScene" uid="uid://fra6qckawjji" path="res://player/player.tscn" id="3_1p0b6"]
 [ext_resource type="PackedScene" uid="uid://cy4b2juakvc5u" path="res://scenes/door.tscn" id="4_vcdb7"]
 [ext_resource type="PackedScene" uid="uid://5871bs5w0s0u" path="res://HUD/HUD.tscn" id="5_g3ea5"]
@@ -246,6 +247,7 @@ sources/0 = SubResource("TileSetAtlasSource_0b0qs")
 
 [node name="EnemyLevel2" type="Node2D" node_paths=PackedStringArray("entrance_door", "exit_door", "active_enemies")]
 script = ExtResource("1_ta2xe")
+minimap_image = ExtResource("2_vop37")
 entrance_door = NodePath("EntranceDoor")
 exit_door = NodePath("ExitDoor")
 active_enemies = [NodePath("enemy_archer"), NodePath("enemy_knight")]

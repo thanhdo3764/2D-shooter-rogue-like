@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=4 uid="uid://rk2yq0btbl0r"]
+[gd_scene load_steps=10 format=4 uid="uid://rk2yq0btbl0r"]
 
 [ext_resource type="Script" path="res://scenes/level.gd" id="1_ot2wc"]
 [ext_resource type="Texture2D" uid="uid://djh7msl127rp5" path="res://assets/Tileset/level_tileset.png" id="2_3jnce"]
+[ext_resource type="Texture2D" uid="uid://c270ijmug1gvx" path="res://assets/hud/boss_level.png" id="2_gnel3"]
 [ext_resource type="PackedScene" uid="uid://fra6qckawjji" path="res://player/player.tscn" id="3_ascq8"]
 [ext_resource type="PackedScene" uid="uid://cy4b2juakvc5u" path="res://scenes/door.tscn" id="4_d5in6"]
 [ext_resource type="PackedScene" uid="uid://5871bs5w0s0u" path="res://HUD/HUD.tscn" id="5_5e7nm"]
@@ -248,6 +249,7 @@ sources/0 = SubResource("TileSetAtlasSource_0b0qs")
 
 [node name="EnemyLevel1" type="Node2D" node_paths=PackedStringArray("exit_door", "active_enemies")]
 script = ExtResource("1_ot2wc")
+minimap_image = ExtResource("2_gnel3")
 level_type = 2
 exit_door = NodePath("ExitDoor")
 active_enemies = [NodePath("Boss1")]

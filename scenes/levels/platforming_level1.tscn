@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=4 uid="uid://bsoswyvqji4dy"]
+[gd_scene load_steps=10 format=4 uid="uid://bsoswyvqji4dy"]
 
 [ext_resource type="Script" path="res://scenes/level.gd" id="1_e80tw"]
+[ext_resource type="Texture2D" uid="uid://xjnrr8dnlkfx" path="res://assets/hud/platforming_level.png" id="2_3qjdi"]
 [ext_resource type="Texture2D" uid="uid://djh7msl127rp5" path="res://assets/Tileset/level_tileset.png" id="2_b700y"]
 [ext_resource type="PackedScene" uid="uid://fra6qckawjji" path="res://player/player.tscn" id="3_alygh"]
 [ext_resource type="PackedScene" uid="uid://cy4b2juakvc5u" path="res://scenes/door.tscn" id="4_2e50y"]
@@ -244,6 +245,7 @@ sources/0 = SubResource("TileSetAtlasSource_0b0qs")
 
 [node name="PlatformingLevel1" type="Node2D" node_paths=PackedStringArray("entrance_door", "exit_door")]
 script = ExtResource("1_e80tw")
+minimap_image = ExtResource("2_3qjdi")
 level_type = 1
 entrance_door = NodePath("EntranceDoor")
 exit_door = NodePath("ExitDoor")
