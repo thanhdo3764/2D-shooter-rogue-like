@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://5871bs5w0s0u"]
+[gd_scene load_steps=10 format=3 uid="uid://5871bs5w0s0u"]
 
 [ext_resource type="Script" path="res://HUD/player_hp.gd" id="1_cn0im"]
 [ext_resource type="Texture2D" uid="uid://b4dsw04dds0su" path="res://assets/hud/healthbar_overlay.png" id="2_pfrmy"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://bvkj51j6qwbs2" path="res://HUD/enemy_icon.tscn" id="8_p64lb"]
 [ext_resource type="Script" path="res://HUD/minimap.gd" id="8_tw3p4"]
 [ext_resource type="Script" path="res://HUD/score.gd" id="8_xsint"]
-[ext_resource type="Script" path="res://HUD/collision_overlay.gd" id="9_7dxvv"]
 [ext_resource type="Texture2D" uid="uid://qtwe4dpeft11" path="res://assets/hud/player_icon.png" id="9_eoj5s"]
 
 [node name="HUD" type="CanvasLayer"]
@@ -63,6 +62,11 @@ custom_minimum_size = Vector2(120, 67.5)
 layout_mode = 2
 color = Color(0, 0, 0, 0.4)
 
+[node name="MinimapBackground" type="TextureRect" parent="Minimap"]
+custom_minimum_size = Vector2(120, 67.5)
+layout_mode = 2
+expand_mode = 3
+
 [node name="MinimapViewport" type="SubViewport" parent="Minimap"]
 transparent_bg = true
 handle_input_locally = false
@@ -76,9 +80,6 @@ anchor_mode = 0
 
 [node name="PlayerIcon" type="Sprite2D" parent="Minimap/MinimapViewport/MinimapWorld"]
 texture = ExtResource("9_eoj5s")
-
-[node name="CollisionOverlay" type="Node2D" parent="Minimap/MinimapViewport/MinimapWorld"]
-script = ExtResource("9_7dxvv")
 
 [node name="Score" type="Control" parent="."]
 layout_mode = 3

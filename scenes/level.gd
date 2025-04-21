@@ -1,5 +1,7 @@
 extends Node2D
 
+@export var minimap_image: Texture2D
+
 enum LevelType {
 	ENEMIES_BASIC,
 	PLATFORMING,
